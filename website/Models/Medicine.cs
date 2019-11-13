@@ -13,14 +13,10 @@ namespace website.Models
         [Key]
         [DisplayName("Mã Thuốc")]
         public int Id { get; set; }
-
-        [ForeignKey("Admin")]
+        [Display(Name = "Mã quản trị viên")]
         public int Admin_Id { get; set; }
-        public Admin Admin { get; set; }
-
-        [ForeignKey("MedicineUnit")]
+        [Display(Name = "Mã đơn vị thuốc")]
         public int MedicineUnit_Id { get; set; }
-        public MedicineUnit MedicineUnit { get; set; }
 
         [Required(ErrorMessage = "Tên thuốc không được bỏ trống.")]
         [DisplayName("Tên Thuốc")]
@@ -33,7 +29,6 @@ namespace website.Models
         [Required(ErrorMessage = "Số lượng trong kho không được để trống.")]
         [Display(Name = "Số lượng trong kho")]
         public int Instore { get; set; } = 0;
-
         public string Thumbnail { get; set; } = "#";
 
         [DataType(DataType.DateTime)]
@@ -43,10 +38,5 @@ namespace website.Models
         [DataType(DataType.DateTime)]
         [DisplayName("Ngày sửa")]
         public DateTime DateModify { get; set; }
-
-        // Phần này dành cho khóa ngoại
-        #region Foreign Keys
-        public ICollection<PerscriptionDetail> PerscriptionDetails { get; set; }
-        #endregion
     }
 }

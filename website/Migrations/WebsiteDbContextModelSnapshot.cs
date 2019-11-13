@@ -33,8 +33,23 @@ namespace website.Migrations
 
                     b.Property<string>("Email");
 
+                    b.Property<string>("NameFirst")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.Property<string>("NameLast")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.Property<string>("NameMiddle")
+                        .HasMaxLength(100);
+
                     b.Property<string>("Password")
                         .IsRequired();
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasMaxLength(20);
 
                     b.Property<int>("Role_Id");
 
@@ -59,6 +74,8 @@ namespace website.Migrations
 
                     b.Property<DateTime>("DateCreate");
 
+                    b.Property<int?>("InsuranceId");
+
                     b.Property<int>("Insurance_Id");
 
                     b.Property<int>("PayInsurance");
@@ -73,11 +90,7 @@ namespace website.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Insurance_Id");
-
-                    b.HasIndex("Perscription_Id");
-
-                    b.HasIndex("Pharamacist_Id");
+                    b.HasIndex("InsuranceId");
 
                     b.ToTable("Bills");
                 });
@@ -121,12 +134,8 @@ namespace website.Migrations
                         .IsUnique()
                         .HasFilter("[Email] IS NOT NULL");
 
-                    b.HasIndex("Faculty_Id");
-
                     b.HasIndex("PhoneNumber")
                         .IsUnique();
-
-                    b.HasIndex("Role_Id");
 
                     b.HasIndex("Username")
                         .IsUnique();
@@ -204,8 +213,6 @@ namespace website.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("InsuranceType_Id");
-
                     b.ToTable("Insurances");
                 });
 
@@ -255,10 +262,6 @@ namespace website.Migrations
                     b.Property<string>("Thumbnail");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Admin_Id");
-
-                    b.HasIndex("MedicineUnit_Id");
 
                     b.HasIndex("Name")
                         .IsUnique();
@@ -336,10 +339,6 @@ namespace website.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Insurance_Id");
-
-                    b.HasIndex("Role_Id");
-
                     b.ToTable("Patients");
                 });
 
@@ -353,6 +352,8 @@ namespace website.Migrations
 
                     b.Property<DateTime>("DateModify");
 
+                    b.Property<string>("Description");
+
                     b.Property<int>("Doctor_Id");
 
                     b.Property<int>("Faculty_Id");
@@ -363,12 +364,6 @@ namespace website.Migrations
                     b.Property<int>("Patient_Id");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Doctor_Id");
-
-                    b.HasIndex("Faculty_Id");
-
-                    b.HasIndex("Patient_Id");
 
                     b.ToTable("Perscriptions");
                 });
@@ -396,10 +391,6 @@ namespace website.Migrations
                     b.Property<int>("Quantity");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Medicine_Id");
-
-                    b.HasIndex("Perscription_Id");
 
                     b.ToTable("PerscriptionDetails");
                 });
@@ -450,8 +441,6 @@ namespace website.Migrations
                     b.HasIndex("PhoneNumber")
                         .IsUnique();
 
-                    b.HasIndex("Role_Id");
-
                     b.HasIndex("Username")
                         .IsUnique();
 
@@ -486,9 +475,9 @@ namespace website.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.HasKey("Id");
+                    b.Property<string>("ShortCode");
 
-                    b.HasIndex("Faculty_Id");
+                    b.HasKey("Id");
 
                     b.HasIndex("Name")
                         .IsUnique();
@@ -532,12 +521,6 @@ namespace website.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Doctor_Id");
-
-                    b.HasIndex("Room_Id");
-
-                    b.HasIndex("Shift_Id");
-
                     b.ToTable("ShiftPlans");
                 });
 
@@ -555,17 +538,13 @@ namespace website.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Patient_Id");
-
-                    b.HasIndex("Room_Id");
-
                     b.ToTable("WaitingLines");
                 });
 
             modelBuilder.Entity("website.Models.Admin", b =>
                 {
                     b.HasOne("website.Models.Role", "Role")
-                        .WithMany("Admins")
+                        .WithMany()
                         .HasForeignKey("Role_Id")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -573,144 +552,8 @@ namespace website.Migrations
             modelBuilder.Entity("website.Models.Bill", b =>
                 {
                     b.HasOne("website.Models.Insurance", "Insurance")
-                        .WithMany("Bills")
-                        .HasForeignKey("Insurance_Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("website.Models.Perscription", "Perscription")
-                        .WithMany("Bills")
-                        .HasForeignKey("Perscription_Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("website.Models.Pharamacist", "Pharamacist")
-                        .WithMany("Bills")
-                        .HasForeignKey("Pharamacist_Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("website.Models.Doctor", b =>
-                {
-                    b.HasOne("website.Models.Faculty", "Faculty")
-                        .WithMany("Doctors")
-                        .HasForeignKey("Faculty_Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("website.Models.Role", "Role")
-                        .WithMany("Doctors")
-                        .HasForeignKey("Role_Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("website.Models.Insurance", b =>
-                {
-                    b.HasOne("website.Models.InsuranceType", "InsuranceType")
-                        .WithMany("Insurances")
-                        .HasForeignKey("InsuranceType_Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("website.Models.Medicine", b =>
-                {
-                    b.HasOne("website.Models.Admin", "Admin")
-                        .WithMany("Medicines")
-                        .HasForeignKey("Admin_Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("website.Models.MedicineUnit", "MedicineUnit")
-                        .WithMany("Medicines")
-                        .HasForeignKey("MedicineUnit_Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("website.Models.Patient", b =>
-                {
-                    b.HasOne("website.Models.Insurance", "Insurance")
-                        .WithMany("Patients")
-                        .HasForeignKey("Insurance_Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("website.Models.Role", "Role")
-                        .WithMany("Patients")
-                        .HasForeignKey("Role_Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("website.Models.Perscription", b =>
-                {
-                    b.HasOne("website.Models.Doctor", "Doctor")
-                        .WithMany("Perscriptions")
-                        .HasForeignKey("Doctor_Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("website.Models.Faculty", "Faculty")
-                        .WithMany("Perscriptions")
-                        .HasForeignKey("Faculty_Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("website.Models.Patient", "Patient")
-                        .WithMany("Perscriptions")
-                        .HasForeignKey("Patient_Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("website.Models.PerscriptionDetail", b =>
-                {
-                    b.HasOne("website.Models.Medicine", "Medicine")
-                        .WithMany("PerscriptionDetails")
-                        .HasForeignKey("Medicine_Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("website.Models.Perscription", "Perscription")
-                        .WithMany("PerscriptionDetails")
-                        .HasForeignKey("Perscription_Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("website.Models.Pharamacist", b =>
-                {
-                    b.HasOne("website.Models.Role", "Role")
-                        .WithMany("Pharamacists")
-                        .HasForeignKey("Role_Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("website.Models.Room", b =>
-                {
-                    b.HasOne("website.Models.Faculty", "Faculty")
-                        .WithMany("Rooms")
-                        .HasForeignKey("Faculty_Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("website.Models.ShiftPlan", b =>
-                {
-                    b.HasOne("website.Models.Doctor", "Doctor")
-                        .WithMany("ShiftPlans")
-                        .HasForeignKey("Doctor_Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("website.Models.Room", "Room")
-                        .WithMany("ShiftPlans")
-                        .HasForeignKey("Room_Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("website.Models.Shift", "Shift")
-                        .WithMany("ShiftPlans")
-                        .HasForeignKey("Shift_Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("website.Models.WaitingLine", b =>
-                {
-                    b.HasOne("website.Models.Patient", "Patient")
-                        .WithMany("WaitingLines")
-                        .HasForeignKey("Patient_Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("website.Models.Room", "Room")
-                        .WithMany("WaitingLines")
-                        .HasForeignKey("Room_Id")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .WithMany()
+                        .HasForeignKey("InsuranceId");
                 });
 #pragma warning restore 612, 618
         }

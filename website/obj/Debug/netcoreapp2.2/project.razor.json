@@ -3011,6 +3011,11 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "Views\\Medicine\\Detail.cshtml",
+      "TargetPath": "Views\\Medicine\\Detail.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "Views\\Shared\\_Layout.cshtml",
       "TargetPath": "Views\\Shared\\_Layout.cshtml",
       "FileKind": "mvc"

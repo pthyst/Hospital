@@ -11,14 +11,9 @@ namespace website.Models
     {
         [Key]
         public int Id { get; set; }
-
-        [ForeignKey("Role")]
         public int Role_Id { get; set; }
-        public Role Role { get; set; }
-
-        [ForeignKey("Faculty")]
         public int Faculty_Id { get; set; }
-        public Faculty Faculty { get; set; }
+        
 
         [Required(ErrorMessage = "Tên đăng nhập không được bỏ trống.")]
         [Display(Name = "Tên đăng nhập")]
@@ -49,11 +44,5 @@ namespace website.Models
 
         [EmailAddress(ErrorMessage = "Định dạng Email không hợp lệ.")]
         public string Email { get; set; }
-
-        //Phần này dành cho khóa ngoại
-        #region Foreign Keys
-        public ICollection<ShiftPlan> ShiftPlans { get; set; }
-        public ICollection<Perscription> Perscriptions { get; set; }
-        #endregion
     }
 }

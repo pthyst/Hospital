@@ -11,10 +11,7 @@ namespace website.Models
     {
         [Key]
         public int Id { get; set; }
-
-        [ForeignKey("InsuranceType")]
         public int InsuranceType_Id { get; set; }
-        public InsuranceType InsuranceType { get; set; }
 
         [Required(ErrorMessage = "Tên không được để trống.")]
         [StringLength(100, ErrorMessage = "Tên tối đa 100 kí tự.")]
@@ -74,11 +71,5 @@ namespace website.Models
         [StringLength(20, ErrorMessage = "Số điện thoại tối đa 20 kí tự.")]
         [Display(Name = "Số điện thoại người thân")]
         public string PhoneNumberHome { get; set; }
-
-        //Phần này dành cho khóa ngoại
-        #region Foreign Keys
-        public ICollection<Patient> Patients { get; set; }
-        public ICollection<Bill> Bills { get; set; }
-        #endregion
     }
 }

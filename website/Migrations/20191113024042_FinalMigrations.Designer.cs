@@ -10,8 +10,8 @@ using website.Data;
 namespace website.Migrations
 {
     [DbContext(typeof(WebsiteDbContext))]
-    [Migration("20191111082601_NoMoreForeignKey")]
-    partial class NoMoreForeignKey
+    [Migration("20191113024042_FinalMigrations")]
+    partial class FinalMigrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -35,8 +35,23 @@ namespace website.Migrations
 
                     b.Property<string>("Email");
 
+                    b.Property<string>("NameFirst")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.Property<string>("NameLast")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.Property<string>("NameMiddle")
+                        .HasMaxLength(100);
+
                     b.Property<string>("Password")
                         .IsRequired();
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasMaxLength(20);
 
                     b.Property<int>("Role_Id");
 
@@ -44,6 +59,8 @@ namespace website.Migrations
                         .IsRequired();
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Role_Id");
 
                     b.HasIndex("Username")
                         .IsUnique();
@@ -59,6 +76,8 @@ namespace website.Migrations
 
                     b.Property<DateTime>("DateCreate");
 
+                    b.Property<int?>("InsuranceId");
+
                     b.Property<int>("Insurance_Id");
 
                     b.Property<int>("PayInsurance");
@@ -72,6 +91,8 @@ namespace website.Migrations
                     b.Property<int>("Pharamacist_Id");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("InsuranceId");
 
                     b.ToTable("Bills");
                 });
@@ -333,6 +354,8 @@ namespace website.Migrations
 
                     b.Property<DateTime>("DateModify");
 
+                    b.Property<string>("Description");
+
                     b.Property<int>("Doctor_Id");
 
                     b.Property<int>("Faculty_Id");
@@ -454,6 +477,8 @@ namespace website.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
+                    b.Property<string>("ShortCode");
+
                     b.HasKey("Id");
 
                     b.HasIndex("Name")
@@ -516,6 +541,21 @@ namespace website.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("WaitingLines");
+                });
+
+            modelBuilder.Entity("website.Models.Admin", b =>
+                {
+                    b.HasOne("website.Models.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("Role_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("website.Models.Bill", b =>
+                {
+                    b.HasOne("website.Models.Insurance", "Insurance")
+                        .WithMany()
+                        .HasForeignKey("InsuranceId");
                 });
 #pragma warning restore 612, 618
         }

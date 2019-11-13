@@ -4,48 +4,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace website.Migrations
 {
-    public partial class NoMoreForeignKey : Migration
+    public partial class FinalMigrations : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Admins",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Role_Id = table.Column<int>(nullable: false),
-                    Username = table.Column<string>(nullable: false),
-                    Password = table.Column<string>(nullable: false),
-                    Email = table.Column<string>(nullable: true),
-                    DateCreate = table.Column<DateTime>(nullable: false),
-                    DateModify = table.Column<DateTime>(nullable: false),
-                    DateLastUsed = table.Column<DateTime>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Admins", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Bills",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Perscription_Id = table.Column<int>(nullable: false),
-                    Pharamacist_Id = table.Column<int>(nullable: false),
-                    Insurance_Id = table.Column<int>(nullable: false),
-                    PayTotal = table.Column<int>(nullable: false),
-                    PayInsurance = table.Column<int>(nullable: false),
-                    PayPatient = table.Column<int>(nullable: false),
-                    DateCreate = table.Column<DateTime>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Bills", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Doctors",
                 columns: table => new
@@ -215,6 +177,7 @@ namespace website.Migrations
                     Doctor_Id = table.Column<int>(nullable: false),
                     Patient_Id = table.Column<int>(nullable: false),
                     Name = table.Column<string>(nullable: false),
+                    Description = table.Column<string>(nullable: true),
                     DateCreate = table.Column<DateTime>(nullable: false),
                     DateModify = table.Column<DateTime>(nullable: false)
                 },
@@ -266,7 +229,8 @@ namespace website.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Faculty_Id = table.Column<int>(nullable: false),
-                    Name = table.Column<string>(nullable: false)
+                    Name = table.Column<string>(nullable: false),
+                    ShortCode = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -320,11 +284,76 @@ namespace website.Migrations
                     table.PrimaryKey("PK_WaitingLines", x => x.Id);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Bills",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Perscription_Id = table.Column<int>(nullable: false),
+                    Pharamacist_Id = table.Column<int>(nullable: false),
+                    Insurance_Id = table.Column<int>(nullable: false),
+                    InsuranceId = table.Column<int>(nullable: true),
+                    PayTotal = table.Column<int>(nullable: false),
+                    PayInsurance = table.Column<int>(nullable: false),
+                    PayPatient = table.Column<int>(nullable: false),
+                    DateCreate = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Bills", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Bills_Insurances_InsuranceId",
+                        column: x => x.InsuranceId,
+                        principalTable: "Insurances",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Admins",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Role_Id = table.Column<int>(nullable: false),
+                    Username = table.Column<string>(nullable: false),
+                    Password = table.Column<string>(nullable: false),
+                    NameFirst = table.Column<string>(maxLength: 100, nullable: false),
+                    NameMiddle = table.Column<string>(maxLength: 100, nullable: true),
+                    NameLast = table.Column<string>(maxLength: 100, nullable: false),
+                    PhoneNumber = table.Column<string>(maxLength: 20, nullable: false),
+                    Email = table.Column<string>(nullable: true),
+                    DateCreate = table.Column<DateTime>(nullable: false),
+                    DateModify = table.Column<DateTime>(nullable: false),
+                    DateLastUsed = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Admins", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Admins_Roles_Role_Id",
+                        column: x => x.Role_Id,
+                        principalTable: "Roles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Admins_Role_Id",
+                table: "Admins",
+                column: "Role_Id");
+
             migrationBuilder.CreateIndex(
                 name: "IX_Admins_Username",
                 table: "Admins",
                 column: "Username",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bills_InsuranceId",
+                table: "Bills",
+                column: "InsuranceId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Doctors_Email",
@@ -416,9 +445,6 @@ namespace website.Migrations
                 name: "Faculties");
 
             migrationBuilder.DropTable(
-                name: "Insurances");
-
-            migrationBuilder.DropTable(
                 name: "InsuranceTypes");
 
             migrationBuilder.DropTable(
@@ -440,9 +466,6 @@ namespace website.Migrations
                 name: "Pharamacists");
 
             migrationBuilder.DropTable(
-                name: "Roles");
-
-            migrationBuilder.DropTable(
                 name: "Rooms");
 
             migrationBuilder.DropTable(
@@ -453,6 +476,12 @@ namespace website.Migrations
 
             migrationBuilder.DropTable(
                 name: "WaitingLines");
+
+            migrationBuilder.DropTable(
+                name: "Roles");
+
+            migrationBuilder.DropTable(
+                name: "Insurances");
         }
     }
 }

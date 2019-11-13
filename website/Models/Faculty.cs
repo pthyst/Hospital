@@ -19,12 +19,5 @@ namespace website.Models
         [Required(ErrorMessage = "Phí khám chữa bệnh không được bỏ trống")]
         [Display(Name = "Phí khám chữa bệnh (VNĐ)")]
         public int Fee { get; set; } = 0;
-
-        //Phần này dành cho khóa ngoại
-        #region Foreign Keys
-        public ICollection<Room> Rooms { get; set; }
-        public ICollection<Doctor> Doctors { get; set; }
-        public ICollection<Perscription> Perscriptions { get; set; }
-        #endregion
     }
 }

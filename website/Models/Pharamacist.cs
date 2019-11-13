@@ -11,10 +11,8 @@ namespace website.Models
     {
         [Key]
         public int Id { get; set; }
-
-        [ForeignKey("Role")]
         public int Role_Id { get; set; }
-        public Role Role { get; set; }
+
 
         [Required(ErrorMessage = "Tên không được để trống.")]
         [StringLength(100, ErrorMessage = "Tên tối đa 100 kí tự.")]
@@ -57,11 +55,6 @@ namespace website.Models
         [DataType(DataType.DateTime)]
         [Display(Name = "Ngày sử dụng cuối")]
         public DateTime DateLastUsed { get; set; }
-
-        // Phần này dành cho khóa ngoại
-        #region Foreign Keys
-        public ICollection<Bill> Bills { get; set; }
-        #endregion
     }
 }
   

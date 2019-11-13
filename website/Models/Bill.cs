@@ -11,16 +11,8 @@ namespace website.Models
     {
         [Key]
         public int Id { get; set; }
-
-        [ForeignKey("Perscription")]
         public int Perscription_Id { get; set; }
-        public Perscription Perscription { get; set; }
-
-        [ForeignKey("Pharamacist")]
         public int Pharamacist_Id { get; set; }
-        public Pharamacist Pharamacist { get; set; }
-
-        [ForeignKey("Insurance")]
         public int Insurance_Id { get; set; }
         public Insurance Insurance { get; set; }
 

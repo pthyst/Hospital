@@ -188,17 +188,6 @@ G:\Hospital\website\obj\Debug\netcoreapp2.2\Razor\Views\Admin\_AdminLayout.g.csh
 G:\Hospital\website\obj\Debug\netcoreapp2.2\Razor\Views\Admin\_AdminSidebarPartial.g.cshtml.cs
 G:\Hospital\website\obj\Debug\netcoreapp2.2\Razor\Views\Victim\Complete.g.cshtml.cs
 G:\Hospital\website\obj\Debug\netcoreapp2.2\Razor\Views\Victim\Doctor.g.cshtml.cs
-H:\Hospital\website\obj\Debug\netcoreapp2.2\Razor\Views\Admin\PharamacistDetail.g.cshtml.cs
-H:\Hospital\website\obj\Debug\netcoreapp2.2\Razor\Views\Admin\PharamacistNew.g.cshtml.cs
-H:\Hospital\website\obj\Debug\netcoreapp2.2\Razor\Views\Admin\Pharamacists.g.cshtml.cs
-H:\Hospital\website\obj\Debug\netcoreapp2.2\Razor\Views\Admin\Admins.g.cshtml.cs
-H:\Hospital\website\obj\Debug\netcoreapp2.2\Razor\Views\Admin\AdminDetail.g.cshtml.cs
-H:\Hospital\website\obj\Debug\netcoreapp2.2\Razor\Views\Admin\AdminNew.g.cshtml.cs
 H:\Hospital\website\obj\Debug\netcoreapp2.2\Razor\Views\Admin\Faculties.g.cshtml.cs
-<<<<<<< HEAD
-<<<<<<< HEAD
 >>>>>>> parent of 95b0adf... Quân - Hoàn thành thêm xóa sửa Phòng và Khoa
-=======
->>>>>>> parent of 95b0adf... Quân - Hoàn thành thêm xóa sửa Phòng và Khoa
-=======
->>>>>>> parent of 95b0adf... Quân - Hoàn thành thêm xóa sửa Phòng và Khoa
+H:\Hospital\website\obj\Debug\netcoreapp2.2\Razor\Views\Medicine\Detail.g.cshtml.cs

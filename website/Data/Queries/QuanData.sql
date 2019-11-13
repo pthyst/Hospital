@@ -15,8 +15,6 @@ VALUES (2,1,'phamlaprikan','123456lap',N'Lập',N'Gia',N'Phạm','0765991250','p
 (2,3,'khaicq64','123456khai',N'Khải',N'Quang',N'Cao','0765991252','zcaoquangkhai@gmail.com'),
 (2,4,'lspdevilwork','123456hieu',N'Hiếu',N'Trung',N'Đặng','0765991253','devilwork@gmail.com');
 
-<<<<<<< HEAD
-=======
 -- [Pharamacist] --
 INSERT INTO Pharamacists(Role_Id,Username,Password,Email,PhoneNumber,NameLast,NameMiddle,NameFirst,DateCreate,DateModify,DateLastUsed)
 VALUES (3,'duocsi1','matkhau123','duocsi1@gmail.com','01265991251',N'Huỳnh',N'Huệ',N'Trang','20191111 22:00:00 PM','20191111 22:00:00 PM','20191111 22:00:00 PM'),
@@ -33,10 +31,3 @@ VALUES (4,'richbitch','matkhau123','richbitch@gmail.com','01265991251',N'Trần'
 (4,'racingmonk','matkhau101112','racingmonk4@gmail.com','01265991254',N'Thích',N'Độ',N'Xe','20191111 22:00:00 PM','20191111 22:00:00 PM','20191111 22:00:00 PM'),
 (4,'pthyst','phuongdung','pthyst@gmail.com','01265991255',N'Huỳnh Trương',N'Chí',N'Quân','20191111 22:00:00 PM','20191111 22:00:00 PM','20191111 22:00:00 PM')
 
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> parent of 95b0adf... Quân - Hoàn thành thêm xóa sửa Phòng và Khoa
-=======
->>>>>>> parent of 95b0adf... Quân - Hoàn thành thêm xóa sửa Phòng và Khoa
-=======
->>>>>>> parent of 95b0adf... Quân - Hoàn thành thêm xóa sửa Phòng và Khoa

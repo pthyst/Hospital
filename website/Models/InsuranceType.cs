@@ -25,10 +25,5 @@ namespace website.Models
         [Required(ErrorMessage = "Giới hạn chi trả không được để trống.")]
         [Display(Name = "Giới hạn chi trả")]
         public int PayLimit { get; set; } = 0;
-
-        //Phần này dành cho khóa ngoại
-        #region Foreign Keys
-        public ICollection<Insurance> Insurances { get; set; }
-        #endregion
     }
 }

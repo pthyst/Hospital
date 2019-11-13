@@ -11,14 +11,9 @@ namespace website.Models
     {
         [Key]
         public int Id { get; set; }
-
-        [ForeignKey("Perscription")]
         public int Perscription_Id { get; set; }
-        public Perscription Perscription { get; set; }
-
-        [ForeignKey("Medicine")]
         public int Medicine_Id { get; set; }
-        public Medicine Medicine { get; set; }
+   
 
         [Required(ErrorMessage = "Tổng số lượng không được để trống.")]
         [Display(Name = "Tổng số lượng")]

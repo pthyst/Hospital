@@ -15,10 +15,5 @@ namespace website.Models
         [Required(ErrorMessage = "Tên đơn vị không được bỏ trống.")]
         [Display(Name = "Tên đơn vị")]
         public string Unit { get; set; }
-
-        //Phần này dành cho khóa ngoại
-        #region Foreign Keys
-        public ICollection<Medicine> Medicines { get; set; }
-        #endregion
     }
 }

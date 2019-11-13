@@ -11,14 +11,9 @@ namespace website.Models
     {
         [Key]
         public int Id { get; set; }
-
-        [ForeignKey("Insurance")]
         public int Insurance_Id { get; set; }
-        public Insurance Insurance { get; set; }
-
-        [ForeignKey("Role")]
         public int Role_Id { get; set; }
-        public Role Role { get; set; }
+     
 
         [Required(ErrorMessage = "Tên không được để trống.")]
         [StringLength(100, ErrorMessage = "Tên tối đa 100 kí tự.")]
@@ -75,11 +70,5 @@ namespace website.Models
 
         [Display(Name = "Nhịp tim/phút")]
         public int BMP { get; set; }
-
-        //Phần này dành cho khóa ngoại
-        #region Foreign Keys
-        public ICollection<WaitingLine> WaitingLines { get; set; }
-        public ICollection<Perscription> Perscriptions { get; set; }
-        #endregion
     }
 }

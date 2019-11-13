@@ -23,10 +23,5 @@ namespace website.Models
         [DataType(DataType.Time)]
         [Display(Name = "Giờ kết thúc")]
         public DateTime TimeEnd { get; set; }
-
-        //Phần này dành cho khóa ngoại
-        #region Foreign Keys
-        public ICollection<ShiftPlan> ShiftPlans { get; set; }
-        #endregion
     }
 }

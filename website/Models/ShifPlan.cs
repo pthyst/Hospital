@@ -11,18 +11,10 @@ namespace website.Models
     {
         [Key]
         public int Id { get; set; }
-
-        [ForeignKey("Room")]
         public int Room_Id { get; set; }
-        public Room Room { get; set; }
-
-        [ForeignKey("Doctor")]
         public int Doctor_Id { get; set; }
-        public Doctor Doctor { get; set; }
-
-        [ForeignKey("Shift")]
         public int Shift_Id { get; set; }
-        public Shift Shift { get; set; }
+     
 
         [DataType(DataType.DateTime)]
         [Display(Name = "Ngày bắt đầu")]
