@@ -47,7 +47,7 @@ namespace website.Controllers
             {
                 AdminDoctorsViewModel vm = new AdminDoctorsViewModel()
                 {
-                    Doctors = _context.Doctors.OrderByDescending(d => d.Id).ToList(),
+                    Doctors   = _context.Doctors.OrderByDescending(d => d.Id).ToList(),
                     Faculties = _context.Faculties.ToList()
                 };
                 return View(vm);
@@ -56,7 +56,7 @@ namespace website.Controllers
             {
                 AdminDoctorNewViewModel vm = new AdminDoctorNewViewModel()
                 {
-                    Doctor = new Doctor(),
+                    Doctor    = new Doctor(),
                     Faculties = _context.Faculties.ToList()
                 };
                 return View(vm);
@@ -83,8 +83,8 @@ namespace website.Controllers
                 {
                     AdminDoctorEditViewModel vm = new AdminDoctorEditViewModel()
                     {
-                        Doctor = edit,
-                        Doctors = _context.Doctors.OrderByDescending(d => d.Id).ToList(),
+                        Doctor    = edit,
+                        Doctors   = _context.Doctors.OrderByDescending(d => d.Id).ToList(),
                         Faculties = _context.Faculties.ToList()
                     };
                     return View(vm);
@@ -97,8 +97,8 @@ namespace website.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    Doctor data = vm.Doctor;
-                    Doctor up = _context.Doctors.Where(d => d.Id == data.Id).FirstOrDefault();
+                    Doctor data    = vm.Doctor;
+                    Doctor up      = _context.Doctors.Where(d => d.Id == data.Id).FirstOrDefault();
 
                     up.NameFirst   = data.NameFirst;
                     up.NameMiddle  = data.NameMiddle;
@@ -113,9 +113,9 @@ namespace website.Controllers
                 return View(
                     new AdminDoctorEditViewModel()
                     {
-                        Doctor = vm.Doctor,
-                        Doctors = _context.Doctors.OrderByDescending(d => d.Id).ToList(),
-                        Faculties = _context.Faculties.ToList()
+                        Doctor     = vm.Doctor,
+                        Doctors    = _context.Doctors.OrderByDescending(d => d.Id).ToList(),
+                        Faculties  = _context.Faculties.ToList()
                     }
                 );
             }
@@ -130,6 +130,88 @@ namespace website.Controllers
                     _context.SaveChanges();
                 }
                 return RedirectToAction("Doctors","Admin");
+            }
+            #endregion
+            #region Dược sĩ
+            public IActionResult Pharas()
+            {
+                AdminPharasViewModel vm = new AdminPharasViewModel()
+                {
+                    Pharas = _context.Pharamacists.ToList()
+                };
+                return View(vm);
+            }
+            
+            public IActionResult PharaNew()
+            {
+                return View(new Pharamacist());
+            }
+
+            [HttpPost]
+            public IActionResult PharaNew(Pharamacist m)
+            {
+                if (ModelState.IsValid)
+                {
+                    m.Role_Id = 3; // Dược sĩ có Role_Id cố định là 3
+                    _context.Pharamacists.Add(m);
+                    _context.SaveChanges();
+                    return RedirectToAction("Pharas","Admin");
+                }
+                return View(m);
+            }
+
+            [HttpGet]
+            public IActionResult PharaEdit(int id)
+            {
+                Pharamacist edit = _context.Pharamacists.Where(p => p.Id == id).FirstOrDefault();
+                if (edit != null)
+                {
+                    AdminPharaEditViewModel vm = new AdminPharaEditViewModel()
+                    {
+                        Phara  = edit,
+                        Pharas = _context.Pharamacists.OrderByDescending(p => p.Id).ToList()
+                    };
+                    return View(vm);
+                }                
+                return RedirectToAction("Pharas","Admin");
+            }
+
+            [HttpPost]
+            public IActionResult PharaEdit(AdminPharaEditViewModel vm)
+            {
+                if (ModelState.IsValid)
+                {
+                    Pharamacist data = vm.Phara;
+                    Pharamacist up   = _context.Pharamacists.Where(p=> p.Id == data.Id).FirstOrDefault();
+
+                    up.NameFirst     = data.NameFirst;
+                    up.NameMiddle    = data.NameMiddle;
+                    up.NameLast      = data.NameLast;
+                    up.Password      = data.Password;
+                    up.Email         = data.Email;
+                    up.PhoneNumber   = data.PhoneNumber;
+                
+                    _context.SaveChanges();
+                }
+                return View(
+                    new AdminPharaEditViewModel()
+                    {
+                        Phara     = vm.Phara,
+                        Pharas    = _context.Pharamacists.OrderByDescending(p => p.Id).ToList()
+                    }
+                );
+            }
+
+            [HttpGet]
+            public IActionResult PharaDelete(int id)
+            {
+                Pharamacist delete = _context.Pharamacists.Where(p => p.Id == id).FirstOrDefault();
+                if (delete != null)
+                {
+                    _context.Pharamacists.Remove(delete);
+                    _context.SaveChanges();
+                }
+                return RedirectToAction("Pharamacists","Admin");
             }
             #endregion
 

@@ -1,0 +1,41 @@
+@model website.ViewModels.AdminPharasViewModel
+@{
+    ViewBag.Title = "Danh sách Dược sĩ của hệ thống";
+    Layout = "~/Views/Admin/_AdminLayout.cshtml";
+}
+
+<!-- Các mục điều hướng -->
+<div class="row topnav">
+    <a asp-controller="Admin" asp-action="Doctors">Bác sĩ</a>
+    <a  class="active"  asp-controller="Admin" asp-action="Pharamacists">Dược sĩ</a>
+    <a asp-controller="Admin" asp-action="Admins">Quản trị</a>
+</div>
+
+<!-- Nút thêm mới -->
+<div class="row">
+    <a class="button button--new" asp-controller="Admin" asp-action="PharaNew"><i class="fas fa-plus"></i> Thêm mới</a>
+</div>
+
+<!-- Danh sách dữ liệu -->
+<div class="row">
+    <table>
+        <tr>
+            <th>Họ và tên</th>
+            <th>SĐT</th>
+            <th>Email</th>
+            <th></th>
+        </tr>
+        @{
+            foreach(var phara in Model.Pharas)
+            {
+                string name = phara.NameLast + " " + phara.NameMiddle + " " + phara.NameFirst;
+                <tr>
+                    <td><a asp-controller="Admin" asp-action="PharaEdit" asp-route-id="@phara.Id">@name</a></td>
+                    <td>@phara.PhoneNumber</td>
+                    <td>@phara.Email</td>
+                    <td><a asp-controller="Admin" asp-action="PharaDelete" asp-route-id="@phara.Id"><i class="fas fa-trash-alt"></i> Xóa</a></td>
+                </tr>
+            }
+        }
+    </table>
+</div>
