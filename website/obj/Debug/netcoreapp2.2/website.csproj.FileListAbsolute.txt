@@ -179,7 +179,6 @@ H:\Hospital\website\obj\Debug\netcoreapp2.2\Razor\Views\Victim\Complete.g.cshtml
 H:\Hospital\website\obj\Debug\netcoreapp2.2\Razor\Views\Admin\DoctorNew.g.cshtml.cs
 <<<<<<< HEAD
 =======
-H:\Hospital\website\obj\Debug\netcoreapp2.2\Razor\Views\Admin\DoctorDetail.g.cshtml.cs
 G:\Hospital\website\obj\Debug\netcoreapp2.2\Razor\Views\Admin\DoctorDetail.g.cshtml.cs
 G:\Hospital\website\obj\Debug\netcoreapp2.2\Razor\Views\Admin\DoctorNew.g.cshtml.cs
 G:\Hospital\website\obj\Debug\netcoreapp2.2\Razor\Views\Admin\Doctors.g.cshtml.cs
@@ -191,3 +190,4 @@ G:\Hospital\website\obj\Debug\netcoreapp2.2\Razor\Views\Victim\Doctor.g.cshtml.c
 H:\Hospital\website\obj\Debug\netcoreapp2.2\Razor\Views\Admin\Faculties.g.cshtml.cs
 >>>>>>> parent of 95b0adf... Quân - Hoàn thành thêm xóa sửa Phòng và Khoa
 H:\Hospital\website\obj\Debug\netcoreapp2.2\Razor\Views\Medicine\Detail.g.cshtml.cs
+H:\Hospital\website\obj\Debug\netcoreapp2.2\Razor\Views\Admin\DoctorEdit.g.cshtml.cs

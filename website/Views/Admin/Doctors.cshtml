@@ -7,13 +7,13 @@
 <!-- Các mục điều hướng -->
 <div class="row topnav">
     <a class="active" asp-controller="Admin" asp-action="Doctors">Bác sĩ</a>
-    <a asp-controller="Admin" asp-action="Doctors">Dược sĩ</a>
-    <a asp-controller="Admin" asp-action="Doctors">Quản trị</a>
+    <a asp-controller="Admin" asp-action="Pharamacists">Dược sĩ</a>
+    <a asp-controller="Admin" asp-action="Admins">Quản trị</a>
 </div>
 
 <!-- Nút thêm mới -->
 <div class="row">
-    <a class="button button--new" asp-controller="Admin" asp-action="Doctors"><i class="fas fa-plus"></i> Thêm mới</a>
+    <a class="button button--new" asp-controller="Admin" asp-action="DoctorNew"><i class="fas fa-plus"></i> Thêm mới</a>
 </div>
 
 <!-- Danh sách dữ liệu -->
@@ -36,11 +36,11 @@
                     if (f.Id == doctor.Faculty_Id){faculty = f.Name;}
                 }
                 <tr>
-                    <td><a asp-controller="Admin" asp-action="Doctors">@name</a></td>
+                    <td><a asp-controller="Admin" asp-action="DoctorEdit" asp-route-id="@doctor.Id">@name</a></td>
                     <td>@faculty</td>
                     <td>@doctor.PhoneNumber</td>
                     <td>@doctor.Email</td>
-                    <td><a asp-controller="Admin" asp-action="Doctors"><i class="fas fa-trash-alt"></i> Xóa</a></td>
+                    <td><a asp-controller="Admin" asp-action="DoctorDelete" asp-route-id="@doctor.Id"><i class="fas fa-trash-alt"></i> Xóa</a></td>
                 </tr>
             }
         }

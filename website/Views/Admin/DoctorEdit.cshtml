@@ -1,0 +1,101 @@
+@model website.ViewModels.AdminDoctorEditViewModel
+@{
+    ViewBag.Title = "Chỉnh sửa thông tin bác sĩ";
+    Layout = "~/Views/Admin/_AdminLayout.cshtml";
+}
+
+<!-- Các mục điều hướng -->
+<div class="row topnav">
+    <a class="active" asp-controller="Admin" asp-action="Doctors">Bác sĩ</a>
+    <a asp-controller="Admin" asp-action="Pharamacists">Dược sĩ</a>
+    <a asp-controller="Admin" asp-action="Admins">Quản trị</a>
+</div>
+
+<!-- Nút quay về -->
+<div class="row">
+    <a asp-controller="Admin" asp-action="Doctors" class="button button--back"><i class="fas fa-long-arrow-alt-left"></i></a><h2 class="title"> Chỉnh sửa thông tin bác sĩ</h2>
+</div>
+
+<div class="row">
+    <!-- Phần thông tin bác sĩ -->
+    <div class="col-5 padd0">
+        <form asp-controller="Admin" asp-action="DoctorEdit" method="post">
+            <div class="form-row">
+                <div class="col form-group">
+                    <label asp-for="@Model.Doctor.NameLast">Họ</label>
+                    <input type="text" asp-for="@Model.Doctor.NameLast" class="form-control"/>
+                </div>
+                <div class="col form-group">
+                    <label asp-for="@Model.Doctor.NameMiddle">Họ đệm</label>
+                    <input type="text" asp-for="@Model.Doctor.NameMiddle" class="form-control"/>
+                </div>
+                <div class="col form-group">
+                    <label asp-for="@Model.Doctor.NameFirst">Tên</label>
+                    <input type="text" asp-for="@Model.Doctor.NameFirst" class="form-control"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Doctor.PhoneNumber">Số điện thoại</label>
+                <input type="text" asp-for="@Model.Doctor.PhoneNumber" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Doctor.Email">Email</label>
+                <input type="text" asp-for="@Model.Doctor.Email" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Doctor.Faculty_Id">Khoa</label>
+                <select asp-for="@Model.Doctor.Faculty_Id" class="form-control">
+                    @{
+                        foreach (var f in Model.Faculties)
+                        {
+                            <option value="@f.Id">
+                                @f.Name
+                            </option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="form-row">
+                <div class="col form-group">
+                    <label asp-for="@Model.Doctor.Username">Tên tài khoản đăng nhập</label>
+                    <input type="text" asp-for="@Model.Doctor.Username" class="form-control" readonly/>
+                </div>
+                <div class="col form-group">
+                    <label asp-for="@Model.Doctor.Password">Mật khẩu</label>
+                    <input type="text" asp-for="@Model.Doctor.Password" class="form-control"/>
+                </div>
+            </div>
+
+            <input type="hidden" asp-for="@Model.Doctor.Id"/>
+
+            <button type="submit" class="button button--submit"><i class="fas fa-save"></i> Cập nhật</button>
+            <a asp-controller="Admin" asp-action="DoctorDelete" asp-route-id="@Model.Doctor.Id" class="button button--delete"><i class="fas fa-trash-alt"></i> Xóa</a>
+        </form>
+    </div>
+
+    <!-- Danh sách dữ liệu -->
+    <div class="col-5 offset-1 padd0">
+        <table>
+        <tr>
+            <th>Họ và tên</th>
+            <th>Khoa</th>
+            <th>SĐT</th>
+        </tr>
+            @foreach(var doctor in Model.Doctors)
+            {
+                string name = doctor.NameLast + " " + doctor.NameMiddle + " " + doctor.NameFirst;
+                string faculty = "khoa";
+                foreach (var f in Model.Faculties)
+                {
+                    if (f.Id == doctor.Faculty_Id){faculty = f.Name;}
+                }
+                <tr>
+                    <td><a asp-controller="Admin" asp-action="DoctorEdit" asp-route-id="@doctor.Id">@name</a></td>
+                    <td>@faculty</td>
+                    <td>@doctor.PhoneNumber</td>
+                </tr>
+            }
+        </table>
+    </div>
+    
+</div>
