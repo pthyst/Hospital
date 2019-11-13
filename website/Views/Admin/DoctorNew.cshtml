@@ -1,0 +1,66 @@
+@model website.ViewModels.AdminDoctorNewViewModel
+@{
+    Layout = "~/Views/Admin/_AdminLayout.cshtml";
+    ViewBag.Title = "Thêm bác sĩ";
+}
+
+<div class="row">
+    <h2 class="title">Thêm bác sĩ mới</h2>
+</div>
+
+<div class="row">
+    <form asp-controller="Admin" asp-action="DoctorCreate" method="post">
+        <div class="form-row">
+            <div class="col form-group">
+                <label asp-for="@Model.Doctor.NameLast">Họ</label>
+                <input type="text" asp-for="@Model.Doctor.NameLast" class="form-control"/>
+            </div>
+            <div class="col form-group">
+                <label asp-for="@Model.Doctor.NameMiddle">Họ đệm</label>
+                <input type="text" asp-for="@Model.Doctor.NameMiddle" class="form-control"/>
+            </div>
+            <div class="col form-group">
+                <label asp-for="@Model.Doctor.NameFirst">Tên</label>
+                <input type="text" asp-for="@Model.Doctor.NameFirst" class="form-control"/>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label asp-for="@Model.Doctor.PhoneNumber">Số điện thoại</label>
+            <input type="text" asp-for="@Model.Doctor.PhoneNumber" class="form-control"/>
+        </div>
+    
+    
+        <div class="form-group">
+            <label asp-for="@Model.Doctor.Email">Email</label>
+            <input type="text" asp-for="@Model.Doctor.Email" class="form-control"/>
+        </div>
+        
+        <div class="form-group">
+            <label asp-for="@Model.Doctor.Faculty_Id">Khoa</label>
+            <select asp-for="@Model.Doctor.Faculty_Id" class="form-control">
+                @{
+                    foreach (var f in Model.Faculties)
+                    {
+                        <option value="@f.Id">
+                            @f.Name
+                        </option>
+                    }
+                }
+            </select>
+        </div>
+
+        <div class="form-row">
+            <div class="col form-group">
+                <label asp-for="@Model.Doctor.Username">Tên tài khoản đăng nhập</label>
+                <input type="text" asp-for="@Model.Doctor.Username" class="form-control"/>
+            </div>
+            <div class="col form-group">
+                <label asp-for="@Model.Doctor.Password">Mật khẩu</label>
+                <input type="text" asp-for="@Model.Doctor.Password" class="form-control"/>
+            </div>
+        </div>
+        
+        <button type="submit">Hoàn tất</button>
+    </form>
+</div>

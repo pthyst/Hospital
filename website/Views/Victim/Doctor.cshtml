@@ -1,0 +1,57 @@
+﻿
+@{
+    ViewData["Title"] = "Đăng ký khám chữa bệnh";
+    Layout = "~/Views/Victim/_VictimLayout.cshtml";
+}
+
+<div class="container-fluid relative doctors">
+    <div class="container">
+        <h2>Đăng ký khám bệnh tại khoa Thần kinh</h2>
+        <h3>Chọn bác sĩ</h3>
+
+        <div class="row">
+            <div class="col-6">
+                <a asp-controller="Victim" asp-action="Complete" class="doctor">
+                    <p class="doctor__name">Huỳnh Mẫn Đạt</p>
+                    <p class="doctor__room">Phòng: C503</p>
+                </a>
+            </div>
+            <div class="col-6">
+                <a asp-controller="Victim" asp-action="Complete" class="doctor">
+                    <p class="doctor__name">Ngô Sĩ Thanh</p>
+                    <p class="doctor__room">Phòng: C504</p>
+                </a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-6">
+                <a asp-controller="Victim" asp-action="Complete" class="doctor">
+                    <p class="doctor__name">Lương Bá Kiến</p>
+                    <p class="doctor__room">Phòng: C505</p>
+                </a>
+            </div>
+            <div class="col-6">
+                <a asp-controller="Victim" asp-action="Complete" class="doctor">
+                    <p class="doctor__name">Nguyễn Vàng</p>
+                    <p class="doctor__room">Phòng: C506</p>
+                </a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-6">
+                <a asp-controller="Victim" asp-action="Complete" class="doctor">
+                    <p class="doctor__name">Cao Mai Thanh Thế</p>
+                    <p class="doctor__room">Phòng: C507</p>
+                </a>
+            </div>
+            <div class="col-6">
+                <a asp-controller="Victim" asp-action="Complete" class="doctor">
+                    <p class="doctor__name">Trần Huỳnh Lập Phương</p>
+                    <p class="doctor__room">Phòng: C508</p>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

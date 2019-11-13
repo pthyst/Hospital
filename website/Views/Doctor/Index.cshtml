@@ -1,0 +1,98 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+    <head>
+       
+    </head>
+<h1 class=" title">Chuẩn Đoán và Kê Toa Thuốc</h1>
+<link href="~/css/Doctor/doctor.css" rel="stylesheet" />
+<div class="row">
+    <div class="col-6">
+        <form method="post" class="form1">
+            <table>
+                <tr>
+                    <td width="150">
+                        <label>STT: </label>
+                    </td>
+                    <td width="300">
+                        <input type="text" name="stt" class="input 1" />
+                    </td>
+                </tr>
+                <tr>
+                    <td width="150">
+                        <label>Mã thẻ BH: </label>
+                    </td>
+                    <td width="300">
+                        <input type="text" name="mathe" class="input 1" />
+                    </td>
+                </tr>
+                <tr>
+                    <td width="150">
+                        <label>Tên BN: </label>
+                    </td>
+                    <td width="300">
+                        <input type="text" name="tenbn" class="input 1" />
+                    </td>
+                </tr>
+                <tr>
+                    <td width="150">
+                        <label>Tên BS: </label>
+                    </td>
+                    <td width="300">
+                        <input type="text" name="tenbs" class="input 1" />
+                    </td>
+                </tr>
+                <tr>
+                    <td width="150">
+                        <label>Chuẩn đoán </label>
+                    </td>
+                    <td width="300">
+                        <textarea cols="50" rows="10"></textarea>
+                    </td>
+                </tr>
+
+            </table>
+            <button type="submit" onclick="btn_themthuoc()" class="themthuoc">Thêm Thuốc</button>
+            <table border="1">
+                <tr id="thuoctinh">
+                    <td>STT</td>
+                    <td>Tên thuốc</td>
+                    <td>Đơn vị tính</td>
+                    <td>Sáng</td>
+                    <td>Trưa</td>
+                    <td>Chiều</td>
+                    <td>Tối</td>
+                </tr>
+                @*@foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MedicinesName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Unit)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    </td>
+                </tr>
+            }*@
+            </table>
+        </form>
+    </div>
+    <div class="col-6">
+
+    </div>
+</div>
+<script>
+    function btn_themthuoc() {
+        openPopup({
+            url: "/Medicine/Index",
+            parameter: "width=800,height=800,top=0"
+        });
+    }
+
+</script>

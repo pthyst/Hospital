@@ -1,0 +1,26 @@
+﻿
+label {
+    font-size:15px;
+    font-family: VnArial;
+
+
+}
+.input1 {
+    padding: 5px 30px;
+
+    font-size: 15px;
+    margin-left: 40px;
+}
+.themthuoc{
+    margin: 10px 0px;
+}
+#thuoctinh td{
+    text-align :center;
+    width: 100px;
+    height:30px;
+    font-family: VnArial;
+}
+.title{
+    text-align: center;
+    font-family: VnArial;
+}

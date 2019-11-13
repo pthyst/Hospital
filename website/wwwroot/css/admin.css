@@ -1,0 +1,126 @@
+*
+{
+    box-sizing: border-box;
+}
+html
+{
+    min-height: 100%;
+}
+.sidebar
+{
+    background:#0C274B;
+    min-height: 43rem;
+    max-height: 100%;
+}
+.sidebar a
+{
+    color: #fff;
+}
+.sidebar__bigname
+{
+    padding: 2rem;
+}
+.sidebar__bigname a
+{
+    font-size: 2rem;
+    font-weight: bold;
+    
+    text-decoration: none;
+    word-wrap: break-word;
+}
+.sidebar__menu a
+{
+    display: block;
+    width: 100%;
+    padding: 1rem 1.1rem 1rem 2rem;
+    font-size: 1.1rem;
+    text-decoration: none;
+    transition: all 0.25s ease-in-out;
+}
+.sidebar__menu a:hover
+{
+    color: #fff;
+    background: #148B26;
+    transform: translate(30px,-10px);
+    box-shadow: -10px 10px 1px 0px rgba(0,0,0,0.2)
+}
+.sidebar__menu a:last-child
+{
+    display: inline-block;
+    text-align: center;
+    margin: 5rem 20%; 
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    font-size: 1rem;
+    background: #D1460B;
+    box-shadow: 1px 1px 0px 1px rgba(0,0,0,0.2);
+}
+.sidebar__menu a:last-child:hover
+{
+    color: #fff;
+    background: #D1460B;
+    transform: translate(0px,0px);
+    box-shadow: 1px 1px 1px 0px rgba(0,0,0,0.2)
+}
+.renderbody
+{
+    padding: 2rem 2rem 2rem 3rem;
+}
+.renderbody .topnav
+{
+    margin-bottom: 1rem;
+    border-bottom: solid #9f9f9f 1px;
+}
+.renderbody .topnav a
+{
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: #0C274B;
+    color: #fff;
+    text-decoration: none;
+    min-width: 10rem;
+    text-align: center;
+    text-transform: uppercase;
+}
+.renderbody .topnav .active
+{
+    background: #148B26;
+}
+.renderbody .topnav a:hover
+{
+    background: #123E77
+}
+.button--new{
+    display: inline-block;
+    padding: 0.5rem;
+    border-radius: 1rem;
+    box-shadow: 1px 1px 1px 0px rgba(0,0,0,0.2);
+    color: #fff;
+}
+.button--new
+{
+    background: #D1460B;
+    min-width: 10rem;
+    text-align: center;
+    margin-bottom: 1rem;
+    transition: all 0.25s ease-in-out;
+}
+.button--new:hover
+{
+    transform: rotateX(360deg);
+    text-decoration: none;
+}
+.renderbody table
+{
+    display: table;
+    width: 100%;
+}
+.renderbody table,.renderbody table tr
+{
+    border:1px solid #9f9f9f;
+    border-collapse: collapse;
+}
+.renderbody table th,.renderbody table td
+{
+    padding: 0.5rem;
+}

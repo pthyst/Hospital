@@ -1,0 +1,21 @@
+﻿
+@{
+    Layout = "~/Views/Victim/_VictimLayout.cshtml";
+    ViewBag.Title = "Bệnh nhân đăng nhập";
+}
+
+<div class="container-fluid relative login">
+    <div class="row">
+        <div class="col-6 offset-3">
+            <form asp-controller="Victim" asp-action="Login">
+                <div class="form-group">
+                    <label class="blck txt-center" for="InsuranceId">Quét thẻ dưới khe hoặc nhập mã thẻ</label>
+                    <input type="password" placeholder="Nhập mã thẻ bảo hiểm tại đây" class="form-control" />
+                </div>
+                <div class="form-group txt-right">
+                    <a asp-controller="Victim" asp-action="Registration" class="login__button login__button--confirm">Xác nhận</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

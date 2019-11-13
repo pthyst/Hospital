@@ -1,0 +1,48 @@
+@model website.ViewModels.AdminDoctorsViewModel
+@{
+    ViewBag.Title = "Danh sách Bác sĩ của hệ thống";
+    Layout = "~/Views/Admin/_AdminLayout.cshtml";
+}
+
+<!-- Các mục điều hướng -->
+<div class="row topnav">
+    <a class="active" asp-controller="Admin" asp-action="Doctors">Bác sĩ</a>
+    <a asp-controller="Admin" asp-action="Doctors">Dược sĩ</a>
+    <a asp-controller="Admin" asp-action="Doctors">Quản trị</a>
+</div>
+
+<!-- Nút thêm mới -->
+<div class="row">
+    <a class="button button--new" asp-controller="Admin" asp-action="Doctors"><i class="fas fa-plus"></i> Thêm mới</a>
+</div>
+
+<!-- Danh sách dữ liệu -->
+<div class="row">
+    <table>
+        <tr>
+            <th>Họ và tên</th>
+            <th>Khoa</th>
+            <th>SĐT</th>
+            <th>Email</th>
+            <th></th>
+        </tr>
+        @{
+            foreach(var doctor in Model.Doctors)
+            {
+                string name = doctor.NameLast + " " + doctor.NameMiddle + " " + doctor.NameFirst;
+                string faculty = "khoa";
+                foreach (var f in Model.Faculties)
+                {
+                    if (f.Id == doctor.Faculty_Id){faculty = f.Name;}
+                }
+                <tr>
+                    <td><a asp-controller="Admin" asp-action="Doctors">@name</a></td>
+                    <td>@faculty</td>
+                    <td>@doctor.PhoneNumber</td>
+                    <td>@doctor.Email</td>
+                    <td><a asp-controller="Admin" asp-action="Doctors"><i class="fas fa-trash-alt"></i> Xóa</a></td>
+                </tr>
+            }
+        }
+    </table>
+</div>

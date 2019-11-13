@@ -1,0 +1,84 @@
+@model website.ViewModels.AdminFacultiesViewModel
+@{
+    ViewBag.Title = "Danh sách Khoa";
+    Layout = "~/Views/Admin/_AdminLayout.cshtml";
+}
+
+<!-- Các mục điều hướng -->
+<div class="row topnav">
+    <a class="active" asp-controller="Admin" asp-action="Faculties">Khoa</a>
+    <a asp-controller="Admin" asp-action="Room">Phòng</a>
+</div>
+
+<!-- Thêm khoa mới -->
+
+<div class="row">
+    <form asp-controller="Admin" asp-action="Faculties" method="post">
+        <div class="form-row">
+            <div class="col">
+                <input class="form-control"  type="text" asp-for="@Model.Faculty.Name" placeholder="Tên khoa" />
+            </div>
+             <div class="col">
+                <input class="form-control" type="number" min="10000" step="5000" asp-for="@Model.Faculty.Fee" value="10000" />
+            </div>
+            <div class="col">
+                <button type="submit" class="button button--submit">Thêm mới</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- Danh sách dữ liệu -->
+<div class="row">
+    <div class="col-8 padd0">
+    <table>
+        <tr>
+            <th>Khoa</th>
+            <th>Phí khám/chữa bệnh</th>
+            <th>Số bác sĩ của khoa</th>
+            <th></th>
+        </tr>
+        
+        @foreach(var fa in Model.Faculties)
+        {
+            
+            int docs = 0;
+            foreach (var doc in Model.Doctors)
+            {
+                if (doc.Faculty_Id == fa.Id){docs++;}
+            }
+            
+            <tr>
+                <td><a asp-controller="Admin" asp-action="Faculties" asp-route-id="@fa.Id">@fa.Name</a></td>
+                <td>
+                    @fa.Fee
+                </td>
+                <td>
+                    @docs
+                </td>
+                <td><a asp-controller="Admin" asp-action="FacultyDelete" asp-route-id="@fa.Id"><i class="fas fa-trash-alt"></i> Xóa</a></td>
+            </tr>
+        }
+        
+    </table>
+    </div>
+    <div class="col-3">
+       
+        <form asp-controller="Admin" asp-action="Faculties" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            <div class="form-group">
+                <label asp-for="@Model.Faculty.Name">Tên Khoa</label>
+                <input type="text" asp-for="@Model.Faculty.Name" class="form-control"/>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="@Model.Faculty.Fee">Phí khám chữa bệnh</label>
+                <input type="number" asp-for="@Model.Faculty.Fee" class="form-control" min="10000" step="5000"/>
+            </div>
+
+            <button type="submit" class="button button--submit">Cập nhật</button>
+        </form>
+        
+    </div>
+</div>
