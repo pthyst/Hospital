@@ -13,7 +13,6 @@ using Microsoft.Extensions.DependencyInjection;
 using website.Models;
 using website.Data;
 using website.ViewModels;
-using website.Models;
 
 namespace website.Controllers
 {
@@ -57,7 +56,7 @@ namespace website.Controllers
                 AdminDoctorNewViewModel vm = new AdminDoctorNewViewModel()
                 {
                     Doctor    = new Doctor(),
-                    Faculties = _context.Faculties.ToList()
+                    Faculties = _context.Faculties.OrderBy(f => f.Name).ToList()
                 };
                 return View(vm);
             }
@@ -72,7 +71,13 @@ namespace website.Controllers
                     _context.SaveChanges();
                     return RedirectToAction("Doctors","Admin");
                 }
-                return View(vm);
+                return View(
+                    new AdminDoctorNewViewModel()
+                    {
+                        Doctor = vm.Doctor,
+                        Faculties = _context.Faculties.OrderBy(f => f.Name).ToList()
+                    }
+                );
             }
 
             [HttpGet]
@@ -308,12 +313,189 @@ namespace website.Controllers
                 return RedirectToAction("Admins","Admin");
             }
             #endregion
-
-
         #endregion
 
         #region Nhóm Phòng/Khoa
+            #region Khoa
+            public IActionResult Faculties()
+            {
+                AdminFacultiesViewModel vm = new AdminFacultiesViewModel()
+                {
+                    Faculty   = new Faculty(),
+                    Faculties = _context.Faculties.OrderBy(f => f.Name).ToList(),
+                    Doctors   = _context.Doctors.ToList() 
+                };
+                return View(vm);
+            }
 
+            [HttpPost]
+            public IActionResult Faculties(AdminFacultiesViewModel vm)
+            {
+                if (ModelState.IsValid)
+                {
+                    _context.Faculties.Add(vm.Faculty);
+                    _context.SaveChanges();
+                    return RedirectToAction("Faculties","Admin");
+                }
+                else
+                {
+                    return View(
+                        new AdminFacultiesViewModel()
+                        {
+                            Faculty   = vm.Faculty,
+                            Faculties = _context.Faculties.OrderBy(f => f.Name).ToList(),
+                            Doctors   = _context.Doctors.ToList() 
+                        }
+                    );
+                }
+            }
+
+            [HttpGet]
+            public IActionResult FacultyEdit(int id)
+            {
+                Faculty edit = _context.Faculties.Where(f => f.Id == id).FirstOrDefault();
+                if (edit != null)
+                {
+                    AdminFacultiesViewModel vm = new AdminFacultiesViewModel()
+                    {
+                        Faculty = edit,
+                        Faculties = _context.Faculties.OrderBy(f => f.Name).ToList(),
+                        Doctors   = _context.Doctors.ToList() 
+                    };
+                    return View(vm);
+                }
+                else
+                {
+                    return RedirectToAction("Faculties","Admin");
+                }
+            }
+
+            [HttpPost]
+            public IActionResult FacultyEdit(AdminFacultiesViewModel vm) 
+            {
+                if (ModelState.IsValid)
+                {
+                    Faculty data = vm.Faculty;
+                    Faculty up   = _context.Faculties.Where(f => f.Id == data.Id).FirstOrDefault();
+
+                    up.Name      = data.Name;
+                    up.Fee       = data.Fee;
+
+                    _context.SaveChanges();
+                }
+                return View(
+                    new AdminFacultiesViewModel()
+                    {
+                        Faculty   = vm.Faculty,
+                        Faculties = _context.Faculties.OrderBy(f => f.Name).ToList(),
+                        Doctors   = _context.Doctors.ToList() 
+                    }
+                );
+            }
+
+            [HttpGet]
+            public IActionResult FacultyDelete(int id)
+            {
+                Faculty delete = _context.Faculties.Where(f => f.Id == id).FirstOrDefault();
+                if (delete != null)
+                {
+                    _context.Faculties.Remove(delete);
+                    _context.SaveChanges();
+                }
+                return RedirectToAction("Faculties","Admin");
+            }
+            #endregion
+
+            #region Phòng
+            public IActionResult Rooms()
+            {
+                AdminRoomsViewModel vm = new AdminRoomsViewModel()
+                {
+                    Room   = new Room(),
+                    Faculties = _context.Faculties.OrderBy(f => f.Name).ToList(),
+                    Rooms   = _context.Rooms.OrderBy(r => r.ShortCode).ToList() 
+                };
+                return View(vm);
+            }
+
+            [HttpPost]
+            public IActionResult Rooms(AdminRoomsViewModel vm)
+            {
+                if (ModelState.IsValid)
+                {
+                    _context.Rooms.Add(vm.Room);
+                    _context.SaveChanges();
+                    return RedirectToAction("Rooms","Admin");
+                }
+                else
+                {
+                    return View(
+                        new AdminRoomsViewModel()
+                        {
+                            Room   = vm.Room,
+                            Faculties = _context.Faculties.OrderBy(f => f.Name).ToList(),
+                            Rooms   = _context.Rooms.OrderBy(r => r.ShortCode).ToList() 
+                        }
+                    );
+                }
+            }
+
+            [HttpGet]
+            public IActionResult RoomEdit(int id)
+            {
+                Room edit = _context.Rooms.Where(f => f.Id == id).FirstOrDefault();
+                if (edit != null)
+                {
+                    AdminRoomsViewModel vm = new AdminRoomsViewModel()
+                    {
+                        Room = edit,
+                        Faculties = _context.Faculties.OrderBy(f => f.Name).ToList(),
+                        Rooms   = _context.Rooms.OrderBy(r => r.ShortCode).ToList() 
+                    };
+                    return View(vm);
+                }
+                else
+                {
+                    return RedirectToAction("Rooms","Admin");
+                }
+            }
+
+            [HttpPost]
+            public IActionResult RoomEdit(AdminRoomsViewModel vm) 
+            {
+                if (ModelState.IsValid)
+                {
+                    Room data     = vm.Room;
+                    Room up       = _context.Rooms.Where(f => f.Id == data.Id).FirstOrDefault();
+
+                    up.Name       = data.Name;
+                    up.ShortCode  = data.ShortCode;
+                    up.Faculty_Id = data.Faculty_Id;
+
+                    _context.SaveChanges();
+                }
+                return View(
+                    new AdminRoomsViewModel()
+                    {
+                        Room   = vm.Room,
+                        Faculties = _context.Faculties.OrderBy(f => f.Name).ToList(),
+                        Rooms   = _context.Rooms.OrderBy(r => r.ShortCode).ToList() 
+                    }
+                );
+            }
+
+            [HttpGet]
+            public IActionResult RoomDelete(int id)
+            {
+                Room delete = _context.Rooms.Where(f => f.Id == id).FirstOrDefault();
+                if (delete != null)
+                {
+                    _context.Rooms.Remove(delete);
+                    _context.SaveChanges();
+                }
+                return RedirectToAction("Rooms","Admin");
+            }
+            #endregion
         #endregion
 
     }

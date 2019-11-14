@@ -21,39 +21,41 @@
             <div class="col form-group">
                 <label asp-for="NameLast">Họ</label>
                 <input type="text" asp-for="NameLast" class="form-control"/>
+                <span asp-validation-for="NameLast" class="text-danger"></span>
             </div>
             <div class="col form-group">
                 <label asp-for="NameMiddle">Họ đệm</label>
                 <input type="text" asp-for="NameMiddle" class="form-control"/>
+                <span asp-validation-for="NameMiddle" class="text-danger"></span>
             </div>
             <div class="col form-group">
                 <label asp-for="NameFirst">Tên</label>
                 <input type="text" asp-for="NameFirst" class="form-control"/>
+                <span asp-validation-for="NameFirst" class="text-danger"></span>
             </div>
         </div>
-        
         <div class="form-group">
             <label asp-for="PhoneNumber">Số điện thoại</label>
             <input type="text" asp-for="PhoneNumber" class="form-control"/>
+            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
         </div>
-    
-    
         <div class="form-group">
             <label asp-for="Email">Email</label>
             <input type="text" asp-for="Email" class="form-control"/>
+            <span asp-validation-for="Email" class="text-danger"></span>
         </div>
-
         <div class="form-row">
             <div class="col form-group">
                 <label asp-for="Username">Tên tài khoản đăng nhập</label>
-                <input type="text" asp-for="Username" class="form-control"/>
+                <input type="text" asp-for="Username" class="form-control" readonly/>
             </div>
             <div class="col form-group">
                 <label asp-for="Password">Mật khẩu</label>
                 <input type="text" asp-for="Password" class="form-control"/>
+                <span asp-validation-for="Password" class="text-danger"></span>
             </div>
         </div>
-        
-        <button type="submit" class="button button--submit">Hoàn tất</button>
+
+        <button type="submit" class="button button--submit"><i class="fas fa-save"></i> Hoàn tất</button>
     </form>
 </div>

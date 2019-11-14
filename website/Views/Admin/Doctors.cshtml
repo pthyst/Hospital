@@ -30,7 +30,7 @@
             foreach(var doctor in Model.Doctors)
             {
                 string name = doctor.NameLast + " " + doctor.NameMiddle + " " + doctor.NameFirst;
-                string faculty = "khoa";
+                string faculty = "Chưa có khoa chỉ định";
                 foreach (var f in Model.Faculties)
                 {
                     if (f.Id == doctor.Faculty_Id){faculty = f.Name;}

@@ -24,23 +24,28 @@
                 <div class="col form-group">
                     <label asp-for="@Model.Admin.NameLast">Họ</label>
                     <input type="text" asp-for="@Model.Admin.NameLast" class="form-control"/>
+                    <span asp-validation-for="@Model.Admin.NameLast" class="text-danger"></span>
                 </div>
                 <div class="col form-group">
                     <label asp-for="@Model.Admin.NameMiddle">Họ đệm</label>
                     <input type="text" asp-for="@Model.Admin.NameMiddle" class="form-control"/>
+                    <span asp-validation-for="@Model.Admin.NameMiddle" class="text-danger"></span>
                 </div>
                 <div class="col form-group">
                     <label asp-for="@Model.Admin.NameFirst">Tên</label>
                     <input type="text" asp-for="@Model.Admin.NameFirst" class="form-control"/>
+                    <span asp-validation-for="@Model.Admin.NameFirst" class="text-danger"></span>
                 </div>
             </div>
             <div class="form-group">
                 <label asp-for="@Model.Admin.PhoneNumber">Số điện thoại</label>
                 <input type="text" asp-for="@Model.Admin.PhoneNumber" class="form-control"/>
+                <span asp-validation-for="@Model.Admin.PhoneNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="@Model.Admin.Email">Email</label>
                 <input type="text" asp-for="@Model.Admin.Email" class="form-control"/>
+                <span asp-validation-for="@Model.Admin.Email" class="text-danger"></span>
             </div>
             <div class="form-row">
                 <div class="col form-group">
@@ -50,6 +55,7 @@
                 <div class="col form-group">
                     <label asp-for="@Model.Admin.Password">Mật khẩu</label>
                     <input type="text" asp-for="@Model.Admin.Password" class="form-control"/>
+                    <span asp-validation-for="@Model.Admin.Password" class="text-danger"></span>
                 </div>
             </div>
 

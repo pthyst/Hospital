@@ -1,0 +1,74 @@
+@model website.ViewModels.AdminRoomsViewModel
+@{
+    ViewBag.Title = "Danh sách Phòng";
+    Layout = "~/Views/Admin/_AdminLayout.cshtml";
+}
+
+<!-- Các mục điều hướng -->
+<div class="row topnav">
+    <a asp-controller="Admin" asp-action="Faculties">Khoa</a>
+    <a class="active" asp-controller="Admin" asp-action="Rooms">Phòng</a>
+</div>
+
+<!-- Danh sách dữ liệu -->
+<div class="row">
+    <div class="col-8 padd0">
+    <table>
+        <tr>
+            <th>Phòng</th>
+            <th>Mã phòng</th>
+            <th>Khoa trực thuộc</th>
+        </tr>
+        
+        @foreach(var r in Model.Rooms)
+        {            
+            string faculty = "Chưa có khoa chỉ định";
+            foreach (var f in Model.Faculties)
+            {
+                if (f.Id == r.Faculty_Id){faculty = f.Name;}
+            }
+
+            <tr>
+                <td><a asp-controller="Admin" asp-action="RoomEdit" asp-route-id="@r.Id">@r.Name</a></td>
+                <td>
+                    @r.ShortCode
+                </td>
+                <td>
+                    @faculty
+                </td>
+            </tr>
+        }
+        
+    </table>
+    </div>
+    <div class="col-3">
+       
+        <form asp-controller="Admin" asp-action="Rooms" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            <div class="form-group">
+                <label asp-for="@Model.Room.Name">Tên phòng</label>
+                <input type="text" asp-for="@Model.Room.Name" class="form-control"/>
+                <span asp-validation-for="@Model.Room.Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="@Model.Room.ShortCode">Mã phòng</label>
+                <input type="text" asp-for="@Model.Room.ShortCode" class="form-control"/>
+                <span asp-validation-for="@Model.Room.ShortCode" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <select asp-for="@Model.Room.Faculty_Id" class="form-control">
+                    <option value="0">Không trực thuộc</option>
+                    @foreach(var f in Model.Faculties)
+                    {
+                        <option value="@f.Id">@f.Name</option>
+                    }
+                </select>
+            </div>
+            <button type="submit" class="button button--new">Thêm phòng</button>
+        </form>
+        
+    </div>
+</div>

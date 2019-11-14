@@ -21,26 +21,31 @@
             <div class="col form-group">
                 <label asp-for="@Model.Doctor.NameLast">Họ</label>
                 <input type="text" asp-for="@Model.Doctor.NameLast" class="form-control"/>
+                <span asp-validation-for="@Model.Doctor.NameLast" class="text-danger"></span>
             </div>
             <div class="col form-group">
                 <label asp-for="@Model.Doctor.NameMiddle">Họ đệm</label>
                 <input type="text" asp-for="@Model.Doctor.NameMiddle" class="form-control"/>
+                <span asp-validation-for="@Model.Doctor.NameMiddle" class="text-danger"></span>
             </div>
             <div class="col form-group">
                 <label asp-for="@Model.Doctor.NameFirst">Tên</label>
                 <input type="text" asp-for="@Model.Doctor.NameFirst" class="form-control"/>
+                <span asp-validation-for="@Model.Doctor.NameFirst" class="text-danger"></span>
             </div>
         </div>
         
         <div class="form-group">
             <label asp-for="@Model.Doctor.PhoneNumber">Số điện thoại</label>
             <input type="text" asp-for="@Model.Doctor.PhoneNumber" class="form-control"/>
+            <span asp-validation-for="@Model.Doctor.PhoneNumber" class="text-danger"></span>
         </div>
     
     
         <div class="form-group">
             <label asp-for="@Model.Doctor.Email">Email</label>
             <input type="text" asp-for="@Model.Doctor.Email" class="form-control"/>
+            <span asp-validation-for="@Model.Doctor.Email" class="text-danger"></span>
         </div>
         
         <div class="form-group">
@@ -61,10 +66,12 @@
             <div class="col form-group">
                 <label asp-for="@Model.Doctor.Username">Tên tài khoản đăng nhập</label>
                 <input type="text" asp-for="@Model.Doctor.Username" class="form-control"/>
+                <span asp-validation-for="@Model.Doctor.Username" class="text-danger"></span>
             </div>
             <div class="col form-group">
                 <label asp-for="@Model.Doctor.Password">Mật khẩu</label>
                 <input type="text" asp-for="@Model.Doctor.Password" class="form-control"/>
+                <span asp-validation-for="@Model.Doctor.Password" class="text-danger"></span>
             </div>
         </div>
         

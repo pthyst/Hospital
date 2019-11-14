@@ -1,6 +1,6 @@
 @model website.ViewModels.AdminFacultiesViewModel
 @{
-    ViewBag.Title = "Danh sách Khoa";
+    ViewBag.Title = "Chỉnh sửa thông tin các khoa";
     Layout = "~/Views/Admin/_AdminLayout.cshtml";
 }
 
@@ -17,25 +17,16 @@
         <tr>
             <th>Khoa</th>
             <th>Phí khám/chữa bệnh</th>
-            <th>Số bác sĩ của khoa</th>
         </tr>
         
         @foreach(var fa in Model.Faculties)
         {
             
-            int docs = 0;
-            foreach (var doc in Model.Doctors)
-            {
-                if (doc.Faculty_Id == fa.Id){docs++;}
-            }
             
             <tr>
                 <td><a asp-controller="Admin" asp-action="FacultyEdit" asp-route-id="@fa.Id">@fa.Name</a></td>
                 <td>
                     @fa.Fee
-                </td>
-                <td>
-                    @docs
                 </td>
             </tr>
         }
@@ -44,7 +35,7 @@
     </div>
     <div class="col-3">
        
-        <form asp-controller="Admin" asp-action="Faculties" method="post">
+        <form asp-controller="Admin" asp-action="FacultyEdit" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             
             <div class="form-group">
@@ -59,7 +50,9 @@
                 <span asp-validation-for="@Model.Faculty.Fee" class="text-danger"></span>
             </div>
 
-            <button type="submit" class="button button--new">Thêm khoa</button>
+            <input type="hidden" asp-for="@Model.Faculty.Id">
+            <button type="submit" class="button button--submit">Cập nhật</button>
+            <a asp-controller="Admin" asp-action="FacultyDelete" asp-route-id="@Model.Faculty.Id" class="button button--delete"><i class="fas fa-trash-alt"></i> Xóa</a>
         </form>
         
     </div>

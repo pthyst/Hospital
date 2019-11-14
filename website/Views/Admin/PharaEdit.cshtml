@@ -24,23 +24,28 @@
                 <div class="col form-group">
                     <label asp-for="@Model.Phara.NameLast">Họ</label>
                     <input type="text" asp-for="@Model.Phara.NameLast" class="form-control"/>
+                    <span asp-validation-for="@Model.Phara.NameLast" class="text-danger"></span>
                 </div>
                 <div class="col form-group">
                     <label asp-for="@Model.Phara.NameMiddle">Họ đệm</label>
                     <input type="text" asp-for="@Model.Phara.NameMiddle" class="form-control"/>
+                    <span asp-validation-for="@Model.Phara.NameMiddle" class="text-danger"></span>
                 </div>
                 <div class="col form-group">
                     <label asp-for="@Model.Phara.NameFirst">Tên</label>
                     <input type="text" asp-for="@Model.Phara.NameFirst" class="form-control"/>
+                    <span asp-validation-for="@Model.Phara.NameFirst" class="text-danger"></span>
                 </div>
             </div>
             <div class="form-group">
                 <label asp-for="@Model.Phara.PhoneNumber">Số điện thoại</label>
                 <input type="text" asp-for="@Model.Phara.PhoneNumber" class="form-control"/>
+                <span asp-validation-for="@Model.Phara.PhoneNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="@Model.Phara.Email">Email</label>
                 <input type="text" asp-for="@Model.Phara.Email" class="form-control"/>
+                <span asp-validation-for="@Model.Phara.Email" class="text-danger"></span>
             </div>
             <div class="form-row">
                 <div class="col form-group">
@@ -50,6 +55,7 @@
                 <div class="col form-group">
                     <label asp-for="@Model.Phara.Password">Mật khẩu</label>
                     <input type="text" asp-for="@Model.Phara.Password" class="form-control"/>
+                    <span asp-validation-for="@Model.Phara.Password" class="text-danger"></span>
                 </div>
             </div>
 
