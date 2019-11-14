@@ -1,0 +1,82 @@
+@model website.ViewModels.AdminPharaEditViewModel
+@{
+    ViewBag.Title = "Chỉnh sửa thông tin dược sĩ";
+    Layout = "~/Views/Admin/_AdminLayout.cshtml";
+}
+
+<!-- Các mục điều hướng -->
+<div class="row topnav">
+    <a asp-controller="Admin" asp-action="Doctors">Bác sĩ</a>
+    <a class="active" asp-controller="Admin" asp-action="Pharas">Dược sĩ</a>
+    <a asp-controller="Admin" asp-action="Admins">Quản trị</a>
+</div>
+
+<!-- Nút quay về -->
+<div class="row">
+    <a asp-controller="Admin" asp-action="Pharas" class="button button--back"><i class="fas fa-long-arrow-alt-left"></i></a><h2 class="title"> Chỉnh sửa thông tin bác sĩ</h2>
+</div>
+
+<div class="row">
+    <!-- Phần thông tin bác sĩ -->
+    <div class="col-5 padd0">
+        <form asp-controller="Admin" asp-action="PharaEdit" method="post">
+            <div class="form-row">
+                <div class="col form-group">
+                    <label asp-for="@Model.Phara.NameLast">Họ</label>
+                    <input type="text" asp-for="@Model.Phara.NameLast" class="form-control"/>
+                </div>
+                <div class="col form-group">
+                    <label asp-for="@Model.Phara.NameMiddle">Họ đệm</label>
+                    <input type="text" asp-for="@Model.Phara.NameMiddle" class="form-control"/>
+                </div>
+                <div class="col form-group">
+                    <label asp-for="@Model.Phara.NameFirst">Tên</label>
+                    <input type="text" asp-for="@Model.Phara.NameFirst" class="form-control"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Phara.PhoneNumber">Số điện thoại</label>
+                <input type="text" asp-for="@Model.Phara.PhoneNumber" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Phara.Email">Email</label>
+                <input type="text" asp-for="@Model.Phara.Email" class="form-control"/>
+            </div>
+            <div class="form-row">
+                <div class="col form-group">
+                    <label asp-for="@Model.Phara.Username">Tên tài khoản đăng nhập</label>
+                    <input type="text" asp-for="@Model.Phara.Username" class="form-control" readonly/>
+                </div>
+                <div class="col form-group">
+                    <label asp-for="@Model.Phara.Password">Mật khẩu</label>
+                    <input type="text" asp-for="@Model.Phara.Password" class="form-control"/>
+                </div>
+            </div>
+
+            <input type="hidden" asp-for="@Model.Phara.Id"/>
+
+            <button type="submit" class="button button--submit"><i class="fas fa-save"></i> Cập nhật</button>
+            <a asp-controller="Admin" asp-action="PharaDelete" asp-route-id="@Model.Phara.Id" class="button button--delete"><i class="fas fa-trash-alt"></i> Xóa</a>
+        </form>
+    </div>
+
+    <!-- Danh sách dữ liệu -->
+    <div class="col-5 offset-1 padd0">
+        <table>
+        <tr>
+            <th>Họ và tên</th>
+            <th>SĐT</th>
+        </tr>
+            @foreach(var phara in Model.Pharas)
+            {
+                string name = phara.NameLast + " " + phara.NameMiddle + " " + phara.NameFirst;
+              
+                <tr>
+                    <td><a asp-controller="Admin" asp-action="PharaEdit" asp-route-id="@phara.Id">@name</a></td>
+                    <td>@phara.PhoneNumber</td>
+                </tr>
+            }
+        </table>
+    </div>
+    
+</div>

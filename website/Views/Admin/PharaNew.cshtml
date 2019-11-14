@@ -1,0 +1,59 @@
+@model website.Models.Pharamacist
+@{
+    Layout = "~/Views/Admin/_AdminLayout.cshtml";
+    ViewBag.Title = "Thêm dược sĩ";
+}
+<!-- Các mục điều hướng -->
+<div class="row topnav">
+    <a asp-controller="Admin" asp-action="Doctors">Bác sĩ</a>
+    <a class="active" asp-controller="Admin" asp-action="Pharas">Dược sĩ</a>
+    <a asp-controller="Admin" asp-action="Admins">Quản trị</a>
+</div>
+
+<!-- Nút quay về -->
+<div class="row">
+    <a asp-controller="Admin" asp-action="Pharas" class="button button--back"><i class="fas fa-long-arrow-alt-left"></i></a><h2 class="title"> Thêm bác sĩ mới</h2>
+</div>
+
+<div class="row">
+    <form asp-controller="Admin" asp-action="PharaNew" method="post">
+        <div class="form-row">
+            <div class="col form-group">
+                <label asp-for="NameLast">Họ</label>
+                <input type="text" asp-for="NameLast" class="form-control"/>
+            </div>
+            <div class="col form-group">
+                <label asp-for="NameMiddle">Họ đệm</label>
+                <input type="text" asp-for="NameMiddle" class="form-control"/>
+            </div>
+            <div class="col form-group">
+                <label asp-for="NameFirst">Tên</label>
+                <input type="text" asp-for="NameFirst" class="form-control"/>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label asp-for="PhoneNumber">Số điện thoại</label>
+            <input type="text" asp-for="PhoneNumber" class="form-control"/>
+        </div>
+    
+    
+        <div class="form-group">
+            <label asp-for="Email">Email</label>
+            <input type="text" asp-for="Email" class="form-control"/>
+        </div>
+
+        <div class="form-row">
+            <div class="col form-group">
+                <label asp-for="Username">Tên tài khoản đăng nhập</label>
+                <input type="text" asp-for="Username" class="form-control"/>
+            </div>
+            <div class="col form-group">
+                <label asp-for="Password">Mật khẩu</label>
+                <input type="text" asp-for="Password" class="form-control"/>
+            </div>
+        </div>
+        
+        <button type="submit" class="button button--submit">Hoàn tất</button>
+    </form>
+</div>

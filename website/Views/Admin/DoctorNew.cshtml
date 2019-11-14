@@ -3,6 +3,12 @@
     Layout = "~/Views/Admin/_AdminLayout.cshtml";
     ViewBag.Title = "Thêm bác sĩ";
 }
+<!-- Các mục điều hướng -->
+<div class="row topnav">
+    <a class="active" asp-controller="Admin" asp-action="Doctors">Bác sĩ</a>
+    <a asp-controller="Admin" asp-action="Pharas">Dược sĩ</a>
+    <a asp-controller="Admin" asp-action="Admins">Quản trị</a>
+</div>
 
 <!-- Nút quay về -->
 <div class="row">
@@ -10,7 +16,7 @@
 </div>
 
 <div class="row">
-    <form asp-controller="Admin" asp-action="DoctorCreate" method="post">
+    <form asp-controller="Admin" asp-action="DoctorNew" method="post">
         <div class="form-row">
             <div class="col form-group">
                 <label asp-for="@Model.Doctor.NameLast">Họ</label>
