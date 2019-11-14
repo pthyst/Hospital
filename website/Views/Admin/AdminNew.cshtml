@@ -1,4 +1,4 @@
-@model website.Models.Pharamacist
+@model website.Models.Admin
 @{
     Layout = "~/Views/Admin/_AdminLayout.cshtml";
     ViewBag.Title = "Thêm dược sĩ";
@@ -6,17 +6,17 @@
 <!-- Các mục điều hướng -->
 <div class="row topnav">
     <a asp-controller="Admin" asp-action="Doctors">Bác sĩ</a>
-    <a class="active" asp-controller="Admin" asp-action="Pharas">Dược sĩ</a>
-    <a asp-controller="Admin" asp-action="Admins">Quản trị</a>
+    <a asp-controller="Admin" asp-action="Pharas">Dược sĩ</a>
+    <a class="active" asp-controller="Admin" asp-action="Admins">Quản trị</a>
 </div>
 
 <!-- Nút quay về -->
 <div class="row">
-    <a asp-controller="Admin" asp-action="Pharas" class="button button--back"><i class="fas fa-long-arrow-alt-left"></i></a><h2 class="title"> Thêm dược sĩ mới</h2>
+    <a asp-controller="Admin" asp-action="Admins" class="button button--back"><i class="fas fa-long-arrow-alt-left"></i></a><h2 class="title"> Thêm quản trị viên mới</h2>
 </div>
 
 <div class="row">
-    <form asp-controller="Admin" asp-action="PharaNew" method="post">
+    <form asp-controller="Admin" asp-action="AdminNew" method="post">
         <div class="form-row">
             <div class="col form-group">
                 <label asp-for="NameLast">Họ</label>

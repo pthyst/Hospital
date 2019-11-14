@@ -211,9 +211,104 @@ namespace website.Controllers
                     _context.Pharamacists.Remove(delete);
                     _context.SaveChanges();
                 }
-                return RedirectToAction("Pharamacists","Admin");
+                return RedirectToAction("Pharas","Admin");
             }
             #endregion
+
+            #region Quản trị viên
+            public IActionResult Admins()
+            {   
+                AdminAdminsViewModel vm = new AdminAdminsViewModel()
+                {
+                    Admins = _context.Admins.OrderByDescending(a => a.NameLast).ToList()
+                };
+                return View(vm);
+            }
+
+            public IActionResult AdminNew()
+            {
+                return View(new Admin());
+            }
+
+            [HttpPost]
+            public IActionResult AdminNew(Admin m)
+            {
+                if (ModelState.IsValid)
+                {
+                    m.Role_Id = 4; // Role_Id của quản trị viên cố định là 4
+                    _context.Admins.Add(m);
+                    _context.SaveChanges();
+                    return RedirectToAction("Admins","Admin");
+                }
+                else
+                {
+                    return View(m);
+                }
+            }
+
+            [HttpGet]
+            public IActionResult AdminEdit(int id)
+            {
+                Admin edit = _context.Admins.Where(a => a.Id == id).FirstOrDefault();
+                if (edit != null)
+                {
+                    AdminAdminEditViewModel vm = new AdminAdminEditViewModel()
+                    {
+                        Admin  = edit,
+                        Admins = _context.Admins.OrderByDescending(a => a.NameLast).ToList()
+                    };
+                    return View(vm);
+                }
+                else
+                {
+                    return RedirectToAction("Admins","Admin");
+                }
+
+            }
+
+            [HttpPost]
+            public IActionResult AdminEdit(AdminAdminEditViewModel vm)
+            {
+                if (ModelState.IsValid)
+                {
+                    Admin data       = vm.Admin;
+                    Admin up         = _context.Admins.Where(a => a.Id == data.Id).FirstOrDefault();
+
+                    up.NameFirst     = data.NameFirst;
+                    up.NameMiddle    = data.NameMiddle;
+                    up.NameLast      = data.NameLast;
+                    up.Password      = data.Password;
+                    up.Email         = data.Email;
+                    up.PhoneNumber   = data.PhoneNumber;
+
+                    _context.SaveChanges();
+                    return RedirectToAction("Admins","Admin");
+                }
+                else
+                {
+                    return View(
+                        new AdminAdminEditViewModel()
+                        {
+                            Admin = vm.Admin,
+                            Admins = _context.Admins.OrderByDescending(a => a.NameLast).ToList()
+                        }
+                    );
+                }
+            }
+
+            [HttpGet]
+            public IActionResult AdminDelete(int id)
+            {
+                Admin delete = _context.Admins.Where(a => a.Id == id).FirstOrDefault();
+                if (delete != null)
+                {
+                    _context.Admins.Remove(delete);
+                    _context.SaveChanges();
+                }
+                return RedirectToAction("Admins","Admin");
+            }
+            #endregion
+
 
         #endregion
 
