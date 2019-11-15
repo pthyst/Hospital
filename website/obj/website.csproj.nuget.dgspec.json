@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "H:\\Hospital\\website\\website.csproj": {}
+    "G:\\Hospital\\website\\website.csproj": {}
   },
   "projects": {
-    "H:\\Hospital\\website\\website.csproj": {
+    "G:\\Hospital\\website\\website.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "H:\\Hospital\\website\\website.csproj",
+        "projectUniqueName": "G:\\Hospital\\website\\website.csproj",
         "projectName": "website",
-        "projectPath": "H:\\Hospital\\website\\website.csproj",
-        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "H:\\Hospital\\website\\obj\\",
+        "projectPath": "G:\\Hospital\\website\\website.csproj",
+        "packagesPath": "C:\\Users\\SONY\\.nuget\\packages\\",
+        "outputPath": "G:\\Hospital\\website\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\SONY\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
