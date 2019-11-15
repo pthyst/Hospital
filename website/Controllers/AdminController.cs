@@ -219,7 +219,6 @@ namespace website.Controllers
                 return RedirectToAction("Pharas","Admin");
             }
             #endregion
-
             #region Quản trị viên
             public IActionResult Admins()
             {   
@@ -314,7 +313,6 @@ namespace website.Controllers
             }
             #endregion
         #endregion
-
         #region Nhóm Phòng/Khoa
             #region Khoa
             public IActionResult Faculties()
@@ -405,7 +403,6 @@ namespace website.Controllers
                 return RedirectToAction("Faculties","Admin");
             }
             #endregion
-
             #region Phòng
             public IActionResult Rooms()
             {
@@ -497,6 +494,124 @@ namespace website.Controllers
             }
             #endregion
         #endregion
+        #region Nhóm thuốc
+            #region Thuốc
+            public IActionResult Medicines()
+            {
+                AdminMedicinesViewModel vm = new AdminMedicinesViewModel()
+                {
+                    Medicines     = _context.Medicines.OrderBy(m => m.Name).ToList(),
+                    MedicineUnits = _context.MedicineUnits.ToList()
+                };
+                return View(vm);
+            }
 
+            public IActionResult MedicineNew()
+            {
+                AdminMedicineNewViewModel vm = new AdminMedicineNewViewModel()
+                {
+                    Medicine      = new Medicine(),
+                    MedicineUnits = _context.MedicineUnits.OrderBy(u => u.Unit).ToList()
+                };
+                return View(vm);
+            }
+
+            [HttpPost]
+            public IActionResult MedicineNew(AdminMedicineNewViewModel vm)
+            {
+                if (ModelState.IsValid)
+                {
+                    string rename = DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Day.ToString() + DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString() + DateTime.Now.Second.ToString() + Path.GetExtension(vm.Thumbnail.FileName);
+                    
+                    if (vm.Thumbnail != null)
+                    {            
+                        string newpath    = Path.Combine(Directory.GetCurrentDirectory(),"wwwroot","uploads", rename); // Trỏ đường dẫn đến thư mục wwwroot/uploads/file mới
+                        vm.Thumbnail.CopyTo(new FileStream(newpath,FileMode.Create)); // Copy hình từ nguồn sang wwwroot/uploads/file mới
+                        vm.Medicine.Thumbnail = rename;
+                    }
+
+                    _context.Medicines.Add(vm.Medicine);
+                    _context.SaveChanges();
+                    return RedirectToAction("Medicines","Admin");
+                }
+                else
+                {
+                    return View(
+                        new AdminMedicineNewViewModel()
+                        {
+                            Medicine      = vm.Medicine,
+                            MedicineUnits = _context.MedicineUnits.OrderBy(u => u.Unit).ToList()
+                        }
+                    );
+                }
+            }
+
+            [HttpGet]
+            public IActionResult MedicineEdit(int id)
+            {
+                Medicine edit = _context.Medicines.Where(m => m.Id == id).FirstOrDefault();
+                if (edit != null)
+                {
+                    AdminMedicineEditViewModel vm = new AdminMedicineEditViewModel()
+                    {
+                        Medicine      = edit,
+                        MedicineUnits = _context.MedicineUnits.OrderBy(u => u.Unit).ToList(),
+                        Medicines     = _context.Medicines.OrderBy(m => m.Name).ToList()
+                    };
+                    return View(vm);
+                }
+                else
+                {
+                    return RedirectToAction("Medicines","Admin");
+                }
+            }
+
+            [HttpPost]
+            public IActionResult MedicineEdit(AdminMedicineEditViewModel vm)
+            {
+                if (ModelState.IsValid)
+                {
+                    Medicine data      = vm.Medicine;
+                    Medicine up        = _context.Medicines.Where(m => m.Id == data.Id).FirstOrDefault();
+
+                    up.Name            = data.Name;
+                    up.Price           = data.Price;
+                    up.Instore         = data.Instore;
+                    up.Thumbnail       = data.Thumbnail;
+                    up.MedicineUnit_Id = data.MedicineUnit_Id; 
+
+                    _context.SaveChanges();
+                }
+                return View(
+                    new AdminMedicineEditViewModel()
+                    {
+                        Medicine      = vm.Medicine,
+                        Medicines     = _context.Medicines.OrderBy(m => m.Name).ToList(),
+                        MedicineUnits = _context.MedicineUnits.OrderBy(u => u.Unit).ToList()
+                    }
+                );
+            }
+
+            [HttpGet]
+            public IActionResult MedicineDelete(int id)
+            {
+                Medicine delete = _context.Medicines.Where(m => m.Id == id).FirstOrDefault();
+                if (delete != null)
+                {
+                    // Xóa hình ảnh đại diện trong thư mục wwwroot/uploads
+                    string path_delete = Path.Combine(Directory.GetCurrentDirectory(),"wwwroot","uploads",delete.Thumbnail);
+                    // Phải sử dụng System.IO thì mới xài được File
+
+                    if (System.IO.File.Exists(path_delete))
+                    {
+                        System.IO.File.Delete(path_delete);
+                    }
+                    _context.Medicines.Remove(delete);
+                    _context.SaveChanges();
+                }
+                return RedirectToAction("Medicines","Admin");
+            }
+            #endregion
+        #endregion
     }
 }

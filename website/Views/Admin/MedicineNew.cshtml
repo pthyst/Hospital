@@ -1,0 +1,65 @@
+@model website.ViewModels.AdminMedicineNewViewModel
+@using Microsoft.AspNetCore.Http;
+@using website.Controllers;
+@{
+    Layout = "~/Views/Admin/_AdminLayout.cshtml";
+    ViewBag.Title = "Thêm thuốc";
+}
+<!-- Các mục điều hướng -->
+<div class="row topnav">
+    <a class="active" asp-controller="Admin" asp-action="Medicines">Thuốc</a>
+    <a asp-controller="Admin" asp-action="MedicineUnits">Đơn vị thuốc</a>
+</div>
+
+<!-- Nút quay về -->
+<div class="row">
+    <a asp-controller="Admin" asp-action="Medicines" class="button button--back"><i class="fas fa-long-arrow-alt-left"></i></a><h2 class="title"> Thêm thuốc mới</h2>
+</div>
+
+<div class="row">
+    <form asp-controller="Admin" asp-action="MedicineNew" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label asp-for="@Model.Medicine.Name">Tên thuốc</label>
+            <input type="text" asp-for="@Model.Medicine.Name" class="form-control"/>
+            <span asp-validation-for="@Model.Medicine.Name" class="text-danger"></span>
+        </div>
+        <div class="form-row">
+            <div class="col form-group">
+                <label asp-for="@Model.Medicine.Price">Đơn giá</label>
+                <input type="text" asp-for="@Model.Medicine.Price" class="form-control"/>
+                <span asp-validation-for="@Model.Medicine.Price" class="text-danger"></span>
+            </div>
+            <div class="col form-group">
+                <label asp-for="@Model.Medicine.Instore">Số lượng còn lại</label>
+                <input type="text" asp-for="@Model.Medicine.Instore" class="form-control"/>
+                <span asp-validation-for="@Model.Medicine.Instore" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <select asp-for="@Model.Medicine.MedicineUnit_Id" class="form-control">
+                @foreach(var unit in Model.MedicineUnits)
+                {
+                    <option value="@unit.Id">
+                        @unit.Unit
+                    </option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <div class="custom-file">
+                <input asp-for="@Model.Thumbnail" type="file" class="custom-file-input form-control" />
+                <label class="custom-file-label" asp-for="@Model.Thumbnail">Ảnh đại diện cho thuốc</label>
+                <script>
+                    // Hiển thị tên file đang được chọn
+                    $(".custom-file-input").on("change", function () {
+                        var fileName = $(this).val().split("\\").pop();
+                        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+                    });
+                </script>
+            </div>
+        </div>
+
+        <input type="hidden" asp-for="@Model.Medicine.Admin_Id" value="0">
+        <button type="submit" class="button button--submit">Hoàn tất</button>
+    </form>
+</div>
