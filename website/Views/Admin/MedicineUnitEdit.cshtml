@@ -1,0 +1,49 @@
+    @model website.ViewModels.AdminMedicineUnitsViewModel
+@{
+    ViewBag.Title = "Đơn vị thuốc của hệ thống";
+    Layout = "~/Views/Admin/_AdminLayout.cshtml";
+}
+
+<!-- Các mục điều hướng -->
+<div class="row topnav">
+    <a asp-controller="Admin" asp-action="Medicines">Thuốc</a>
+    <a class="active" asp-controller="Admin" asp-action="MedicineUnits">Đơn vị thuốc</a>
+</div>
+
+<!-- Nút quay về -->
+<div class="row">
+    <a asp-controller="Admin" asp-action="MedicineUnits" class="button button--back"><i class="fas fa-long-arrow-alt-left"></i></a><h2 class="title"> Đơn vị thuốc</h2>
+</div>
+
+<!-- Danh sách dữ liệu -->
+<div class="row">
+    <div class="col-7">
+        <form asp-controller="Admin" asp-action="MedicineUnitEdit" method="post">
+            <div class="form-group">
+                <label asp-for="@Model.MedicineUnit.Unit">Đơn vị</label>
+                <input type="text" asp-for="@Model.MedicineUnit.Unit" class="form-control"> 
+            </div>
+            
+            <input type="hidden" asp-for="@Model.MedicineUnit.Id">
+            <button type="submit" class="button button--submit">Cập nhật</button>
+            <a class="button button--delete" asp-controller="Admin" asp-action="MedicineUnitDelete" asp-route-id="@Model.MedicineUnit.Id"><i class="fas fa-trash-alt"></i> Xóa</a>
+        </form>
+    </div>
+    <div class="col-4">
+        <table>
+        <tr>
+            <th>Đơn vị</th>
+        </tr>
+        @foreach(var unit in Model.MedicineUnits)
+        {
+            <tr>
+                <td>
+                    <a asp-controller="Admin" asp-action="MedicineUnitEdit" asp-route-id="@unit.Id">
+                    @unit.Unit
+                    </a>
+                </td>
+            </tr>
+        }
+    </table>
+    </div>
+</div>
