@@ -726,5 +726,185 @@ namespace website.Controllers
             }
             #endregion
         #endregion
+        #region Nhóm bệnh nhân
+            #region Bệnh nhân
+            public IActionResult Patients()
+            {
+                AdminPatientsViewModel vm = new AdminPatientsViewModel()
+                {
+                    Patients = _context.Patients.OrderBy(p => p.NameLast && p.NameMiddle && p.NameFirst).ToList()
+                };
+                return View(vm);
+            }
+
+            public IActionResult PatientNew()
+            {
+                AdminPatientNewViewModel vm = new AdminPatientNewViewModel()
+                {
+                    Patient = new Patient(),
+                    InsuranceTypes = _context.InsuranceTypes.OrderBy(i => i.Type).ToList()
+                };
+                return View(vm);
+            }
+
+            [HttpPost]
+            public IActionResult PatientNew(AdminPatientNewViewModel vm)
+            {
+                if (ModelState.IsValid)
+                {
+                    Patient data = vm.Patient;
+
+                    // Tạo thẻ bhyt mới nếu có đăng kí bhyt
+                    if (vm.InsuranceType_Id != 0)
+                    {
+                        Insurance nin = new Insurannce()
+                        {
+                            nin.NameFirst           = data.NameFirst,
+                            nin.NameMiddle          = data.NameMiddle,
+                            nin.NameLast            = data.NameLast,
+                            nin.DateBirth           = data.DateBirth,
+                            nin.Gender              = data.Gender,
+                            nin.AddressApartment    = data.AddressApartment,
+                            nin.AddressStreet       = data.AddressStreet,
+                            nin.AddressDistrict     = data.AddressDistrict,
+                            nin.AddressCity         = data.AddressCity,
+                            nin.PhoneNumberPersonal = data.PhoneNumber,
+                            nin.PhoneNumberHome     = data.PhoneNumber,
+                            nin.InsuranceType_Id    = vm.InsuranceType_Id
+                        };
+                        _context.Insurannces.Add(nin);
+                        _context.SaveChanges();
+
+                        // Lấy Id của cái bhyt vừa mới tạo
+                        Insurance oin = _context.Insurances.Where(i => 
+                            i.NameFirst == data.NameFirst && i.NameMiddle == data.NameMiddle && i.NameLast == data.NameLast
+                            && i.DateBirth == data.DateBirth && i.Gender == data.Gender 
+                        ).FirstOrDefault();
+                        data.Insurance_Id = oin.Id;
+                    }
+                    else
+                    {
+                        data.Insurance_Id = 0;
+                    }
+
+                    // Lưu thông tin bệnh nhân
+                    data.Role_Id = 1; // Bệnh nhân có Role_Id mặc định là 1
+                    _context.Patients.Add(data);
+                    _context.SaveChanges();
+                    return RedirectToAction("Patients","Admin");
+                }
+                else
+                {
+                    return View(
+                        new AdminPatientNewViewModel()
+                        {
+                            Patient = vm.Patient,
+                            InsuranceTypes = _context.InsuranceTypes.OrderBy(i => i.Type).ToList()
+                        }
+                    );
+                }
+            }
+
+            [HttpGet]
+            public IActionResult PatientEdit(int id)
+            {
+                Patient edit = _context.Patients.Where(p => p.Id == id).FirstOrDefault();
+                if (edit != null)
+                {
+                    AdminPatientEditViewModel vm = new AdminPatientEditViewModel()
+                    {
+                        Patient  = edit,
+                        Patients = _context.Patients.OrderBy(p => p.NameLast && p.NameMiddle && p.NameFirst).ToList()
+                    };
+                    return View(vm);
+                }
+                else
+                {
+                    return RedirectToAction("Patients","Admin");
+                }
+            }
+
+            [HttpPost]
+            public IActionResult PatientEdit(AdminPatientEditViewModel vm)
+            {
+                if (ModelState.IsValid)
+                {
+                    Patient data = vm.Patient;
+                    Patient up   = _context.Patients.Where(p => p.Id == data.Id).FirstOrDefault();
+
+                    up.NameFirst           = data.NameFirst;
+                    up.NameMiddle          = data.NameMiddle;
+                    up.NameLast            = data.NameLast;
+                    up.DateBirth           = data.DateBirth;
+                    up.Gender              = data.Gender;
+                    up.AddressApartment    = data.AddressApartment;
+                    up.AddressStreet       = data.AddressStreet;
+                    up.AddressDistrict     = data.AddressDistrict;
+                    up.AddressCity         = data.AddressCity;
+                    up.PhoneNumber         = data.PhoneNumber;
+                    up.Weight              = data.Weight;
+                    up.Height              = data.Height;
+                    up.Blood_Type          = data.Blood_Type;
+                    up.Rh                  = data.Rh;
+                    up.BMP                 = data.BMP;
+
+                    _context.SaveChanges();
+
+                    // Thay đổi thông tin trên thẻ bhyt
+                    if (data.Insurance_Id != 0)
+                    {
+                        Insurance uin = _context.Insurances.Where(i => i.Id == data.Insurance_Id).FirstOrDefault();
+                        if (uin != null)
+                        {
+                            uin.NameFirst           = data.NameFirst;
+                            uin.NameMiddle          = data.NameMiddle;
+                            uin.NameLast            = data.NameLast;
+                            uin.DateBirth           = data.DateBirth;
+                            uin.Gender              = data.Gender;
+                            uin.AddressApartment    = data.AddressApartment;
+                            uin.AddressStreet       = data.AddressStreet;
+                            uin.AddressDistrict     = data.AddressDistrict;
+                            uin.AddressCity         = data.AddressCity;
+                            uin.PhoneNumberPersonal = data.PhoneNumber;
+                            uin.PhoneNumberHome     = data.PhoneNumber;
+                            _context.SaveChanges();
+                        }
+                    }
+                } 
+                return View(
+                    new AdminPatientEditViewModel()
+                    {
+                        Patient  = vm.Patient,
+                        Patients = _context.Patients.OrderBy(p => p.NameLast && p.NameMiddle && p.NameFirst).ToList()
+                    }
+                ); 
+            }
+
+            [HttpGet]
+            public IActionResult PatientDelete(int id)
+            {
+                Patient delete = _context.Patients.Where(p => p.Id == id).FirstOrDefault();
+
+                if (delete != null)
+                {
+                    // Xóa thẻ bhyt kèm theo
+                    if (delete.Insurance_Id != 0)
+                    {
+                        Insurance delin = _context.Insurances.Where(i => i.Id == delete.Insurance_Id).FirstOrDefault();
+                        if (delin != null)
+                        {
+                            _context.Insurances.Remove(delin);
+                            _context.SaveChanges();
+                        }
+                    }
+
+                    _context.Patients.Remove(delete);
+                    _context.SaveChanges();
+                }
+
+                return RedirectToAction("Patients","Admin");
+            }
+            #endregion
+        #endregion
     }
 }
