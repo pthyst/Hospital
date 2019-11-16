@@ -639,6 +639,92 @@ namespace website.Controllers
                 return RedirectToAction("Medicines","Admin");
             }
             #endregion
+            #region Đơn vị thuốc
+            public IActionResult MedicineUnits()
+            {
+                AdminMedicineUnitsViewModel vm = new AdminMedicineUnitsViewModel()
+                {
+                    MedicineUnits = _context.MedicineUnits.ToList(),
+                    MedicineUnit = new MedicineUnit()
+                };
+                return View(vm);
+            }
+            
+            [HttpPost]
+            public IActionResult MedicineUnits(AdminMedicineUnitsViewModel vm)
+            {
+                if (ModelState.IsValid)
+                {
+                    _context.MedicineUnits.Add(vm.MedicineUnit);
+                    _context.SaveChanges();
+                }
+                
+                return View(
+                    new AdminMedicineUnitsViewModel()
+                    {
+                        MedicineUnits = _context.MedicineUnits.OrderBy(m => m.Unit).ToList(),
+                        MedicineUnit = new MedicineUnit()
+                    }
+                );
+                
+            }
+
+            [HttpGet]
+            public IActionResult MedicineUnitEdit(int id)
+            {
+                MedicineUnit edit = _context.MedicineUnits.Where(m => m.Id == id).FirstOrDefault();
+
+                if (edit != null)
+                {
+                    AdminMedicineUnitsViewModel vm = new AdminMedicineUnitsViewModel()
+                    {
+                        MedicineUnit  = edit,
+                        MedicineUnits = _context.MedicineUnits.OrderBy(m => m.Unit).ToList()
+                    };
+                    return View(vm);
+                }
+                else
+                {
+                    return RedirectToAction("MedicineUnits","Admin");
+                }
+            }
+
+            [HttpPost]
+            public IActionResult MedicineUnitEdit(AdminMedicineUnitsViewModel vm)
+            {
+                if (ModelState.IsValid)
+                {
+                    MedicineUnit data = vm.MedicineUnit;
+                    MedicineUnit up   = _context.MedicineUnits.Where(m => m.Id == vm.MedicineUnit.Id).FirstOrDefault();
+
+                    up.Unit = data.Unit;
+                    _context.SaveChanges();
+
+            
+                }
+                return View(
+                    new AdminMedicineUnitsViewModel()
+                    {
+                        MedicineUnit  = vm.MedicineUnit,
+                        MedicineUnits  = _context.MedicineUnits.OrderBy(m => m.Unit).ToList()
+                    }
+                );
+            }
+
+            [HttpGet]
+            public IActionResult MedicineUnitDelete(int id)
+            {
+                MedicineUnit delete = _context.MedicineUnits.Where(m => m.Id == id).FirstOrDefault();
+
+                if (delete != null)
+                {
+                    _context.MedicineUnits.Remove(delete);
+                    _context.SaveChanges();
+                }
+
+                return RedirectToAction("MedicineUnits","Admin");
+            }
+            #endregion
         #endregion
     }
 }
