@@ -8,10 +8,12 @@ using website.Data;
 using website.ViewModels;
 using website.Helper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication;
+using System.Security.Claims;
 
 namespace website.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class DoctorController : Controller
     {
         private readonly WebsiteDbContext _context;
@@ -24,21 +26,39 @@ namespace website.Controllers
         {
             return View();
         }
+        [AllowAnonymous]
         public IActionResult Login()
         {
             return View();
         }
+
         [HttpPost]
         [AllowAnonymous]
-        public IActionResult Login(DoctorLoginViewModel model)
+        public async Task<IActionResult> Login(DoctorLoginViewModel model)
         {
-            var dr = _context.Doctors.SingleOrDefault(p => p.Username == model.Username && p.Password == model.Password);
+            var dr = _context.Doctors.Where(p => p.Username == model.Username && p.Password == model.Password).FirstOrDefault();
             if (dr != null)
             {
                 HttpContext.Session.Set("doctor", dr);
-                return RedirectToAction("Index");
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, dr.NameFirst),
+                    new Claim(ClaimTypes.Role, "doctor")
+                };
+
+                ClaimsIdentity userIdentity = new ClaimsIdentity(claims, "login");
+                ClaimsPrincipal principal = new ClaimsPrincipal(userIdentity);
+                await HttpContext.SignInAsync(principal);
+                return RedirectToAction("Index","Doctor");
             }
             return View();
         }
+        public async Task<IActionResult> Logout()
+        {
+            HttpContext.Session.Remove("doctor");
+            await HttpContext.SignOutAsync();
+            return View("Login");
+        }
+
     }
 }

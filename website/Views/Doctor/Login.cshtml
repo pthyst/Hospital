@@ -4,21 +4,21 @@
     Layout = "~/Views/Victim/_VictimLayout.cshtml";
 }
 <link href="~/css/Doctor/DoctorLogin.css" rel="stylesheet" />
-<form class="login-form" action="javascript:void(0);">
+<form class="login-form" method="post" asp-controller="Doctor" asp-action="Login">
     <h1>Login</h1>
 
     <div class="form-field">
         <label for="username">Username</label>
         
         <i class="fas fa-user"></i>
-        <input type="text" name="username" id="username" class="form-field" pattern="^[a-zA-Z0-9_-]{1,16}$" placeholder=" " required>
+        <input type="text" asp-for="@Model.Username" class="form-field" pattern="^[a-zA-Z0-9_-]{1,16}$" placeholder=" " >
 
     </div>
 
     <div class="form-field">
         <label for="password">Password</label>
         <i class="fas fa-lock"></i>
-        <input type="password" name="password" id="password" class="form-field" placeholder=" " required>
+        <input type="password" asp-for="@Model.Password" class="form-field" placeholder=" " >
     </div>
-    <button type="submit" value="Login" class="btn">Login</button>
+    <button type="submit" class="btn">Login</button>
 </form>
