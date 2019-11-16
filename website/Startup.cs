@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using website.Data;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace website
 {
@@ -38,7 +39,13 @@ namespace website
                 p.IdleTimeout = TimeSpan.FromMinutes(1);
             });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(opt =>
+                {
+                    opt.LoginPath = "/Doctor/Login";
+                    opt.AccessDeniedPath = "/Home/AccessDenied";
+                    opt.LogoutPath = "/Doctor/Logout";
+                });
             services.AddDbContext<WebsiteDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
         
         }
@@ -60,7 +67,7 @@ namespace website
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
+            app.UseAuthentication();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
