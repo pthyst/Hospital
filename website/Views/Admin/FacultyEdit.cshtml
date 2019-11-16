@@ -1,0 +1,59 @@
+@model website.ViewModels.AdminFacultiesViewModel
+@{
+    ViewBag.Title = "Chỉnh sửa thông tin các khoa";
+    Layout = "~/Views/Admin/_AdminLayout.cshtml";
+}
+
+<!-- Các mục điều hướng -->
+<div class="row topnav">
+    <a class="active" asp-controller="Admin" asp-action="Faculties">Khoa</a>
+    <a asp-controller="Admin" asp-action="Rooms">Phòng</a>
+</div>
+
+<!-- Danh sách dữ liệu -->
+<div class="row">
+    <div class="col-8 padd0">
+    <table>
+        <tr>
+            <th>Khoa</th>
+            <th>Phí khám/chữa bệnh</th>
+        </tr>
+        
+        @foreach(var fa in Model.Faculties)
+        {
+            
+            
+            <tr>
+                <td><a asp-controller="Admin" asp-action="FacultyEdit" asp-route-id="@fa.Id">@fa.Name</a></td>
+                <td>
+                    @fa.Fee
+                </td>
+            </tr>
+        }
+        
+    </table>
+    </div>
+    <div class="col-3">
+       
+        <form asp-controller="Admin" asp-action="FacultyEdit" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            <div class="form-group">
+                <label asp-for="@Model.Faculty.Name">Tên Khoa</label>
+                <input type="text" asp-for="@Model.Faculty.Name" class="form-control"/>
+                <span asp-validation-for="@Model.Faculty.Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="@Model.Faculty.Fee">Phí khám chữa bệnh</label>
+                <input type="number" asp-for="@Model.Faculty.Fee" class="form-control" min="10000" step="5000"/>
+                <span asp-validation-for="@Model.Faculty.Fee" class="text-danger"></span>
+            </div>
+
+            <input type="hidden" asp-for="@Model.Faculty.Id">
+            <button type="submit" class="button button--submit">Cập nhật</button>
+            <a asp-controller="Admin" asp-action="FacultyDelete" asp-route-id="@Model.Faculty.Id" class="button button--delete"><i class="fas fa-trash-alt"></i> Xóa</a>
+        </form>
+        
+    </div>
+</div>

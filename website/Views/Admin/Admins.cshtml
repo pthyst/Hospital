@@ -1,0 +1,41 @@
+@model website.ViewModels.AdminAdminsViewModel
+@{
+    ViewBag.Title = "Danh sách Quản trị viên của hệ thống";
+    Layout = "~/Views/Admin/_AdminLayout.cshtml";
+}
+
+<!-- Các mục điều hướng -->
+<div class="row topnav">
+    <a asp-controller="Admin" asp-action="Doctors">Bác sĩ</a>
+    <a asp-controller="Admin" asp-action="Pharas">Dược sĩ</a>
+    <a class="active" asp-controller="Admin" asp-action="Admins">Quản trị</a>
+</div>
+
+<!-- Nút thêm mới -->
+<div class="row">
+    <a class="button button--new" asp-controller="Admin" asp-action="AdminNew"><i class="fas fa-plus"></i> Thêm mới</a>
+</div>
+
+<!-- Danh sách dữ liệu -->
+<div class="row">
+    <table>
+        <tr>
+            <th>Họ và tên</th>
+            <th>SĐT</th>
+            <th>Email</th>
+            <th></th>
+        </tr>
+        @{
+            foreach(var ad in Model.Admins)
+            {
+                string name = ad.NameLast + " " + ad.NameMiddle + " " + ad.NameFirst;
+                <tr>
+                    <td><a asp-controller="Admin" asp-action="AdminEdit" asp-route-id="@ad.Id">@name</a></td>
+                    <td>@ad.PhoneNumber</td>
+                    <td>@ad.Email</td>
+                    <td><a asp-controller="Admin" asp-action="AdminDelete" asp-route-id="@ad.Id"><i class="fas fa-trash-alt"></i> Xóa</a></td>
+                </tr>
+            }
+        }
+    </table>
+</div>

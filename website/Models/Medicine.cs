@@ -29,6 +29,7 @@ namespace website.Models
         [Required(ErrorMessage = "Số lượng trong kho không được để trống.")]
         [Display(Name = "Số lượng trong kho")]
         public int Instore { get; set; } = 0;
+        
         public string Thumbnail { get; set; } = "#";
 
         [DataType(DataType.DateTime)]

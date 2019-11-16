@@ -7,7 +7,7 @@
 <!-- Các mục điều hướng -->
 <div class="row topnav">
     <a class="active" asp-controller="Admin" asp-action="Doctors">Bác sĩ</a>
-    <a asp-controller="Admin" asp-action="Pharamacists">Dược sĩ</a>
+    <a asp-controller="Admin" asp-action="Pharas">Dược sĩ</a>
     <a asp-controller="Admin" asp-action="Admins">Quản trị</a>
 </div>
 
@@ -30,7 +30,7 @@
             foreach(var doctor in Model.Doctors)
             {
                 string name = doctor.NameLast + " " + doctor.NameMiddle + " " + doctor.NameFirst;
-                string faculty = "khoa";
+                string faculty = "Chưa có khoa chỉ định";
                 foreach (var f in Model.Faculties)
                 {
                     if (f.Id == doctor.Faculty_Id){faculty = f.Name;}

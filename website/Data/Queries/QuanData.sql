@@ -31,3 +31,15 @@ VALUES (4,'richbitch','matkhau123','richbitch@gmail.com','01265991251',N'Trần'
 (4,'racingmonk','matkhau101112','racingmonk4@gmail.com','01265991254',N'Thích',N'Độ',N'Xe','20191111 22:00:00 PM','20191111 22:00:00 PM','20191111 22:00:00 PM'),
 (4,'pthyst','phuongdung','pthyst@gmail.com','01265991255',N'Huỳnh Trương',N'Chí',N'Quân','20191111 22:00:00 PM','20191111 22:00:00 PM','20191111 22:00:00 PM')
 
+-- [Rooms] --
+INSERT INTO Rooms(Name,ShortCode,Faculty_Id)
+VALUES (N'Tiếp nhận đăng ký khám chữa bệnh','A100',0),(N'Quản lý BHYT','A101',0),(N'Thủ tục hành chính','A102',0),(N'Dụng cụ sơ cứu','A103',0),
+(N'Chụp X Quang','B100',0),(N'Siêu âm - Nội soi','B101',0),(N'Cấp cứu','B102',0);
+
+-- [MedicineUnits] --
+INSERT INTO MedicineUnits(Unit) VALUES(N'Lọ'),(N'Chai'),(N'Gam'),(N'Miligam'),(N'Viên'),(N'Viên con nhộng'),(N'Vỉ');
+
+-- [Medicines] --
+INSERT INTO Medicines(Name,Price,Instore,MedicineUnit_Id,Admin_Id,DateCreate,DateModify)
+VALUES (N'Paracetamol 500mg',1000,10,5,5,'20191114 23:00:00 PM','20191114 23:00:00 PM'),
+(N'Tottri',150000,10,2,5,'20191114 23:00:00 PM','20191114 23:00:00 PM')

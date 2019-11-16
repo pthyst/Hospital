@@ -140,3 +140,9 @@ html
 {
     padding: 0.5rem;
 }
+.medicine_edit__thumbnail
+{
+    display: block;
+    width: 100%;
+    min-height: 20rem;
+}

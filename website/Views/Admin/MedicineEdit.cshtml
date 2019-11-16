@@ -1,0 +1,106 @@
+@model website.ViewModels.AdminMedicineEditViewModel
+@{
+    Layout = "~/Views/Admin/_AdminLayout.cshtml";
+    ViewBag.Title = "Thêm thuốc";
+}
+<!-- Các mục điều hướng -->
+<div class="row topnav">
+    <a class="active" asp-controller="Admin" asp-action="Medicines">Thuốc</a>
+    <a asp-controller="Admin" asp-action="MedicineUnits">Đơn vị thuốc</a>
+</div>
+
+<!-- Nút quay về -->
+<div class="row">
+    <a asp-controller="Admin" asp-action="Medicines" class="button button--back"><i class="fas fa-long-arrow-alt-left"></i></a><h2 class="title"> Thông tin thuốc</h2>
+</div>
+
+<div class="row">
+    <div class="col-5">
+        <form asp-controller="Admin" asp-action="MedicineEdit" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label asp-for="@Model.Medicine.Name">Tên thuốc</label>
+                <input type="text" asp-for="@Model.Medicine.Name" class="form-control"/>
+                <span asp-validation-for="@Model.Medicine.Name" class="text-danger"></span>
+            </div>
+            <div class="form-row">
+                <div class="col form-group">
+                    <label asp-for="@Model.Medicine.Price">Đơn giá</label>
+                    <input type="text" asp-for="@Model.Medicine.Price" class="form-control"/>
+                    <span asp-validation-for="@Model.Medicine.Price" class="text-danger"></span>
+                </div>
+                <div class="col form-group">
+                    <label asp-for="@Model.Medicine.Instore">Số lượng còn lại</label>
+                    <input type="text" asp-for="@Model.Medicine.Instore" class="form-control"/>
+                    <span asp-validation-for="@Model.Medicine.Instore" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <select asp-for="@Model.Medicine.MedicineUnit_Id" class="form-control">
+                    @foreach(var unit in Model.MedicineUnits)
+                    {
+                        <option value="@unit.Id">
+                            @unit.Unit
+                        </option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <div class="custom-file">
+                    <input asp-for="@Model.Thumbnail" type="file" class="custom-file-input form-control" />
+                    <label class="custom-file-label" asp-for="@Model.Thumbnail">Ảnh đại diện cho thuốc</label>
+                    <script>
+                        // Hiển thị tên file đang được chọn
+                        $(".custom-file-input").on("change", function () {
+                            var fileName = $(this).val().split("\\").pop();
+                            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+                        });
+                    </script>
+                </div>
+            </div>
+
+        <input type="hidden" asp-for="@Model.Medicine.Admin_Id" value="0">
+        <input type="hidden" asp-for="@Model.Medicine.Id">
+        <input type="hidden" asp-for="@Model.Medicine.Thumbnail">
+        <button type="submit" class="button button--submit">Hoàn tất</button>
+        <a class="button button--delete" asp-controller="Admin" asp-action="MedicineDelete" asp-route-id="@Model.Medicine.Id"><i class="fas fa-trash-alt"></i> Xóa </a>
+        </form>
+    </div>
+    <div class="col-3">
+        @{
+            string image = "/uploads/" + Model.Medicine.Thumbnail;
+        }
+        <img class="medicine_edit__thumbnail" src="@image" width="200" height="200">
+    </div>
+    <div class="col-4">
+        <table>
+            <tr>
+                <th>Tên thuốc</th>
+                <th>Đơn vị</th>
+                <th>Số lượng còn lại</th>
+            </tr>
+            @foreach(var med in Model.Medicines)
+            {
+                <tr>
+                    <td>
+                        <a asp-controller="Admin" asp-action="MedicineEdit" asp-route-id="@med.Id">
+                            @med.Name
+                        </a>
+                    </td>
+                    
+                    @foreach(var unit in Model.MedicineUnits)
+                    {
+                        if (unit.Id == med.MedicineUnit_Id)
+                        {
+                            <td>
+                                @unit.Unit
+                            </td>
+                        }
+                    }
+                    <td>
+                        @med.Instore
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>

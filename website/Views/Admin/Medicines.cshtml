@@ -1,0 +1,54 @@
+@model website.ViewModels.AdminMedicinesViewModel
+@{
+    ViewBag.Title = "Danh sách Thuốc của hệ thống";
+    Layout = "~/Views/Admin/_AdminLayout.cshtml";
+}
+
+<!-- Các mục điều hướng -->
+<div class="row topnav">
+    <a class="active" asp-controller="Admin" asp-action="Medicines">Thuốc</a>
+    <a asp-controller="Admin" asp-action="MedicineUnits">Đơn vị thuốc</a>
+</div>
+
+<!-- Nút thêm mới -->
+<div class="row">
+    <a class="button button--new" asp-controller="Admin" asp-action="MedicineNew"><i class="fas fa-plus"></i> Thêm mới</a>
+</div>
+
+<!-- Danh sách dữ liệu -->
+<div class="row">
+    <table>
+        <tr>
+            <th>Tên thuốc</th>
+            <th>Đơn vị</th>
+            <th>Đơn giá</th>
+            <th>Số lượng còn lại</th>
+            <th></th>
+        </tr>
+        @foreach (var med in Model.Medicines)
+        {
+            string unit_name = "Chưa có đơn vị";
+            foreach (var unit in Model.MedicineUnits)
+            {
+                if (unit.Id == med.MedicineUnit_Id){ unit_name = unit.Unit; }
+            }
+            <tr>
+                <td>
+                    <a asp-controller="Admin" asp-action="MedicineEdit" asp-route-id="@med.Id">
+                        @med.Name
+                    </a>
+                </td>
+                <td>
+                    @unit_name
+                </td>
+                <td>
+                    @med.Price
+                </td>
+                <td>
+                    @med.Instore
+                </td>
+                <td><a asp-controller="Admin" asp-action="MedicineDelete" asp-route-id="@med.Id"><i class="fas fa-trash-alt"></i> Xóa</a></td>
+            </tr>
+        }
+    </table>
+</div>

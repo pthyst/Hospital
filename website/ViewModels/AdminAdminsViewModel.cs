@@ -6,9 +6,8 @@ using website.Models;
 
 namespace website.ViewModels
 {
-    public class AdminFacultyDetailViewModel
+    public class AdminAdminsViewModel
     {
-        public Faculty Faculty {get; set;}
-        public IEnumerable<Doctor> Doctors {get;set;}
+        public IEnumerable<Admin> Admins { get; set; }
     }
 }

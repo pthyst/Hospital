@@ -1,0 +1,88 @@
+@model website.ViewModels.AdminAdminEditViewModel
+@{
+    ViewBag.Title = "Chỉnh sửa thông tin dược sĩ";
+    Layout = "~/Views/Admin/_AdminLayout.cshtml";
+}
+
+<!-- Các mục điều hướng -->
+<div class="row topnav">
+    <a asp-controller="Admin" asp-action="Doctors">Bác sĩ</a>
+    <a asp-controller="Admin" asp-action="Pharas">Dược sĩ</a>
+    <a class="active" asp-controller="Admin" asp-action="Admins">Quản trị</a>
+</div>
+
+<!-- Nút quay về -->
+<div class="row">
+    <a asp-controller="Admin" asp-action="Admins" class="button button--back"><i class="fas fa-long-arrow-alt-left"></i></a><h2 class="title"> Chỉnh sửa thông tin quản trị viên</h2>
+</div>
+
+<div class="row">
+    <!-- Phần thông tin bác sĩ -->
+    <div class="col-5 padd0">
+        <form asp-controller="Admin" asp-action="AdminEdit" method="post">
+            <div class="form-row">
+                <div class="col form-group">
+                    <label asp-for="@Model.Admin.NameLast">Họ</label>
+                    <input type="text" asp-for="@Model.Admin.NameLast" class="form-control"/>
+                    <span asp-validation-for="@Model.Admin.NameLast" class="text-danger"></span>
+                </div>
+                <div class="col form-group">
+                    <label asp-for="@Model.Admin.NameMiddle">Họ đệm</label>
+                    <input type="text" asp-for="@Model.Admin.NameMiddle" class="form-control"/>
+                    <span asp-validation-for="@Model.Admin.NameMiddle" class="text-danger"></span>
+                </div>
+                <div class="col form-group">
+                    <label asp-for="@Model.Admin.NameFirst">Tên</label>
+                    <input type="text" asp-for="@Model.Admin.NameFirst" class="form-control"/>
+                    <span asp-validation-for="@Model.Admin.NameFirst" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Admin.PhoneNumber">Số điện thoại</label>
+                <input type="text" asp-for="@Model.Admin.PhoneNumber" class="form-control"/>
+                <span asp-validation-for="@Model.Admin.PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Admin.Email">Email</label>
+                <input type="text" asp-for="@Model.Admin.Email" class="form-control"/>
+                <span asp-validation-for="@Model.Admin.Email" class="text-danger"></span>
+            </div>
+            <div class="form-row">
+                <div class="col form-group">
+                    <label asp-for="@Model.Admin.Username">Tên tài khoản đăng nhập</label>
+                    <input type="text" asp-for="@Model.Admin.Username" class="form-control" readonly/>
+                </div>
+                <div class="col form-group">
+                    <label asp-for="@Model.Admin.Password">Mật khẩu</label>
+                    <input type="text" asp-for="@Model.Admin.Password" class="form-control"/>
+                    <span asp-validation-for="@Model.Admin.Password" class="text-danger"></span>
+                </div>
+            </div>
+
+            <input type="hidden" asp-for="@Model.Admin.Id"/>
+
+            <button type="submit" class="button button--submit"><i class="fas fa-save"></i> Cập nhật</button>
+            <a asp-controller="Admin" asp-action="AdminDelete" asp-route-id="@Model.Admin.Id" class="button button--delete"><i class="fas fa-trash-alt"></i> Xóa</a>
+        </form>
+    </div>
+
+    <!-- Danh sách dữ liệu -->
+    <div class="col-5 offset-1 padd0">
+        <table>
+        <tr>
+            <th>Họ và tên</th>
+            <th>SĐT</th>
+        </tr>
+            @foreach(var ad in Model.Admins)
+            {
+                string name = ad.NameLast + " " + ad.NameMiddle + " " + ad.NameFirst;
+              
+                <tr>
+                    <td><a asp-controller="Admin" asp-action="AdminEdit" asp-route-id="@ad.Id">@name</a></td>
+                    <td>@ad.PhoneNumber</td>
+                </tr>
+            }
+        </table>
+    </div>
+    
+</div>
