@@ -577,19 +577,46 @@ namespace website.Controllers
                     up.Name            = data.Name;
                     up.Price           = data.Price;
                     up.Instore         = data.Instore;
-                    up.Thumbnail       = data.Thumbnail;
                     up.MedicineUnit_Id = data.MedicineUnit_Id; 
 
-                    _context.SaveChanges();
-                }
-                return View(
-                    new AdminMedicineEditViewModel()
+                    if (vm.Thumbnail != null)
                     {
-                        Medicine      = vm.Medicine,
-                        Medicines     = _context.Medicines.OrderBy(m => m.Name).ToList(),
-                        MedicineUnits = _context.MedicineUnits.OrderBy(u => u.Unit).ToList()
+                        // Xóa ảnh cũ
+                        string old_image = Path.Combine(Directory.GetCurrentDirectory(),"wwwroot","uploads",vm.Medicine.Thumbnail);
+                        if (System.IO.File.Exists(old_image))
+                        {
+                            System.IO.File.Delete(old_image);
+                        }
+                
+                        // Lưu ảnh mới
+                        string rename = DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Day.ToString() + DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString() + DateTime.Now.Second.ToString() + Path.GetExtension(vm.Thumbnail.FileName);
+                        string new_image = Path.Combine(Directory.GetCurrentDirectory(),"wwwroot","uploads", rename);
+                        vm.Thumbnail.CopyTo(new FileStream(new_image,FileMode.Create));
+                        up.Thumbnail = rename;
+
                     }
-                );
+
+                    _context.SaveChanges();
+                    return View(
+                        new AdminMedicineEditViewModel()
+                        {
+                            Medicine      = _context.Medicines.Where(m => m.Id == vm.Medicine.Id).FirstOrDefault(),
+                            Medicines     = _context.Medicines.OrderBy(m => m.Name).ToList(),
+                            MedicineUnits = _context.MedicineUnits.OrderBy(u => u.Unit).ToList()
+                        }
+                    );
+                }
+                else
+                {
+                    return View(
+                        new AdminMedicineEditViewModel()
+                        {
+                            Medicine      = vm.Medicine,
+                            Medicines     = _context.Medicines.OrderBy(m => m.Name).ToList(),
+                            MedicineUnits = _context.MedicineUnits.OrderBy(u => u.Unit).ToList()
+                        }
+                    );
+                }
             }
 
             [HttpGet]
