@@ -1,0 +1,73 @@
+﻿body {
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    font-family: Lato, sans-serif;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 3em;
+    color: white;
+    background: rgba(0, 0, 0, 0.8);
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 15px 20px rgba(0, 0, 0, 0.5);
+}
+.fas fa-user {
+    color: hsla(204, 70%, 53%, 1);
+}
+
+h1 {
+    margin-bottom: 0.3em;
+    padding: 12px 0;
+    font-size: 2.5em;
+    color: hsla(204, 70%, 53%, 1);
+}
+
+.form-field {
+    position: relative;
+    margin: 20px 0 8px 0;
+    font-size: 20px;
+    transition: 0.4s;
+}
+
+input {
+    padding-left: 10px;
+    color: black;
+    background: transparent;
+    border-color: hsla(204, 70%, 53%, 1);
+    outline: none;
+}
+
+label {
+    position: absolute;
+    left: 32px;
+    top: 24px;
+    transition: 0.4s;
+    opacity: 0.1;
+    color: black;
+}
+
+.btn {
+    position: relative;
+    width: 100%;
+    padding: 6px 0;
+    margin: 36px 0 18px 0;
+    font-size: 1.2em;
+    color: black;
+    background: transparent;
+    border: 2px solid hsla(204, 70%, 53%, 1);
+    outline: none;
+    cursor: pointer;
+    overflow: hidden;
+    transition: 0.5s;
+    background-color: hsla(204, 70%, 53%, 1);
+}
+
+
+
+

@@ -14,7 +14,6 @@ namespace website.Models
         public int Role_Id { get; set; }
         public int Faculty_Id { get; set; }
         
-
         [Required(ErrorMessage = "Tên đăng nhập không được bỏ trống.")]
         [Display(Name = "Tên đăng nhập")]
         public string Username { get; set; }

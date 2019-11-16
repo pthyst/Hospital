@@ -33,7 +33,10 @@ namespace website
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
+            services.AddSession(p =>
+            {
+                p.IdleTimeout = TimeSpan.FromMinutes(1);
+            });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddDbContext<WebsiteDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
@@ -53,7 +56,7 @@ namespace website
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            app.UseSession();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
