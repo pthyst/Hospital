@@ -17,7 +17,7 @@
 
 <div class="row">
     <form asp-controller="Admin" asp-action="DoctorNew" method="post">
-        <div class="form-row">
+        <div class="row">
             <div class="col form-group">
                 <label asp-for="@Model.Doctor.NameLast">Họ</label>
                 <input type="text" asp-for="@Model.Doctor.NameLast" class="form-control"/>
@@ -62,7 +62,7 @@
             </select>
         </div>
 
-        <div class="form-row">
+        <div class="row">
             <div class="col form-group">
                 <label asp-for="@Model.Doctor.Username">Tên tài khoản đăng nhập</label>
                 <input type="text" asp-for="@Model.Doctor.Username" class="form-control"/>

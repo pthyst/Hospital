@@ -42,4 +42,8 @@ INSERT INTO MedicineUnits(Unit) VALUES(N'Lọ'),(N'Chai'),(N'Gam'),(N'Miligam'),
 -- [Medicines] --
 INSERT INTO Medicines(Name,Price,Instore,MedicineUnit_Id,Admin_Id,DateCreate,DateModify)
 VALUES (N'Paracetamol 500mg',1000,10,5,5,'20191114 23:00:00 PM','20191114 23:00:00 PM'),
-(N'Tottri',150000,10,2,5,'20191114 23:00:00 PM','20191114 23:00:00 PM')
+(N'Tottri',150000,10,2,5,'20191114 23:00:00 PM','20191114 23:00:00 PM');
+
+-- [InsuranceTypes] --
+INSERT INTO InsuranceTypes(Type,PayPercent,PayLimit,Fee)
+VALUES (N'50 phần trăm',50,500000,100000),(N'70 phần trăm',70,1000000,300000);

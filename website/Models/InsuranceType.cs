@@ -25,5 +25,9 @@ namespace website.Models
         [Required(ErrorMessage = "Giới hạn chi trả không được để trống.")]
         [Display(Name = "Giới hạn chi trả")]
         public int PayLimit { get; set; } = 0;
+
+        [Required(ErrorMessage = "Phí bảo hiểm hàng tháng không được để trống")]
+        [Display(Name = "Phí bảo hiểm hàng tháng")]
+        public int Fee {get;set;}
     }
 }

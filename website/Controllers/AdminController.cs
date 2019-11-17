@@ -732,7 +732,7 @@ namespace website.Controllers
             {
                 AdminPatientsViewModel vm = new AdminPatientsViewModel()
                 {
-                    Patients = _context.Patients.OrderBy(p => p.NameLast && p.NameMiddle && p.NameFirst).ToList()
+                    Patients = _context.Patients.OrderBy(p => p.NameLast).ThenBy(p => p.NameMiddle).ThenBy(p => p.NameFirst).ToList()
                 };
                 return View(vm);
             }
@@ -757,22 +757,22 @@ namespace website.Controllers
                     // Tạo thẻ bhyt mới nếu có đăng kí bhyt
                     if (vm.InsuranceType_Id != 0)
                     {
-                        Insurance nin = new Insurannce()
+                        Insurance nin = new Insurance()
                         {
-                            nin.NameFirst           = data.NameFirst,
-                            nin.NameMiddle          = data.NameMiddle,
-                            nin.NameLast            = data.NameLast,
-                            nin.DateBirth           = data.DateBirth,
-                            nin.Gender              = data.Gender,
-                            nin.AddressApartment    = data.AddressApartment,
-                            nin.AddressStreet       = data.AddressStreet,
-                            nin.AddressDistrict     = data.AddressDistrict,
-                            nin.AddressCity         = data.AddressCity,
-                            nin.PhoneNumberPersonal = data.PhoneNumber,
-                            nin.PhoneNumberHome     = data.PhoneNumber,
-                            nin.InsuranceType_Id    = vm.InsuranceType_Id
+                            NameFirst           = data.NameFirst,
+                            NameMiddle          = data.NameMiddle,
+                            NameLast            = data.NameLast,
+                            DateBirth           = data.DateBirth,
+                            Gender              = data.Gender,
+                            AddressApartment    = data.AddressApartment,
+                            AddressStreet       = data.AddressStreet,
+                            AddressDistrict     = data.AddressDistrict,
+                            AddressCity         = data.AddressCity,
+                            PhoneNumberPersonal = data.PhoneNumber,
+                            PhoneNumberHome     = data.PhoneNumber,
+                            InsuranceType_Id    = vm.InsuranceType_Id
                         };
-                        _context.Insurannces.Add(nin);
+                        _context.Insurances.Add(nin);
                         _context.SaveChanges();
 
                         // Lấy Id của cái bhyt vừa mới tạo
@@ -814,7 +814,7 @@ namespace website.Controllers
                     AdminPatientEditViewModel vm = new AdminPatientEditViewModel()
                     {
                         Patient  = edit,
-                        Patients = _context.Patients.OrderBy(p => p.NameLast && p.NameMiddle && p.NameFirst).ToList()
+                        Patients = _context.Patients.OrderBy(p => p.NameLast).ThenBy(p => p.NameMiddle).ThenBy(p => p.NameFirst).ToList()
                     };
                     return View(vm);
                 }
@@ -875,7 +875,7 @@ namespace website.Controllers
                     new AdminPatientEditViewModel()
                     {
                         Patient  = vm.Patient,
-                        Patients = _context.Patients.OrderBy(p => p.NameLast && p.NameMiddle && p.NameFirst).ToList()
+                        Patients = _context.Patients.OrderBy(p => p.NameLast).ThenBy(p => p.NameMiddle).ThenBy(p => p.NameFirst).ToList()
                     }
                 ); 
             }

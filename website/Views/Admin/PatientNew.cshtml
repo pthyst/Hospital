@@ -1,0 +1,131 @@
+@model website.ViewModels.AdminPatientNewViewModel
+@{
+    ViewBag.Title = "Thêm mới bệnh nhân";
+    Layout = "~/Views/Admin/_AdminLayout.cshtml";
+}
+
+<!-- Các mục điều hướng -->
+<div class="row topnav">
+    <a class="active" asp-controller="Admin" asp-action="Patients">Bệnh nhân</a>
+    <a asp-controller="Admin" asp-action="Insurances">Thẻ BHYT</a>
+    <a asp-controller="Admin" asp-action="InsuranceTypes">Loại thẻ BHYT</a>
+</div>
+
+<!-- Nút quay về -->
+<div class="row">
+    <a asp-controller="Admin" asp-action="Patients" class="button button--back"><i class="fas fa-long-arrow-alt-left"></i></a><h2 class="title"> Thêm bệnh nhân</h2>
+</div>
+
+<!-- Form nhập dữ liệu -->
+<div class="row">
+    <form asp-controller="Admin" asp-action="PatientNew" method="post">
+        <div class="row">
+            <div class="col form-group">
+                <label asp-for="@Model.Patient.NameLast">Họ</label>
+                <input asp-for="@Model.Patient.NameLast" class="form-control" type="text"/>
+                <span asp-validation-for="@Model.Patient.NameLast" class="text-danger"></span>
+            </div>
+            <div class="col form-group">
+                <label asp-for="@Model.Patient.NameMiddle">Họ đệm</label>
+                <input asp-for="@Model.Patient.NameMiddle" class="form-control" type="text"/>
+                <span asp-validation-for="@Model.Patient.NameMiddle" class="text-danger"></span>
+            </div>
+            <div class="col form-group">
+                <label asp-for="@Model.Patient.NameFirst">Họ</label>
+                <input asp-for="@Model.Patient.NameFirst" class="form-control" type="text"/>
+                <span asp-validation-for="@Model.Patient.NameFirst" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col form-group">
+                <label asp-for="@Model.Patient.AddressApartment">Số nhà</label>
+                <input asp-for="@Model.Patient.AddressApartment" type="text" class="form-control"/>
+                <span asp-validation-for="@Model.Patient.AddressApartment" class="text-danger"></span>
+            </div>
+            <div class="col form-group">
+                <label asp-for="@Model.Patient.AddressStreet">Đường</label>
+                <input asp-for="@Model.Patient.AddressStreet" type="text" class="form-control"/>
+                <span asp-validation-for="@Model.Patient.AddressStreet" class="text-danger"></span>
+            </div>
+         </div>
+
+         <div class="row">
+            <div class="col form-group">
+                <label asp-for="@Model.Patient.AddressDistrict">Quận/Huyện</label>
+                <input asp-for="@Model.Patient.AddressDistrict" type="text" class="form-control">
+                <span asp-validation-for="@Model.Patient.AddressDistrict" class="text-danger"></span>
+            </div>
+            <div class="col form-group">
+                <label asp-for="@Model.Patient.AddressCity">Tỉnh / Thành phố</label>
+                <input asp-for="@Model.Patient.AddressCity" type="text" class="form-control">
+                <span asp-validation-for="@Model.Patient.AddressCity" class="text-danger"></span>
+            </div>
+        </div>
+
+       
+        <div class="row">
+            <div class="col form-group">
+                <label asp-for="@Model.Patient.DateBirth">Ngày sinh</label>
+                <input type="date" asp-for="@Model.Patient.DateBirth" class="form-control"/>
+                <span asp-validation-for="@Model.Patient.DateBirth" class="text-danger"></span>
+            </div>
+            <div class="col form-group">
+                <label asp-for="@Model.Patient.PhoneNumber">Số điện thoại liên lạc</label>
+                <input type="text" asp-for="@Model.Patient.PhoneNumber" class="form-control"/>
+                <span asp-validation-for="@Model.Patient.PhoneNumber" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col form-group">
+                <label asp-for="@Model.Patient.Weight">Cân nặng (Kg)</label>
+                <input asp-for="@Model.Patient.Weight" type="text" class="form-control">   
+                <span asp-validation-for="@Model.Patient.Weight" class="text-danger"></span>
+            </div>
+            <div class="col form-group">
+                <label asp-for="@Model.Patient.Height">Chiều cao (Cm)</label>
+                <input asp-for="@Model.Patient.Height" type="text" class="form-control">
+                <span asp-validation-for="@Model.Patient.Height" class="text-danger"></span>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" asp-for="@Model.Patient.Gender" value="Nam">
+                <label class="form-check-label" asp-for="@Model.Patient.Gender">Nam</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" asp-for="@Model.Patient.Gender" value="Nữ">
+                <label class="form-check-label" asp-for="@Model.Patient.Gender">Nữ</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col">
+                <label asp-for="@Model.Patient.Blood_Type">Nhóm máu</label>
+                <input asp-for="@Model.Patient.Blood_Type" type="text" class="form-control">
+                <span asp-validation-for="@Model.Patient.Blood_Type" class="text-danger"></span>    
+            </div>
+            <div class="form-group col">
+                <label asp-for="@Model.Patient.Rh">Rh+/Th-</label>
+                <input asp-for="@Model.Patient.Rh" type="text" class="form-control">
+                <span asp-validation-for="@Model.Patient.Rh" class="text-danger"></span>    
+            </div>
+            <div class="form-group col">
+                <label asp-for="@Model.Patient.BMP">Nhịp tim / phút</label>
+                <input asp-for="@Model.Patient.BMP" type="text" class="form-control">
+                <span asp-validation-for="@Model.Patient.BMP" class="text-danger"></span>    
+            </div>
+        </div>
+
+        <div class="form-group">
+            <select asp-for="@Model.InsuranceType_Id" class="form-control">
+                <option value="0">Không đăng ký thẻ bảo hiểm</option>
+                @foreach(var instype in Model.InsuranceTypes)
+                {
+                    <option value="@instype.Id">@instype.Type</option>
+                }
+            </select>
+        </div>
+
+        <button type="submit" class="button button--submit">Hoàn tất</button>
+    </form>
+</div>

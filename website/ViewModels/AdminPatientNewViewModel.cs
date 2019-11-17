@@ -9,7 +9,7 @@ namespace website.ViewModels
     public class AdminPatientNewViewModel
     {
         public Patient Patient {get;set;}
-        public IENumerable<InsuranceType> InsuranceTypes {get;set;}
+        public IEnumerable<InsuranceType> InsuranceTypes {get;set;}
         public int InsuranceType_Id {get;set;}
     }
 }
