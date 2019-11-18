@@ -1,0 +1,60 @@
+@model website.ViewModels.AdminInsurancesViewModel
+@{
+    ViewBag.Title = "Danh sách thẻ bảo hiểm của hệ thống";
+    Layout = "~/Views/Admin/_AdminLayout.cshtml";
+}
+
+<!-- Các mục điều hướng -->
+<div class="row topnav">
+    <a asp-controller="Admin" asp-action="Patients">Bệnh nhân</a>
+    <a class="active" asp-controller="Admin" asp-action="Insurances">Thẻ BHYT</a>
+    <a asp-controller="Admin" asp-action="InsuranceTypes">Loại thẻ BHYT</a>
+</div>
+
+<!-- Danh sách dữ liệu -->
+<div class="row">
+    <table>
+        <tr>
+            <th>Mã thẻ</th>
+            <th>Loại BHYT</th>
+            <th>Người sử dụng</th>
+            <th>Tình trạng</th>
+            <th></th>
+        </tr>
+        <tr>
+           @foreach (var ins in Model.Insurances)
+           {
+                <td><a asp-controller="Admin" asp-action="InsuranceEdit" asp-route-id="@ins.Id">@ins.Id
+                </a></td>
+                @foreach(var type in Model.InsuranceTypes)
+                {
+                    @if (type.Id == ins.InsuranceType_Id)
+                    {
+                        <td>
+                            @type.Type
+                        </td>
+                    }
+                }
+                
+                <td>
+                    @{
+                        string fullname = ins.NameLast + " " + ins.NameMiddle + " " + ins.NameFirst;
+                    }
+                    @fullname
+                </td>
+
+                DateTime now = DateTime.Now;
+                if (ins.DateExpire <= now)
+                {
+                    <td>Đã hết hạn sử dụng</td>
+                }
+                else
+                {
+                    <td>Đang sử dụng</td>
+                }
+        
+                <td><a asp-controller="Admin" asp-action="InsuranceDelete" asp-route-id="@ins.Id"> Xóa</a></td>
+           }
+        </tr>
+    </table>
+</div>

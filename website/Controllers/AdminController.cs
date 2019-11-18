@@ -905,6 +905,79 @@ namespace website.Controllers
                 return RedirectToAction("Patients","Admin");
             }
             #endregion
+            #region BHYT
+            public IActionResult Insurances()
+            {   
+                AdminInsurancesViewModel vm = new AdminInsurancesViewModel()
+                {
+                    Insurances     = _context.Insurances.OrderByDescending(i => i.Id).ToList(),
+                    InsuranceTypes = _context.InsuranceTypes.ToList()
+                };
+                return View(vm);
+            }
+
+            [HttpGet]
+            public IActionResult InsuranceEdit(int id)
+            {
+                Insurance edit = _context.Insurances.Where(i => i.Id == id).FirstOrDefault();
+                if (edit != null)
+                {
+                    AdminInsuranceEditViewModel vm = new AdminInsuranceEditViewModel()
+                    {
+                        Insurance      = edit,
+                        Insurances     = _context.Insurances.OrderByDescending(i => i.Id).ToList(),
+                        InsuranceTypes = _context.InsuranceTypes.ToList() 
+                    };
+                    return View(vm);
+                }
+                else
+                {
+                    return RedirectToAction("Insurances","Admin");
+                }
+            }
+
+            [HttpPost]
+            public IActionResult InsuranceEdit(AdminInsuranceEditViewModel vm)
+            {
+                if (ModelState.IsValid)
+                {
+                    Insurance up = _context.Insurances.Where(i => i.Id == vm.Insurance.Id).FirstOrDefault();
+                    if (up != null)
+                    {
+                        up.DateExpire = vm.Insurance.DateExpire;
+                        _context.SaveChanges();
+                    }
+                }
+                return View(
+                    new AdminInsuranceEditViewModel()
+                    {
+                        Insurance = vm.Insurance,
+                        Insurances     = _context.Insurances.OrderByDescending(i => i.Id).ToList(),
+                        InsuranceTypes = _context.InsuranceTypes.ToList()
+                    }
+                );
+            }
+
+            [HttpGet]
+            public IActionResult InsuranceDelete(int id)
+            {
+                Insurance delete = _context.Insurances.Where(i => i.Id == id).FirstOrDefault();
+                if (delete != null)
+                {
+                    // Chỉnh sửa thông tin người bệnh sở hữu thẻ BHYT
+                    Patient owner = _context.Patients.Where(p => p.Insurance_Id == id).FirstOrDefault();
+                    if (owner != null)
+                    {
+                        owner.Insurance_Id = 0;
+                    }
+
+                    _context.Insurances.Remove(delete);
+                    _context.SaveChanges();
+                }
+                return RedirectToAction("Insurances","Admin");
+            }
+            #endregion
+
         #endregion
     }
 }

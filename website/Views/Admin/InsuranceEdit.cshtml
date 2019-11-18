@@ -1,0 +1,53 @@
+@model website.ViewModels.AdminInsuranceEditViewModel
+@{
+    ViewBag.Title = "Điều chỉnh thông tin thẻ BHYT";
+    Layout = "~/Views/Admin/_AdminLayout.cshtml";
+}
+
+<!-- Các mục điều hướng -->
+<div class="row topnav">
+    <a asp-controller="Admin" asp-action="Insurances">Bệnh nhân</a>
+    <a class="active" asp-controller="Admin" asp-action="Insurances">Thẻ BHYT</a>
+    <a asp-controller="Admin" asp-action="InsuranceTypes">Loại thẻ BHYT</a>
+</div>
+
+<!-- Nút quay về -->
+<div class="row">
+    <a asp-controller="Admin" asp-action="Insurances" class="button button--back"><i class="fas fa-long-arrow-alt-left"></i></a><h2 class="title"> Thông tin thẻ BHYT</h2>
+</div>
+
+<!-- Thông tin thẻ BHYT -->
+<div class="row">
+ 
+</div>
+
+<!-- Form nhập dữ liệu -->
+<div class="row">
+    <form asp-controller="Admin" asp-action="InsuranceEdit" method="post">
+
+        <div class="row">
+            <div class="col form-group">
+                <label asp-for="@Model.Insurance.PhoneNumberHome">Số điện thoại người thân</label>
+                <input type="text" asp-for="@Model.Insurance.PhoneNumberHome" class="form-control"/>
+                <span asp-validation-for="@Model.Insurance.PhoneNumberHome" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col form-group">
+                <label asp-for="@Model.Insurance.DateExpire">Ngày hết hạn</label>
+                <input type="date" asp-for="@Model.Insurance.DateExpire" class="form-control"/>
+                <span asp-validation-for="@Model.Insurance.DateExpire" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            
+        </div>
+
+        <input type="hidden" asp-for="@Model.Insurance.Id">
+
+        <button type="submit" class="button button--submit">Cập nhật</button>
+        <a asp-controller="Admin" asp-action="InsuranceDelete" asp-route-id="@Model.Insurance.Id" class="button button--delete">Xóa bệnh nhân</a>
+    </form>
+</div>
