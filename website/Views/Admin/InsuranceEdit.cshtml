@@ -16,14 +16,67 @@
     <a asp-controller="Admin" asp-action="Insurances" class="button button--back"><i class="fas fa-long-arrow-alt-left"></i></a><h2 class="title"> Thông tin thẻ BHYT</h2>
 </div>
 
-<!-- Thông tin thẻ BHYT -->
-<div class="row">
- 
-</div>
-
 <!-- Form nhập dữ liệu -->
 <div class="row">
     <form asp-controller="Admin" asp-action="InsuranceEdit" method="post">
+        <div class="row">
+            <div class="col form-group">
+                <label asp-for="@Model.Insurance.NameLast">Họ</label>
+                <input asp-for="@Model.Insurance.NameLast" class="form-control" type="text" readonly/>
+                <span asp-validation-for="@Model.Insurance.NameLast" class="text-danger"></span>
+            </div>
+            <div class="col form-group">
+                <label asp-for="@Model.Insurance.NameMiddle">Họ đệm</label>
+                <input asp-for="@Model.Insurance.NameMiddle" class="form-control" type="text" readonly/>
+                <span asp-validation-for="@Model.Insurance.NameMiddle" class="text-danger"></span>
+            </div>
+            <div class="col form-group">
+                <label asp-for="@Model.Insurance.NameFirst">Tên</label>
+                <input asp-for="@Model.Insurance.NameFirst" class="form-control" type="text" readonly/>
+                <span asp-validation-for="@Model.Insurance.NameFirst" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col form-group">
+                <label asp-for="@Model.Insurance.AddressApartment">Số nhà</label>
+                <input asp-for="@Model.Insurance.AddressApartment" type="text" class="form-control" readonly/>
+                <span asp-validation-for="@Model.Insurance.AddressApartment" class="text-danger"></span>
+            </div>
+            <div class="col form-group">
+                <label asp-for="@Model.Insurance.AddressStreet">Đường</label>
+                <input asp-for="@Model.Insurance.AddressStreet" type="text" class="form-control" readonly/>
+                <span asp-validation-for="@Model.Insurance.AddressStreet" class="text-danger"></span>
+            </div>
+         </div>
+
+         <div class="row">
+            <div class="col form-group">
+                <label asp-for="@Model.Insurance.AddressDistrict">Quận/Huyện</label>
+                <input asp-for="@Model.Insurance.AddressDistrict" type="text" class="form-control" readonly>
+                <span asp-validation-for="@Model.Insurance.AddressDistrict" class="text-danger"></span>
+            </div>
+            <div class="col form-group">
+                <label asp-for="@Model.Insurance.AddressCity">Tỉnh / Thành phố</label>
+                <input asp-for="@Model.Insurance.AddressCity" type="text" class="form-control" readonly>
+                <span asp-validation-for="@Model.Insurance.AddressCity" class="text-danger"></span>
+            </div>
+        </div>
+
+       
+        <div class="row">
+            <div class="col form-group">
+                <label asp-for="@Model.Insurance.DateBirth">Ngày sinh</label>
+                <input type="date" asp-for="@Model.Insurance.DateBirth" class="form-control" readonly>
+                <span asp-validation-for="@Model.Insurance.DateBirth" class="text-danger"></span>
+            </div>
+            <div class="col form-group">
+                <label asp-for="@Model.Insurance.PhoneNumberPersonal">Số điện thoại liên lạc</label>
+                <input type="text" asp-for="@Model.Insurance.PhoneNumberPersonal" class="form-control">
+                <span asp-validation-for="@Model.Insurance.PhoneNumberPersonal" class="text-danger"></span>
+            </div>
+        </div>
+
 
         <div class="row">
             <div class="col form-group">
@@ -35,19 +88,22 @@
 
         <div class="row">
             <div class="col form-group">
+                <label asp-for="@Model.Insurance.DateRegistration">Ngày đăng ký</label>
+                <input type="date" asp-for="@Model.Insurance.DateRegistration" class="form-control" readonly/>
+                <span asp-validation-for="@Model.Insurance.DateRegistration" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col form-group">
                 <label asp-for="@Model.Insurance.DateExpire">Ngày hết hạn</label>
                 <input type="date" asp-for="@Model.Insurance.DateExpire" class="form-control"/>
                 <span asp-validation-for="@Model.Insurance.DateExpire" class="text-danger"></span>
             </div>
         </div>
 
-        <div class="row">
-            
-        </div>
-
         <input type="hidden" asp-for="@Model.Insurance.Id">
-
         <button type="submit" class="button button--submit">Cập nhật</button>
-        <a asp-controller="Admin" asp-action="InsuranceDelete" asp-route-id="@Model.Insurance.Id" class="button button--delete">Xóa bệnh nhân</a>
+        <a asp-controller="Admin" asp-action="InsuranceDelete" asp-route-id="@Model.Insurance.Id" class="button button--delete">Xóa BHYT</a>
     </form>
 </div>

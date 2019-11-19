@@ -1,0 +1,80 @@
+@model website.ViewModels.AdminInsuranceTypesViewModel
+@{
+    ViewBag.Title = "Danh sách các loại bảo hiểm y tế";
+    Layout = "~/Views/Admin/_AdminLayout.cshtml";
+}
+
+<!-- Các mục điều hướng -->
+<div class="row topnav">
+    <a asp-controller="Admin" asp-action="Patients">Bệnh nhân</a>
+    <a asp-controller="Admin" asp-action="Insurances">Thẻ BHYT</a>
+    <a class="active"asp-controller="Admin" asp-action="InsuranceTypes">Loại thẻ BHYT</a>
+</div>
+
+<!-- Danh sách dữ liệu -->
+<div class="row">
+    <div class="col-7">
+        <table>
+            <tr>
+                <th>Loại BHYT</th>
+                <th>Phần trăm chi trả</th>
+                <th>Giới hạn chi trả</th>
+                <th>Phí duy trì</th>
+                <th>Số người sử dụng</th>
+                <th></th>
+            </tr>
+            @foreach (var type in Model.InsuranceTypes)
+            {
+                <tr>
+                    <td><a asp-controller="Admin" asp-action="InsuranceTypeEdit" asp-route-id="@type.Id">@type.Type
+                    </a></td>
+                    <td>@type.PayPercent %
+                    </td>
+                    <td>@type.PayLimit VNĐ
+                    </td>
+                    <td>@type.Fee VNĐ
+                    </td>
+                    @{
+                        int users = 0;
+                    }
+                    @foreach(var i in Model.Insurances)
+                    {
+                        if (i.InsuranceType_Id == type.Id){users++;}
+                    }
+                    <td>
+                        @users
+                    </td>
+                    <td><a asp-controller="Admin" asp-action="InsuranceTypeDelete" asp-route-id="@type.Id">
+                        Xóa
+                    </a></td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div class="col-3">
+        <h3>Thêm loại BHYT mới</h3>
+        <form asp-controller="Admin" asp-action="InsuranceTypes" method="post">
+            <div class="form-group">
+                <label asp-for="@Model.InsuranceType.Type">Tên loại BHYT</label>
+                <input asp-for="@Model.InsuranceType.Type" type="text" class="form-control">
+                <span asp-validation-for="@Model.InsuranceType.Type" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.InsuranceType.PayPercent">Phần trăm chi trả (%)</label>
+                <input asp-for="@Model.InsuranceType.PayPercent" type="number" class="form-control" min="0" max="100">
+                <span asp-validation-for="@Model.InsuranceType.PayPercent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.InsuranceType.PayLimit">Giới hạn chi trả (VNĐ)</label>
+                <input asp-for="@Model.InsuranceType.PayLimit" type="number" class="form-control" min="0" step="1000">
+                <span asp-validation-for="@Model.InsuranceType.PayLimit" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.InsuranceType.Fee">Phí duy trì hàng tháng (VNĐ)</label>
+                <input asp-for="@Model.InsuranceType.Fee" type="number" class="form-control" min="0" step="1000">
+                <span asp-validation-for="@Model.InsuranceType.Fee" class="text-danger"></span>
+            </div>
+            <button type="submit" class="button button--submit">Thêm mới</button>
+        </form>
+    </div>
+</div>

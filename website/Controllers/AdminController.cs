@@ -977,7 +977,105 @@ namespace website.Controllers
                 return RedirectToAction("Insurances","Admin");
             }
             #endregion
+            #region Loại BHYT
+            public IActionResult InsuranceTypes()
+            {
+                AdminInsuranceTypesViewModel vm = new AdminInsuranceTypesViewModel()
+                {
+                    Insurances = _context.Insurances.ToList(),
+                    InsuranceType = new InsuranceType(),
+                    InsuranceTypes = _context.InsuranceTypes.OrderBy(i => i.Type).ToList()
+                };
+                return View(vm);
+            }
 
+            [HttpPost]
+            public IActionResult InsuranceTypes(AdminInsuranceTypesViewModel vm)
+            {
+                if (ModelState.IsValid)
+                {
+                    _context.InsuranceTypes.Add(vm.InsuranceType);
+                    _context.SaveChanges();
+                    return View(
+                        new AdminInsuranceTypesViewModel()
+                        {
+                            Insurances = _context.Insurances.ToList(),
+                            InsuranceType = new InsuranceType(),
+                            InsuranceTypes = _context.InsuranceTypes.OrderBy(i => i.Type).ToList()
+                        } 
+                    );
+                }
+                else
+                {
+                    return View(
+                        new AdminInsuranceTypesViewModel()
+                        {
+                            Insurances = _context.Insurances.ToList(),
+                            InsuranceType = vm.InsuranceType,
+                            InsuranceTypes = _context.InsuranceTypes.OrderBy(i => i.Type).ToList()
+                        } 
+                    );
+                }
+            }
+
+            [HttpGet]
+            public IActionResult InsuranceTypeEdit(int id)
+            {
+                InsuranceType edit = _context.InsuranceTypes.Where(i => i.Id == id).FirstOrDefault();
+                if (edit != null)
+                {
+                    return View(
+                        new AdminInsuranceTypesViewModel()
+                        {
+                            Insurances = _context.Insurances.ToList(),
+                            InsuranceType = edit,
+                            InsuranceTypes = _context.InsuranceTypes.OrderBy(i => i.Type).ToList()
+                        } 
+                    );
+                }
+                else
+                {
+                    return RedirectToAction("InsuranceTypes","Admin");
+                }
+            }
+
+            [HttpPost]
+            public IActionResult InsuranceTypeEdit(AdminInsuranceTypesViewModel vm)
+            {
+                if (ModelState.IsValid)
+                {
+                    InsuranceType up = _context.InsuranceTypes.Where(i => i.Id == vm.InsuranceType.Id).FirstOrDefault();
+                    if (up != null)
+                    {
+                        up.Type       = vm.InsuranceType.Type;
+                        up.Fee        = vm.InsuranceType.Fee;
+                        up.PayLimit   = vm.InsuranceType.PayLimit;
+                        up.PayPercent = vm.InsuranceType.PayPercent;
+                        _context.SaveChanges();
+                    }
+                }
+                return View(
+                    new AdminInsuranceTypesViewModel()
+                        {
+                            Insurances     = _context.Insurances.ToList(),
+                            InsuranceType  = vm.InsuranceType,
+                            InsuranceTypes = _context.InsuranceTypes.OrderBy(i => i.Type).ToList()
+                        }
+                );
+            }
+
+            [HttpGet]
+            public IActionResult InsuranceTypeDelete(int id)
+            {
+                InsuranceType delete = _context.InsuranceTypes.Where(i => i.Id == id).FirstOrDefault();
+                if (delete != null)
+                {
+                    _context.InsuranceTypes.Remove(delete);
+                    _context.SaveChanges();
+                }
+                return RedirectToAction("InsuranceTypes","Admin");
+            }
+            #endregion
         #endregion
     }
 }
