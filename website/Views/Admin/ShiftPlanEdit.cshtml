@@ -1,0 +1,122 @@
+@model website.ViewModels.AdminShiftPlanNewViewModel
+@{
+    ViewBag.Title = "Chỉnh sửa thông tin lịch trực";
+    Layout = "~/Views/Admin/_AdminLayout.cshtml";
+}
+
+<!-- Các mục điều hướng -->
+<div class="row topnav">
+    <a class="active" asp-controller="Admin" asp-action="ShiftPlans">Lịch trực</a>
+    <a asp-controller="Admin" asp-action="Shifts">Ca trực</a>
+</div>
+
+<!-- Nút quay về -->
+<div class="row">
+    <a asp-controller="Admin" asp-action="ShiftPlans" class="button button--back"><i class="fas fa-long-arrow-alt-left"></i></a><h2 class="title"> Chỉnh sửa lịch trực</h2>
+</div>
+
+<!-- Danh sách dữ liệu -->
+<div class="row">
+    <div class="col-7">
+        <form asp-controller="Admin" asp-action="ShiftPlanEdit" method="post">
+            <div class="form-group">
+                <label asp-for="@Model.ShiftPlan.DateStart">Ngày bắt đầu</label>
+                <input type="date" class="form-control" asp-for="@Model.ShiftPlan.DateStart">
+                <span asp-validation-for="@Model.ShiftPlan.DateStart"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.ShiftPlan.DateEnd">Ngày kết thúc</label>
+                <input type="date" class="form-control" asp-for="@Model.ShiftPlan.DateEnd">
+                <span asp-validation-for="@Model.ShiftPlan.DateEnd"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.ShiftPlan.Shift_Id">Ca trực</label>
+                <select asp-for="@Model.ShiftPlan.Shift_Id" class="form-control">
+                    @foreach(var shift in Model.Shifts)
+                    {
+                        string display = shift.Session + " " + shift.TimeStart.ToString("HH:mm tt") + " - " +  shift.TimeEnd.ToString("HH:mm tt");
+                        <option value="@shift.Id">
+                        @display
+                        </option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.ShiftPlan.Doctor_Id">Bác sĩ</label>
+                <select asp-for="@Model.ShiftPlan.Doctor_Id" class="form-control">
+                    @foreach(var doc in Model.Doctors)
+                    {
+                        string fullname = doc.NameLast + " " + doc.NameMiddle + "  " +  doc.NameFirst;
+                        <option value="@doc.Id">
+                        @fullname
+                        </option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.ShiftPlan.Room_Id">Phòng</label>
+                <select asp-for="@Model.ShiftPlan.Room_Id" class="form-control">
+                    @foreach(var room in Model.Rooms)
+                    {
+                        string roomname = room.ShortCode + " - " + room.Name;
+                        <option value="@room.Id">
+                        @roomname
+                        </option>
+                    }
+                </select>
+            </div>
+
+            <input type="hidden" asp-for="@Model.ShiftPlan.Id">
+            <button type="submit" class="button button--submit">Cập nhật</button>
+            <a asp-controller="Admin" asp-action="ShiftPlanDelete" asp-route-id="@Model.ShiftPlan.Id" class="button button--delete">Xóa</a>
+        </form>
+    </div>
+    <div class="col-4">
+        <h3>Lịch trực hôm nay</h3>
+        <table>
+            <tr>
+                <th>Phòng</th>
+                <th>Bác sĩ</th>
+                <th>Thời gian</th>
+                <th></th>
+            </tr>
+            @foreach (var sp in Model.ShiftPlans)
+            {
+                <tr>
+                    @foreach (var room in Model.Rooms)
+                    {
+                        if (room.Id == sp.Room_Id)
+                        {
+                            <td>
+                                @room.ShortCode
+                            </td>
+                        }
+                    }
+                    @foreach (var doc in Model.Doctors)
+                    {
+                        if (doc.Id == sp.Doctor_Id)
+                        {
+                            string fullname = doc.NameLast + " " + doc.NameMiddle + "  " +  doc.NameFirst;
+                            <td>
+                                @fullname
+                            </td>
+                        }
+                    }
+                    @foreach(var shift in Model.Shifts)
+                    {
+                        if (shift.Id == sp.Shift_Id)
+                        {
+                            string display = shift.TimeStart.ToString("HH:mm tt") + " - " + shift.TimeEnd.ToString("HH:mm tt");
+                            <td>
+                                @display
+                            </td>
+                        }
+                    }
+                    <td>
+                        <a asp-controller="Admin" asp-action="ShiftPlanEdit" asp-route-id="@sp.Id">Sửa</a>
+                    </td>
+                </tr>
+            }          
+        </table>
+    </div>
+</div>

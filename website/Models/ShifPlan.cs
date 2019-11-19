@@ -15,7 +15,6 @@ namespace website.Models
         public int Doctor_Id { get; set; }
         public int Shift_Id { get; set; }
      
-
         [DataType(DataType.DateTime)]
         [Display(Name = "Ngày bắt đầu")]
         public DateTime DateStart { get; set; }

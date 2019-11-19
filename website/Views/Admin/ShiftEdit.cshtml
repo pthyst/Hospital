@@ -1,0 +1,71 @@
+@model website.ViewModels.AdminShiftsViewModel
+@{
+    ViewBag.Title = "Chỉnh sửa thông tin ca trực";
+    Layout = "~/Views/Admin/_AdminLayout.cshtml";
+}
+
+<!-- Các mục điều hướng -->
+<div class="row topnav">
+    <a asp-controller="Admin" asp-action="ShiftPlans">Lịch trực</a>
+    <a class="active" asp-controller="Admin" asp-action="Shifts">Ca trực</a>
+</div>
+
+<!-- Danh sách dữ liệu -->
+<div class="row">
+    <div class="col-7">
+    <table>
+        <tr>
+            <th>Buổi trực</th>
+            <th>Giờ bắt đầu</th>
+            <th>Giờ kết thúc</th>
+            <th></th>
+        </tr>
+        
+        @foreach(var shift in Model.Shifts)
+        {
+            <tr>
+                <td>
+                    @shift.Session
+                </td>
+                <td>
+                    @shift.TimeStart.ToString("HH:mm tt")
+                </td>
+                <td>
+                    @shift.TimeEnd.ToString("HH::mm tt")
+                </td>
+                <td><a asp-controller="Admin" asp-action="ShiftEdit" asp-route-id="@shift.Id">
+                    Chỉnh sửa
+                </a></td>
+            </tr>
+        }
+    </table>
+    </div>
+    
+    <div class="col-3">
+        <h3>Chỉnh sửa thông tin ca trực</h3>
+        <form asp-controller="Admin" asp-action="ShiftEdit" method="post">            
+            <div class="form-group">
+                <label asp-for="@Model.Shift.Session">Buổi</label>
+                <input type="text" asp-for="@Model.Shift.Session" class="form-control"/>
+                <span asp-validation-for="@Model.Shift.Session" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="@Model.Shift.TimeStart">Thời gian bắt đầu</label>
+                <input type="time" asp-for="@Model.Shift.TimeStart" class="form-control"/>
+                <span asp-validation-for="@Model.Shift.TimeStart" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="@Model.Shift.TimeEnd">Thời gian kết thúc</label>
+                <input type="time" asp-for="@Model.Shift.TimeEnd" class="form-control"/>
+                <span asp-validation-for="@Model.Shift.TimeEnd" class="text-danger"></span>
+            </div>
+            
+            <input type="hidden" asp-for="@Model.Shift.Id">
+            <button type="submit" class="button button--submit">Cập nhật</button>
+            <a asp-controller="Admin" asp-action="ShiftDelete" asp-route-id="@Model.Shift.Id" class="button button--delete">Xóa</a>
+        </form>
+        
+    </div>
+</div>

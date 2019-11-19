@@ -1077,5 +1077,195 @@ namespace website.Controllers
             }
             #endregion
         #endregion
+        #region Nhóm ca trực
+        #region Ca trực
+        public IActionResult Shifts()
+        {
+            AdminShiftsViewModel vm = new AdminShiftsViewModel()
+            {
+                Shift  = new Shift(),
+                Shifts = _context.Shifts.OrderBy(s => s.TimeStart.Hour).ThenBy(s => s.TimeStart.Minute).ThenBy(s => s.Session).ToList()
+            };
+            return View(vm);
+        }
+        [HttpPost]
+        public IActionResult Shifts(AdminShiftsViewModel vm)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Shifts.Add(vm.Shift);
+                _context.SaveChanges();
+                return View(
+                    new AdminShiftsViewModel()
+                    {
+                        Shift  = new Shift(),
+                        Shifts = _context.Shifts.OrderByDescending(s => s.Session).ToList()
+                    }
+                );
+            }
+            else
+            {
+                return View(
+                    new AdminShiftsViewModel()
+                    {
+                        Shift  = vm.Shift,
+                        Shifts = _context.Shifts.OrderByDescending(s => s.Session).ToList()
+                    }
+                );
+            }
+        }
+        [HttpGet]
+        public IActionResult ShiftEdit(int id)
+        {
+            Shift edit = _context.Shifts.Where(s => s.Id == id).FirstOrDefault();
+            if (edit != null)
+            {
+                return View(
+                    new AdminShiftsViewModel()
+                    {
+                        Shift  = edit,
+                        Shifts = _context.Shifts.OrderByDescending(s => s.Session).ToList()
+                    }
+                );
+            }
+            else
+            {
+                return RedirectToAction("Shifts","Admin");
+            }
+        }
+        [HttpPost]
+        public IActionResult ShiftEdit(AdminShiftsViewModel vm)
+        {
+            if (ModelState.IsValid)
+            {
+                Shift up = _context.Shifts.Where(s => s.Id == vm.Shift.Id).FirstOrDefault();
+                if (up != null)
+                {
+                    up.Session   = vm.Shift.Session;
+                    up.TimeStart = vm.Shift.TimeStart;
+                    up.TimeEnd   = vm.Shift.TimeEnd;
+                    _context.SaveChanges();
+                }
+            }
+            return View(
+                new AdminShiftsViewModel()
+                    {
+                        Shift  = vm.Shift,
+                        Shifts = _context.Shifts.OrderByDescending(s => s.Session).ToList()
+                    }
+            );
+        }
+        [HttpGet]
+        public IActionResult ShiftDelete(int id)
+        {
+            Shift delete = _context.Shifts.Where(s => s.Id == id).FirstOrDefault();
+            if (delete != null)
+            {
+                _context.Shifts.Remove(delete);
+                _context.SaveChanges();
+            }
+            return RedirectToAction("Shifts","Admin");
+        }
+        #endregion
+        #region Lịch trực
+        public IActionResult ShiftPlans()
+        {
+            AdminShiftPlansViewModel vm = new AdminShiftPlansViewModel()
+            {
+                ShiftPlans = _context.ShiftPlans.OrderByDescending(sp => sp.DateStart).ToList(),
+                Shifts = _context.Shifts.OrderByDescending(s => s.Session).ThenBy(s => s.TimeStart).ToList(),
+                Rooms = _context.Rooms.OrderBy(r => r.ShortCode).ToList(),
+                Doctors = _context.Doctors.OrderBy(d => d.NameLast).ThenBy(d => d.NameMiddle).ThenBy(d => d.NameFirst).ToList()
+            };
+            return View(vm);
+        }
+
+        public IActionResult ShiftPlanNew()
+        {
+            AdminShiftPlanNewViewModel vm = new AdminShiftPlanNewViewModel()
+            {
+                ShiftPlan = new ShiftPlan(),
+                Shifts = _context.Shifts.OrderByDescending(s => s.Session).ThenBy(s => s.TimeStart).ToList(),
+                ShiftPlans = _context.ShiftPlans.Where(sp => sp.DateStart.ToString("dd/MM/yyyy") == DateTime.Now.ToString("dd/MM/yyyy")).ToList(),
+                Rooms = _context.Rooms.OrderBy(r => r.ShortCode).ToList(),
+                Doctors = _context.Doctors.OrderBy(d => d.NameLast).ThenBy(d => d.NameMiddle).ThenBy(d => d.NameFirst).ToList()
+            };
+            return View(vm);
+        }
+
+        [HttpPost]
+        public IActionResult ShiftPlanNew(AdminShiftPlanNewViewModel vm)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.ShiftPlans.Add(vm.ShiftPlan);
+                _context.SaveChanges();
+                return RedirectToAction("ShiftPlans","Admin");
+            }
+            else
+            {
+                return View(
+                    new AdminShiftPlanNewViewModel()
+                    {
+                        ShiftPlan = vm.ShiftPlan,
+                        Shifts = _context.Shifts.OrderByDescending(s => s.Session).ThenBy(s => s.TimeStart).ToList(),
+                        ShiftPlans = _context.ShiftPlans.Where(sp => sp.DateStart.ToString("dd/MM/yyyy") == DateTime.Now.ToString("dd/MM/yyyy")).ToList(),
+                        Rooms = _context.Rooms.OrderBy(r => r.ShortCode).ToList(),
+                        Doctors = _context.Doctors.OrderBy(d => d.NameLast).ThenBy(d => d.NameMiddle).ThenBy(d => d.NameFirst).ToList()
+                    }
+                );
+            }
+        } 
+
+        [HttpGet]
+        public IActionResult ShiftPlanEdit(int id)
+        {
+            ShiftPlan edit = _context.ShiftPlans.Where(sp => sp.Id == id).FirstOrDefault();
+            if (edit != null)
+            {
+                return View(
+                    new AdminShiftPlanNewViewModel()
+                    {
+                        ShiftPlan = edit,
+                        Shifts = _context.Shifts.OrderByDescending(s => s.Session).ThenBy(s => s.TimeStart).ToList(),
+                        ShiftPlans = _context.ShiftPlans.Where(sp => sp.DateStart.ToString("dd/MM/yyyy") == DateTime.Now.ToString("dd/MM/yyyy")).ToList(),
+                        Rooms = _context.Rooms.OrderBy(r => r.ShortCode).ToList(),
+                        Doctors = _context.Doctors.OrderBy(d => d.NameLast).ThenBy(d => d.NameMiddle).ThenBy(d => d.NameFirst).ToList()
+                    }
+                );
+            }
+            return RedirectToAction("ShiftPlans","Admin");
+        }
+        [HttpPost]
+        public IActionResult ShiftPlanEdit(AdminShiftPlanNewViewModel vm)
+        {
+            if (ModelState.IsValid)
+            {
+                ShiftPlan up = _context.ShiftPlans.Where(sp => sp.Id == vm.ShiftPlan.Id).FirstOrDefault();
+                if (up != null)
+                {
+                    up.Room_Id = vm.ShiftPlan.Room_Id;
+                    up.Doctor_Id = vm.ShiftPlan.Doctor_Id;
+                    up.Shift_Id = vm.ShiftPlan.Shift_Id;
+                    up.DateStart = vm.ShiftPlan.DateStart;
+                    up.DateEnd = vm.ShiftPlan.DateEnd;
+                    _context.SaveChanges();
+                }
+            }
+            return RedirectToAction("ShiftPlans","Admin");
+        }
+        [HttpGet]
+        public IActionResult ShiftPlanDelete(int id)
+        {
+            ShiftPlan delete = _context.ShiftPlans.Where(sp => sp.Id == id).FirstOrDefault();
+            if (delete != null)
+            {
+                _context.ShiftPlans.Remove(delete);
+                _context.SaveChanges();
+            }
+            return RedirectToAction("ShiftPlans","Admin");
+        }
+        #endregion
+        #endregion
     }
 }

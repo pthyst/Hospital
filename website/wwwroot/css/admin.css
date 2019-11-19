@@ -108,11 +108,6 @@ html
 {
     background: #D1460B;
 }
-.button--new:hover
-{
-    transform: rotateX(180deg);
-    text-decoration: none;
-}
 .button--submit
 {
     background: #148B26;

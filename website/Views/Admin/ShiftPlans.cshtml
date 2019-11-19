@@ -1,0 +1,77 @@
+@model website.ViewModels.AdminShiftPlansViewModel
+@{
+    ViewBag.Title = "Lịch trực";
+    Layout = "~/Views/Admin/_AdminLayout.cshtml";
+}
+
+<!-- Các mục điều hướng -->
+<div class="row topnav">
+    <a class="active" asp-controller="Admin" asp-action="ShiftPlans">Lịch trực</a>
+    <a asp-controller="Admin" asp-action="Shifts">Ca trực</a>
+</div>
+
+<!-- Nút thêm mới -->
+<div class="row">
+    <a class="button button--new" asp-controller="Admin" asp-action="ShiftPlanNew"><i class="fas fa-plus"></i> Thêm lịch trực </a>
+</div>
+
+<!-- Danh sách dữ liệu -->
+<div class="row">
+    <table>
+        <tr>
+            <th>Ngày bắt đầu</th>
+            <th>Ngày kết thúc</th>
+            <th>Giờ bắt đầu</th>
+            <th>Giờ kết thúc</th>
+            <th>Bác sĩ</th>
+            <th>Phòng</th>
+            <th></th>
+        </tr>
+        @foreach (var plan in Model.ShiftPlans)
+        {
+            <tr>
+                <td>
+                    @plan.DateStart.ToString("dd-MM-yyyy")
+                </td>
+                <td>
+                    @plan.DateEnd.ToString("dd-MM-yyyy")
+                </td>
+                
+                @foreach (var shift in Model.Shifts)
+                {
+                    if (plan.Shift_Id == shift.Id)
+                    {
+                        <td>
+                            @shift.TimeStart.ToString("HH:mm tt")
+                        </td>
+                        <td>
+                            @shift.TimeEnd.ToString("HH:mm tt")
+                        </td>
+                    }
+                }
+                @foreach(var doc in Model.Doctors)
+                {
+                    if (doc.Id == plan.Doctor_Id)
+                    {
+                        string fullname = doc.NameLast + " " + doc.NameMiddle + " " + doc.NameFirst;
+                        <td>
+                            @fullname
+                        </td>
+                    }
+                }
+                @foreach(var room in Model.Rooms)
+                {
+                    if (room.Id == plan.Room_Id)
+                    {
+                        <td>
+                            @room.ShortCode
+                        </td>
+                    }
+                }
+                <td><a asp-controller="Admin" asp-action="ShiftPlanEdit" asp-route-id="@plan.Id">
+                Chỉnh sửa
+                </a></td>
+            </tr>
+        }
+    </table>
+</div>
