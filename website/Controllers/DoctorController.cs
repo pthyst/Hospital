@@ -10,10 +10,11 @@ using website.Helper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
+using website.Models;
 
 namespace website.Controllers
 {
-    [Authorize]
+
     public class DoctorController : Controller
     {
         private readonly WebsiteDbContext _context;
@@ -22,10 +23,18 @@ namespace website.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string searchstring)
         {
-            return View();
+            
+            if (!string.IsNullOrEmpty(searchstring))
+            {
+                var medicine = _context.Medicines.AsQueryable();
+                medicine = medicine.Where(s => s.Name.Contains(searchstring));
+                return View(medicine.ToList());
+            }
+            return View(_context.Medicines);
         }
+        
         [AllowAnonymous]
         public IActionResult Login()
         {
