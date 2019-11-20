@@ -1200,7 +1200,16 @@ namespace website.Controllers
             {
                 _context.ShiftPlans.Add(vm.ShiftPlan);
                 _context.SaveChanges();
-                return RedirectToAction("ShiftPlans","Admin");
+                return View(
+                    new AdminShiftPlanNewViewModel()
+                    {
+                        ShiftPlan = new ShiftPlan(),
+                        Shifts = _context.Shifts.OrderByDescending(s => s.Session).ThenBy(s => s.TimeStart).ToList(),
+                        ShiftPlans = _context.ShiftPlans.Where(sp => sp.DateStart.ToString("dd/MM/yyyy") == DateTime.Now.ToString("dd/MM/yyyy")).ToList(),
+                        Rooms = _context.Rooms.OrderBy(r => r.ShortCode).ToList(),
+                        Doctors = _context.Doctors.OrderBy(d => d.NameLast).ThenBy(d => d.NameMiddle).ThenBy(d => d.NameFirst).ToList()
+                    }
+                );
             }
             else
             {

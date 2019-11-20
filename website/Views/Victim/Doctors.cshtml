@@ -1,0 +1,32 @@
+﻿@model website.ViewModels.VictimDoctorsViewModel
+@{
+    ViewData["Title"] = "Đăng ký khám chữa bệnh";
+    Layout = "~/Views/Victim/_VictimLayout.cshtml";
+}
+
+<div class="container-fluid relative doctors">
+    <div class="container">
+        <div class="row">
+            <div class="col-3">
+                <a asp-controller="Victim" asp-action="Registration" asp-route-insuranceID="@Model.InsuranceId" class="button button--back"><i class="fas fa-long-arrow-alt-left"></i> Quay lại</a>
+            </div>
+            <div class="col-9">
+                <h2>Đăng ký khám bệnh tại khoa @Model.FacultyName</h2>
+                <h4>Chọn bác sĩ</h4>
+            </div>
+        </div>
+
+        <div class="row">
+            @foreach (var doc in Model.Doctors)
+            {
+                string fullname = doc.NameLast + " " + doc.NameMiddle + " " + doc.NameFirst;
+                <div class="col-6">
+                    <a asp-controller="Victim" asp-action="Complete" asp-route-doctorId="@doc.Id" asp-route-insuranceId="@Model.InsuranceId" class="doctor">
+                        <p class="doctor__name">@fullname</p>
+                    </a>
+                </div>
+            }
+        </div>
+
+    </div>
+</div>

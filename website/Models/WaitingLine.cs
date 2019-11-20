@@ -16,5 +16,8 @@ namespace website.Models
      
         [Display(Name = "Tình trạng")]
         public string Status { get; set; } = "Đang đợi";
+
+        [Display(Name = "Số thứ tự")]
+        public int Number {get;set;}
     }
 }
