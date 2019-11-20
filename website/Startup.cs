@@ -36,8 +36,9 @@ namespace website
 
             services.AddSession(p =>
             {
-                p.IdleTimeout = TimeSpan.FromMinutes(1);
+                p.IdleTimeout = TimeSpan.FromMinutes(5);
             });
+            services.AddHttpContextAccessor();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(opt =>

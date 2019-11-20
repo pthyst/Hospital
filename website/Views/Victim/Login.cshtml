@@ -1,4 +1,4 @@
-﻿
+﻿@model website.ViewModels.VictimLoginViewModel
 @{
     Layout = "~/Views/Victim/_VictimLayout.cshtml";
     ViewBag.Title = "Bệnh nhân đăng nhập";
@@ -7,13 +7,13 @@
 <div class="container-fluid relative login">
     <div class="row">
         <div class="col-6 offset-3">
-            <form asp-controller="Victim" asp-action="Login">
+            <form asp-controller="Victim" asp-action="Login" method="post">
                 <div class="form-group">
-                    <label class="blck txt-center" for="InsuranceId">Quét thẻ dưới khe hoặc nhập mã thẻ</label>
-                    <input type="password" placeholder="Nhập mã thẻ bảo hiểm tại đây" class="form-control" />
+                    <label class="blck txt-center" asp-for="@Model.InsuranceId">Quét thẻ dưới khe hoặc nhập mã thẻ</label>
+                    <input asp-for="@Model.InsuranceId" type="text" placeholder="Nhập mã thẻ bảo hiểm tại đây" class="form-control" />
                 </div>
                 <div class="form-group txt-right">
-                    <a asp-controller="Victim" asp-action="Registration" class="login__button login__button--confirm">Xác nhận</a>
+                    <button class="login__button login__button--confirm">Xác nhận</button>
                 </div>
             </form>
         </div>
