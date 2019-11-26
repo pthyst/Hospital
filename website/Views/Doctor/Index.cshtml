@@ -12,38 +12,33 @@
 <div class="row">
 
     <div class="col-6">
-        <form method="post" class="form1">
+            <p style="font-size: 15px; font-family: VnArial">
+                Số thứ tự: <input id="stt1" type="number" name="stt" value="0" class="input 1" />
+                <input onclick="Getpa(document.getElementById('stt1').value)" type="button" value="Người tiếp theo" />
+            </p>
             <table>
                 <tr>
                     <td width="150">
-                        <label>STT: </label>
+                        <label>Mã bệnh nhân: </label>
                     </td>
                     <td width="300">
-                        <input type="text" name="stt" class="input 1" />
+                        <input id="in-mabn" type="text" name="tenbn" class="input 1" />
                     </td>
                 </tr>
                 <tr>
                     <td width="150">
-                        <label>Mã thẻ BH: </label>
+                        <label>Tên bệnh nhân: </label>
                     </td>
                     <td width="300">
-                        <input type="text" name="mathe" class="input 1" />
+                        <input id="in-tenbn" type="text" name="tenbn" class="input 1" />
                     </td>
                 </tr>
                 <tr>
                     <td width="150">
-                        <label>Tên BN: </label>
+                        <label>Tên đơn thuốc: </label>
                     </td>
                     <td width="300">
                         <input type="text" name="tenbn" class="input 1" />
-                    </td>
-                </tr>
-                <tr>
-                    <td width="150">
-                        <label>Tên BS: </label>
-                    </td>
-                    <td width="300">
-                        <input size="37" type="text" name="tenbs" class="input 1" />
                     </td>
                 </tr>
                 <tr>
@@ -53,28 +48,27 @@
                     <td width="300">
                         <textarea cols="40" rows="5"></textarea>
                     </td>
+
                 </tr>
 
             </table>
+            <br />
             <table border="1">
                 <tr id="thuoctinh">
                     <td>STT</td>
                     <td>Tên thuốc</td>
                     <td>Đơn vị tính</td>
-                    
-                </tr>            
+
+                </tr>
             </table>
-        </form>
     </div>
     <div class="col-6">
         <form method="post" class="form2">
             <p>
-                Tên thuốc: <input type="text" name="SearchString">
-                <input type="submit" value="Tìm kiếm" />
+                Tên thuốc: <input id="searchten" type="text" name="SearchString">
+                <input id="test" onclick="search(document.getElementById('searchten').value)" type="button" value="Tìm kiếm" />
             </p>
-        </form>
-        <form method="post">
-            <table class="table">
+            <table class="table" id="tablemedic">
                 <thead>
                     <tr>
                         <th>
@@ -90,43 +84,88 @@
                             Trưa
                         </th>
                         <th>
-                            Chiều
+                            Tối
                         </th>
                         <th>
-                            Tối
+                            Ngày
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Id)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Name)
-                            </td>
-                            <td>
-                                <input size="1" />
-                            </td>
-                            <td>
-                                <input size="1" />
-                            </td>
-                            <td>
-                                <input size="1" />
-                            </td>
-                            <td>
-                                <input size="1" />
-                            </td>
-                            <td>
-                                <input type="submit" value="Thêm"/>
-                            </td>
-                           
-                        </tr>
-                    }
+                    
                 </tbody>
             </table>
         </form>
     </div>
 </div>
+
+@section Scripts{
+    <script type="text/javascript">
+
+        function search(searchh) {
+            
+            var settings = {
+                "async": true,
+                "crossDomain": true,
+                "url": "https://localhost:44314/Doctor/search",
+                "method": "POST",
+                "headers": {
+                    "content-type": "application/json",
+                    "cache-control": "no-cache",
+                    "postman-token": "58da1088-b196-2729-b087-ddee26ac6837"
+                },
+                "processData": false,
+                 "data": "\t\""+searchh+"\"\n"
+            }
+
+            $.ajax(settings).done(function (response) {
+                var tbody = document.getElementById('tablemedic').getElementsByTagName('tbody')[0];
+                tbody.innerHTML = "";
+                response.forEach(function (item, index) {
+                    var row = tbody.insertRow();
+                    var cell1 = row.insertCell(0);
+                    var cell2 = row.insertCell(1);
+                    var cell3 = row.insertCell(2);
+                    var cell4 = row.insertCell(3);
+                    var cell5 = row.insertCell(4);
+                    var cell6 = row.insertCell(5);
+                    var cell7 = row.insertCell(6);
+                    cell1.innerHTML = item.id;
+                    cell2.innerHTML = item.name;
+                    cell3.innerHTML = '<input size="1" type="number" style="width: 3em" />';
+                    cell4.innerHTML = '<input size="1" type="number" style="width: 3em" />';
+                    cell5.innerHTML = '<input size="1" type="number" style="width: 3em" />';
+                    cell6.innerHTML = '<input size="1" type="number" style="width: 3em" />';
+                    cell7.innerHTML = '<input type="button" value="Thêm" />';
+                });
+
+                
+            });
+        }
+    </script>
+    <script>
+        function Getpa(stt) {
+              var settings = {
+              "async": true,
+              "crossDomain": true,
+              "url": "https://localhost:44314/Doctor/waitingline",
+              "method": "POST",
+              "headers": {
+                "content-type": "application/json",
+                "cache-control": "no-cache",
+                "postman-token": "5055f814-436b-7ac4-c494-a44d26147f37"
+              },
+                  "processData": false,
+                  "data": stt
+            }
+            
+            $.ajax(settings).done(function (response) {
+                var x = parseInt(stt) + 1;
+                $('#stt1').val(x);
+                $('#in-mabn').val(response.id);
+                $('#in-tenbn').val(response.nameLast+" "+response.nameMiddle+" "+response.nameFirst);
+            }
+            );
+        }
+    </script>
+}

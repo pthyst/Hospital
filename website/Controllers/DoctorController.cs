@@ -14,7 +14,7 @@ using website.Models;
 
 namespace website.Controllers
 {
-
+    //[Authorize]
     public class DoctorController : Controller
     {
         private readonly WebsiteDbContext _context;
@@ -23,16 +23,55 @@ namespace website.Controllers
             _context = context;
         }
 
-        public IActionResult Index(string searchstring)
+        public IActionResult Index(/*string searchstring*/)
         {
-            
+
+            //if (!string.IsNullOrEmpty(searchstring))
+            //{
+            //    var medicine = _context.Medicines.AsQueryable();
+            //    medicine = medicine.Where(s => s.Name.Contains(searchstring));
+            //    return View(medicine.ToList());
+            //}
+            return View(_context.Medicines);
+        }
+        [HttpPost]
+        public IActionResult search([FromBody]string searchstring)
+        {
+            var medicine = _context.Medicines.AsQueryable();
             if (!string.IsNullOrEmpty(searchstring))
             {
-                var medicine = _context.Medicines.AsQueryable();
+                
                 medicine = medicine.Where(s => s.Name.Contains(searchstring));
-                return View(medicine.ToList());
+                return Ok(medicine.ToList());
             }
-            return View(_context.Medicines);
+            return Ok(medicine.ToList()) ;
+        }
+
+        //public IActionResult Getmedic()
+        //{
+
+        //    return new JsonResult();
+        //}
+        [HttpPost]
+        public IActionResult waitingline([FromBody]int stt)
+        {
+            DateTime datenow = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd"));
+            DateTime hournow = DateTime.Parse(DateTime.Now.ToString("HH:mm:ss"));
+            //var dr = HttpContext.Session.Get<Doctor>("doctor");
+            var shiftplan = _context.ShiftPlans.Where(r => r.Doctor_Id == 4 && DateTime.Parse(r.DateStart.ToString("yyyy-MM-dd")) <= datenow && DateTime.Parse(r.DateEnd.ToString("yyyy-MM-dd")) >= datenow);
+            var shiftPl=new ShiftPlan();
+            foreach (var sp in shiftplan)
+            {
+                var shift = _context.Shifts.Where(s => s.Id == sp.Shift_Id).FirstOrDefault();
+                if(shift.TimeStart<=hournow && shift.TimeEnd >= hournow)
+                {
+                    shiftPl = sp;
+                }
+            }
+            var waitinginroom = _context.WaitingLines.Where(s => s.Room_Id == shiftPl.Room_Id);
+            var waitingpa = waitinginroom.Where(p => p.Number == stt + 1).FirstOrDefault();
+            var pa = _context.Patients.Where(p => p.Id == waitingpa.Patient_Id).FirstOrDefault();
+            return Ok(pa);
         }
         
         [AllowAnonymous]
@@ -60,7 +99,7 @@ namespace website.Controllers
                 await HttpContext.SignInAsync(principal);
                 return RedirectToAction("Index","Doctor");
             }
-            return View();
+            return View("Login");
         }
         public async Task<IActionResult> Logout()
         {
