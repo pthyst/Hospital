@@ -77,17 +77,78 @@ namespace website.Controllers
             return View(vm);
         }
 
+        // Hàm kiểm tra xem bác sĩ có trong ca trực hay không
+        public bool IsInShift(int doctorId)
+        {
+            int now_hour   = DateTime.Now.Hour;
+            int now_minute = DateTime.Now.Minute;
+
+            // Lấy lịch trực hôm nay
+            var queryable = _context.ShiftPlans.Where(s => s.DateStart.ToString("dd/MM/yyyy") == DateTime.Now.ToString("dd/MM/yyyy")).OrderBy(s => s.Id);
+            
+            // Lấy các ca trực có bác sĩ cần tìm
+            queryable = queryable.Where(s => s.Doctor_Id == doctorId).OrderBy(s => s.Id);
+
+            if (queryable == null){ return false;}
+            else
+            {
+                List<ShiftPlan> plans = queryable.ToList();
+                foreach(var plan in plans)
+                {
+                    Shift shift = _context.Shifts.Where(s => s.Id == plan.Shift_Id).FirstOrDefault();
+                    int startH = shift.TimeStart.Hour;
+                    int endH   = shift.TimeEnd.Hour;
+                    int endM   = shift.TimeEnd.Minute;
+
+                    if (now_hour >= startH && now_hour < endH){ return true;}
+                    else if (now_hour == endH && now_minute < endM){ return true;}
+                }
+            }
+            return false;
+        }
+
+        public ShiftPlan GetShiftPlanFromDoctorId(int doctorId)
+        {
+            if (IsInShift(doctorId) == true)
+            {
+                int now_hour   = DateTime.Now.Hour;
+                int now_minute = DateTime.Now.Minute;
+                ShiftPlan result = new ShiftPlan();
+
+                // Lấy lịch trực hôm nay
+                var queryable = _context.ShiftPlans.Where(s => s.DateStart.ToString("dd/MM/yyyy") == DateTime.Now.ToString("dd/MM/yyyy")).OrderBy(s => s.Id);
+    
+                // Lấy các ca trực có bác sĩ cần tìm
+                queryable = queryable.Where(s => s.Doctor_Id == doctorId).OrderBy(s => s.Id);
+                List<ShiftPlan> plans = queryable.ToList();
+
+                foreach(var plan in plans)
+                {
+                    Shift shift = _context.Shifts.Where(s => s.Id == plan.Shift_Id).FirstOrDefault();
+                    int startH = shift.TimeStart.Hour;
+                    int endH   = shift.TimeEnd.Hour;
+                    int endM   = shift.TimeEnd.Minute;
+
+                    if (now_hour >= startH && now_hour < endH){ result = plan;}
+                    else if (now_hour == endH && now_minute < endM){ result = plan;}
+                }
+
+                return result;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         // Màn hình thông báo hoàn tất đăng ký
         [HttpGet]
         public IActionResult Complete(int insuranceId,int doctorId)
         {
-            // Lấy lịch trực hôm nay 
-            // nullhere
-            var queryable = _context.ShiftPlans.Where(sp => sp.Doctor_Id == doctorId);
-            ShiftPlan shiftplan = queryable.Where(sp => sp.DateStart.ToString("dd/MM/yyyy") == DateTime.Now.ToString("dd/MM/yyyy")).FirstOrDefault();
+            ShiftPlan shiftplan = GetShiftPlanFromDoctorId(doctorId);
             
             // Lấy mã phòng
-            Room room = _context.Rooms.Where(r => r.Id == shiftplan.Id).FirstOrDefault();
+            Room room = _context.Rooms.Where(r => r.Id == shiftplan.Room_Id).FirstOrDefault();
             string roomshortcode = room.ShortCode;
 
             // Lấy tên bác sĩ
