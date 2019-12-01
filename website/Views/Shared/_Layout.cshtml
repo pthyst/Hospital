@@ -40,11 +40,11 @@
                 </div>
             </div>
             <div>
-            @using Microsoft.AspNetCore.Http;
-            @using website.Helper;
-            @{
-                var dr = Context.Session.Get<Doctor>("doctor");
-            }
+                @using Microsoft.AspNetCore.Http;
+                @using website.Helper;
+                @{
+                    var dr = Context.Session.Get<Doctor>("doctor");
+                }
                 <ul class="navbar-nav">
 
                     @if (!User.Identity.IsAuthenticated)
@@ -104,7 +104,7 @@
         </script>
     </environment>
     <script src="~/js/site.js" asp-append-version="true"></script>
-
+    <script src="~/lib/jquery/JqueryDataTable.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

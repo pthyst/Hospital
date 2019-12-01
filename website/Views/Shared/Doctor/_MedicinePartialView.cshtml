@@ -1,0 +1,68 @@
+﻿@model IEnumerable<website.Models.Medicine>
+
+
+<form method="post" class="form2">
+    <p>
+        Tên thuốc: <input id="searchten" type="text" name="SearchString">
+        <input id="test" onclick="search(document.getElementById('searchten').value)" type="button" value="Tìm kiếm" />
+    </p>
+    <table class="table" id="tablemedic">
+        <thead>
+            <tr>
+                <th>
+                    Mã thuốc
+                </th>
+                <th>
+                    Tên thuốc
+                </th>
+                <th>
+                    Sáng
+                </th>
+                <th>
+                    Trưa
+                </th>
+                <th>
+                    Tối
+                </th>
+                <th>
+                    Ngày
+                </th>
+                <th>
+                    Hành Động
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var item in Model)
+            {
+                <tr id="@item.Id">
+                    <td>@item.Id</td>
+                    <td>@item.Name</td>
+                    <td><input  size="1" type="number" style="width: 3em" /></td>
+                    <td><input size="1" type="number" style="width: 3em" /></td>
+                    <td><input size="1" type="number" style="width: 3em" /></td>
+                    <td><input size="1" type="number" style="width: 3em" /></td>
+                    <td><input type="button" onclick="add(@item.Id)" size="1" style="width: 5em" value="Thêm" /></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</form>
+<script>
+    function add(id) {
+        $.ajax({
+            url: "/Doctor/addmedic",
+            type: "POST",
+            dataType: 'json',
+            data: {
+                id: id
+            },
+            success: function (data) {
+                console.log(data);
+                $('#perscription').DataTable({ data: data });
+            }
+        })
+        
+    }
+</script>
+

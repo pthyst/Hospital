@@ -35,16 +35,26 @@ namespace website.Controllers
             return View(_context.Medicines);
         }
         [HttpPost]
-        public IActionResult search([FromBody]string searchstring)
+        public IActionResult search(string searchstring)
         {
-            var medicine = _context.Medicines.AsQueryable();
+            List<Medicine> medicine = new List<Medicine>();
             if (!string.IsNullOrEmpty(searchstring))
             {
-                
-                medicine = medicine.Where(s => s.Name.Contains(searchstring));
-                return Ok(medicine.ToList());
+               
+                medicine = _context.Medicines.Where(s => s.Name.Contains(searchstring)).ToList();
+                return PartialView("Doctor/_MedicinePartialView", medicine);
             }
-            return Ok(medicine.ToList()) ;
+            
+            return PartialView("Doctor/_MedicinePartialView", medicine) ;
+        }
+        [HttpPost]
+        public IActionResult addmedic(int id)
+        {
+            var medicine = _context.Medicines.Where(m => m.Id == id).FirstOrDefault();
+            PercriptionViewModel per = new PercriptionViewModel();
+            
+            HttpContext.Session.Set<PercriptionViewModel>("perscription",)
+            return Ok(Json(medicine));
         }
 
         //public IActionResult Getmedic()
