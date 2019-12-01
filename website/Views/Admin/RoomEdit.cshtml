@@ -43,7 +43,7 @@
     </div>
     <div class="col-3">
        
-        <form asp-controller="Admin" asp-action="Rooms" method="post">
+        <form asp-controller="Admin" asp-action="RoomEdit" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             
             <div class="form-group">
@@ -86,7 +86,7 @@
             </div>
 
             <input type="hidden" asp-for="@Model.Room.Id"/>
-            <button type="submit" class="button button--new">Thêm phòng</button>
+            <button type="submit" class="button button--submit">Cập nhật</button>
             <a asp-controller="Admin" asp-action="RoomDelete" asp-route-id="@Model.Room.Id" class="button button--delete"><i class="fas fa-trash-alt"></i> Xóa</a>
         
         </form>
