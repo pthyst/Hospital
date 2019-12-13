@@ -1,53 +1,38 @@
-﻿@model IEnumerable<website.Models.Medicine>
+﻿@model website.ViewModels.PercriptionViewModel
 
 
-<form method="post" class="form2">
-    <p>
-        Tên thuốc: <input id="searchten" type="text" name="SearchString">
-        <input id="test" onclick="search(document.getElementById('searchten').value)" type="button" value="Tìm kiếm" />
-    </p>
-    <table class="table" id="tablemedic">
-        <thead>
-            <tr>
-                <th>
-                    Mã thuốc
-                </th>
-                <th>
-                    Tên thuốc
-                </th>
-                <th>
-                    Sáng
-                </th>
-                <th>
-                    Trưa
-                </th>
-                <th>
-                    Tối
-                </th>
-                <th>
-                    Ngày
-                </th>
-                <th>
-                    Hành Động
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach(var item in Model)
-            {
-                <tr id="@item.Id">
-                    <td>@item.Id</td>
-                    <td>@item.Name</td>
-                    <td><input  size="1" type="number" style="width: 3em" /></td>
-                    <td><input size="1" type="number" style="width: 3em" /></td>
-                    <td><input size="1" type="number" style="width: 3em" /></td>
-                    <td><input size="1" type="number" style="width: 3em" /></td>
-                    <td><input type="button" onclick="add(@item.Id)" size="1" style="width: 5em" value="Thêm" /></td>
+        <p>
+            Tên thuốc: <input id="searchten" type="text" name="SearchString">
+            <input id="test" onclick="search(document.getElementById('searchten').value)" type="button" value="Tìm kiếm" />
+        </p>
+        <table class="table" id="tablemedic">
+            <thead>
+                <tr>
+                    <th>
+                        Mã thuốc
+                    </th>
+                    <th>
+                        Tên thuốc
+                    </th>
+                    <th>
+                        Hành Động
+                    </th>
                 </tr>
-            }
-        </tbody>
-    </table>
-</form>
+            </thead>
+            <tbody id="tb">
+                @foreach (var item in Model.medicine)
+                {
+
+                <tr id="@item.Id">
+                        <td>@item.Id</td>
+                        <td>@item.Name</td>
+                        <td><input type="button" onclick="add(@item.Id)" size="1" style="width: 5em" value="Thêm" /></td>
+                </tr>
+
+                }
+            </tbody>
+        </table>
+
 <script>
     function add(id) {
         $.ajax({
@@ -57,9 +42,20 @@
             data: {
                 id: id
             },
-            success: function (data) {
-                console.log(data);
-                $('#perscription').DataTable({ data: data });
+            success: function (data) {                
+                var g = w2ui['grid'].records.length;
+                var check = true;
+                for (var i = 1; i <= g; i++) {
+                    if (w2ui['grid'].get(i).id === data.value.id) {
+                        check = false;
+                    }
+                }
+                if (check === true) {
+                    w2ui['grid'].add({ recid: g + 1, id: data.value.id, name: data.value.name, sang: 0, trua: 0, toi: 0, ngay: 0 });
+                }
+                else {
+                    alert("Thuốc đã được thêm!");
+                }
             }
         })
         

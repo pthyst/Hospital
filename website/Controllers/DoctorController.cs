@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
 using website.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace website.Controllers
 {
@@ -23,52 +24,87 @@ namespace website.Controllers
             _context = context;
         }
 
-        public IActionResult Index(/*string searchstring*/)
+        public IActionResult Index()
         {
-
-            //if (!string.IsNullOrEmpty(searchstring))
-            //{
-            //    var medicine = _context.Medicines.AsQueryable();
-            //    medicine = medicine.Where(s => s.Name.Contains(searchstring));
-            //    return View(medicine.ToList());
-            //}
             return View(_context.Medicines);
         }
         [HttpPost]
         public IActionResult search(string searchstring)
         {
-            List<Medicine> medicine = new List<Medicine>();
+            List<Medicine> me = new List<Medicine>();
+            var per = new PercriptionViewModel();
             if (!string.IsNullOrEmpty(searchstring))
             {
-               
-                medicine = _context.Medicines.Where(s => s.Name.Contains(searchstring)).ToList();
-                return PartialView("Doctor/_MedicinePartialView", medicine);
+                me = _context.Medicines.Where(s => s.Name.Contains(searchstring)).ToList();
+                foreach (var item in me)
+                {
+                    per.medicine.Add(item);
+                }
+                return PartialView("Doctor/_MedicinePartialView", per);
             }
             
-            return PartialView("Doctor/_MedicinePartialView", medicine) ;
+            return PartialView("Doctor/_MedicinePartialView", per) ;
+        }
+        [HttpPost]
+        public IActionResult SearchAPI(string searchstring)
+        {
+
+            var medicine = new { };
+            List<Medicine> me = new List<Medicine>();
+            var per = new PercriptionViewModel();
+            if (!string.IsNullOrEmpty(searchstring))
+            {
+                me = _context.Medicines.Where(s => s.Name.Contains(searchstring)).ToList();
+                foreach (var item in me)
+                {
+                    per.medicine.Add(item);
+                }
+            }
+
+            return Ok(per.medicine);
+
         }
         [HttpPost]
         public IActionResult addmedic(int id)
         {
             var medicine = _context.Medicines.Where(m => m.Id == id).FirstOrDefault();
-            PercriptionViewModel per = new PercriptionViewModel();
-            
-            HttpContext.Session.Set<PercriptionViewModel>("perscription",)
             return Ok(Json(medicine));
         }
+        [HttpPost]
+        public IActionResult SavePerscription(PercriptionViewModel per) {
+            DateTime now = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+            if (ModelState.IsValid && per.perscription.Patient_Id!=0)
+            {
+                per.perscription.DateCreate = now;
+                per.perscription.DateModify = now;
+                _context.Add(per.perscription);
+                _context.SaveChanges();
+            }
+            var p = _context.Perscriptions.Where(x => x.DateCreate == now).FirstOrDefault();
+            foreach(var item in per.perscriptionmedicinedetails)
+            {
+                var perr = new PerscriptionDetail();
+                perr.Medicine_Id = item.id;
+                perr.Morning = item.sang;
+                perr.Noon = item.trua;
+                perr.Evening = item.toi;
+                perr.Days = item.ngay;
+                perr.Quantity = (perr.Morning + perr.Noon + perr.Evening) * perr.Days;
+                perr.Perscription_Id = p.Id;
+                _context.Add(perr);
+                _context.SaveChanges();
 
-        //public IActionResult Getmedic()
-        //{
-
-        //    return new JsonResult();
-        //}
+            }
+            return RedirectToAction("Index");
+        }
         [HttpPost]
         public IActionResult waitingline([FromBody]int stt)
         {
+            var per = new PercriptionViewModel();
             DateTime datenow = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd"));
             DateTime hournow = DateTime.Parse(DateTime.Now.ToString("HH:mm:ss"));
-            //var dr = HttpContext.Session.Get<Doctor>("doctor");
-            var shiftplan = _context.ShiftPlans.Where(r => r.Doctor_Id == 4 && DateTime.Parse(r.DateStart.ToString("yyyy-MM-dd")) <= datenow && DateTime.Parse(r.DateEnd.ToString("yyyy-MM-dd")) >= datenow);
+            var dr = HttpContext.Session.Get<Doctor>("doctor");
+            var shiftplan = _context.ShiftPlans.Where(r => r.Doctor_Id == dr.Id && DateTime.Parse(r.DateStart.ToString("yyyy-MM-dd")) <= datenow && DateTime.Parse(r.DateEnd.ToString("yyyy-MM-dd")) >= datenow);
             var shiftPl=new ShiftPlan();
             foreach (var sp in shiftplan)
             {

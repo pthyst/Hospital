@@ -12,17 +12,26 @@
 <div class="row">
 
     <div class="col-6">
-            <p style="font-size: 15px; font-family: VnArial">
-                Số thứ tự: <input id="stt1" type="number" name="stt" value="0" class="input 1" />
-                <input onclick="Getpa(document.getElementById('stt1').value)" type="button" value="Người tiếp theo" />
-            </p>
-            <table >
+        @*<p style="font-size: 15px; font-family: VnArial">
+            Số thứ tự: <input id="stt1" type="number" name="stt" value="0" class="input 1" />
+            <input onclick="Getpa(document.getElementById('stt1').value)" type="submit" value="Người tiếp theo" />
+        </p>*@
+        <form>
+            <table>
+                <tr>
+                    <td width="150">
+                        <label>STT: </label>
+                    </td>
+                    <td width="300">
+                        <input id="stt1" type="number" name="stt" value="0" class="input 1" />
+                    </td>
+                </tr>
                 <tr>
                     <td width="150">
                         <label>Mã bệnh nhân: </label>
                     </td>
                     <td width="300">
-                        <input id="in-mabn" type="text" name="tenbn" class="input 1" />
+                        <input id="in-mabn" type="text" name="mabn" class="input 1" />
                     </td>
                 </tr>
                 <tr>
@@ -38,7 +47,7 @@
                         <label>Tên đơn thuốc: </label>
                     </td>
                     <td width="300">
-                        <input type="text" name="tenbn" class="input 1" />
+                        <input type="text" id="in-tendt" class="input 1" />
                     </td>
                 </tr>
                 <tr>
@@ -46,113 +55,77 @@
                         <label>Chuẩn đoán </label>
                     </td>
                     <td width="300">
-                        <textarea cols="40" rows="5"></textarea>
+                        <textarea cols="40" rows="5" id="in-cd"></textarea>
                     </td>
 
                 </tr>
-
             </table>
-            <br />
-            <table border="1" id="perscription">
-                <tr id="thuoctinh">
-                    <td>STT</td>
-                    <td>Tên thuốc</td>
-                    <td>Đơn vị tính</td>
-                    <td>Sáng</td>
-                    <td>Trưa</td>
-                    <td>Tối</td>
-                    <td>Tổng số lượng</td>
-                    <td>Ngày</td>
-                </tr>
-            </table>
+            <input onclick="Getpa(document.getElementById('stt1').value)" type="button" value="Người tiếp theo" />
+        </form>
+        <br />
+        <div id="grid" style="width: 100%; height: 350px;"></div>
+        <br />
+        <button class="w2ui-btn" onclick="deletesl()">Delete Selected</button>
     </div>
     <div class="col-6" id="medic">
-        <form method="post" class="form2">
-            <p>
-                Tên thuốc: <input id="searchten" type="text" name="SearchString">
-                <input id="test" onclick="search(document.getElementById('searchten').value)" type="button" value="Tìm kiếm" />
-            </p>
-            <table class="table" id="tablemedic" >
-                <thead>
-                    <tr>
-                        <th>
-                            Mã thuốc
-                        </th>
-                        <th>
-                            Tên thuốc
-                        </th>
-                        <th>
-                            Sáng
-                        </th>
-                        <th>
-                            Trưa
-                        </th>
-                        <th>
-                            Tối
-                        </th>
-                        <th>
-                            Ngày
-                        </th>
-                        <th>
-                            Hành Động
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    
-                </tbody>
-            </table>
-        </form>
+        <p>
+            Tên thuốc: <input id="searchten" type="text" name="SearchString">
+            <input id="test" onclick="search(document.getElementById('searchten').value)" type="button" value="Tìm kiếm" />
+        </p>
+        <table class="table" id="tablemedic" >
+            <thead>
+                <tr>
+                    <th>
+                        Mã thuốc
+                    </th>
+                    <th>
+                        Tên thuốc
+                    </th>
+                    <th>
+                        Sáng
+                    </th>
+                    <th>
+                        Trưa
+                    </th>
+                    <th>
+                        Tối
+                    </th>
+                    <th>
+                        Ngày
+                    </th>
+                    <th>
+                        Hành Động
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+        
     </div>
 </div>
 
 @section Scripts{
-    @*<script type="text/javascript">
-
-        function search(searchh) {
-            
-            var settings = {
-                "async": true,
-                "crossDomain": true,
-                "url": "https://localhost:44314/Doctor/search",
-                "method": "POST",
-                "headers": {
-                    "content-type": "application/json",
-                    "cache-control": "no-cache",
-                    "postman-token": "58da1088-b196-2729-b087-ddee26ac6837"
-                },
-                "processData": false,
-                 "data": "\t\""+searchh+"\"\n"
-            }
-
-            $.ajax(settings).done(function (response) {
-                var tbody = document.getElementById('tablemedic').getElementsByTagName('tbody')[0];
-                tbody.innerHTML = "";
-                response.forEach(function (item, index) {
-                    var row = tbody.insertRow();
-                    var cell1 = row.insertCell(0);
-                    var cell2 = row.insertCell(1);
-                    var cell3 = row.insertCell(2);
-                    var cell4 = row.insertCell(3);
-                    var cell5 = row.insertCell(4);
-                    var cell6 = row.insertCell(5);
-                    var cell7 = row.insertCell(6);
-                    cell1.innerHTML = item.id;
-                    cell2.innerHTML = item.name;
-                    cell3.innerHTML = '<input size="1" type="number" style="width: 3em" />';
-                    cell4.innerHTML = '<input size="1" type="number" style="width: 3em" />';
-                    cell5.innerHTML = '<input size="1" type="number" style="width: 3em" />';
-                    cell6.innerHTML = '<input size="1" type="number" style="width: 3em" />';
-                    cell7.innerHTML = '<input type="button" value="Thêm" />';
-                });
-
-                
-            });
-        }
-    </script>*@
 <script>
+    $(function () {
+        $('#grid').w2grid({ 
+            name: 'grid', 
+            show: {
+            selectColumn: true
+            },
+            columns: [          
+                { field: 'recid', caption: 'STT', size: '10%',sortable: true },
+                { field: 'id', caption: 'Mã thuốc', size: '10%' },
+                { field: 'name', caption: 'Tên thuốc', size: '30%' },
+                { field: 'sang', caption: 'Sáng', size: '10%', resizable: true, render: 'int', editable: { type: 'int' } },
+                { field: 'trua', caption: 'Trưa', size: '10%', resizable: true, render: 'int' , editable: { type: 'int' } },
+                { field: 'toi', caption: 'Tôi', size: '10%',  resizable: true, render: 'int' , editable: { type: 'int' } },
+                { field: 'ngay', caption: 'Ngày', size: '10%',  resizable: true, render: 'int' , editable: { type: 'int' } },
+            ],
+        });    
+    });
     function search(searchh) {
-        
         $.ajax({
             url: "/Doctor/search",
             type: "POST",
@@ -161,13 +134,49 @@
                 searchstring: searchh
             },
             success: function (data) {
+                console.log(data);
                 $('#medic').html(data);
             }
         });
     }
 </script>
-    <script>
-        function Getpa(stt) {
+<script>
+    function Getpa(stt) {
+            @using Microsoft.AspNetCore.Http;
+            @using website.Helper;
+            @{ 
+            var dr = Context.Session.Get<Doctor>("doctor");
+            }  
+            var today = new Date();
+            var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+            var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            var dateTime = date+' '+time;
+            var g = w2ui['grid'].records.length;
+            var record = [];
+            w2ui.grid.save();
+            record = w2ui['grid'].records;
+            console.log(record);
+            debugger;
+                $.ajax({
+            url: "/Doctor/SavePerscription",
+            type: "POST",
+            data: {
+                per: {
+                    perscription: {
+                        Name: $('#in-tendt').val(),
+                        Description: $('#in-cd').val(),
+                        Doctor_Id:@dr.Id,
+                        Patient_Id: $('#in-mabn').val(),
+                        Faculty_Id: @dr.Faculty_Id,
+                        //DateCreate: dateTime,
+                        //DateModify: dateTime,
+                    },
+                    perscriptionmedicinedetails: record,
+                }
+                    },
+                    success: function (data) {
+            }
+        });
               var settings = {
               "async": true,
               "crossDomain": true,
@@ -181,14 +190,24 @@
                   "processData": false,
                   "data": stt
             }
-            
-            $.ajax(settings).done(function (response) {
+
+        $.ajax(settings).done(function (response) {
                 var x = parseInt(stt) + 1;
                 $('#stt1').val(x);
                 $('#in-mabn').val(response.id);
-                $('#in-tenbn').val(response.nameLast+" "+response.nameMiddle+" "+response.nameFirst);
+            $('#in-tenbn').val(response.nameLast + " " + response.nameMiddle + " " + response.nameFirst);
+            $('#in-cd').val("");
+            $('#in-tendt').val("");
+            w2ui.grid.clear();
+            w2ui.grid.refresh();
             }
             );
+    }
+    function deletesl() {
+        var x = w2ui.grid.getSelection();
+        for (var i = 0; i < x.length; i++) {
+            w2ui.grid.delete(x[i]);
         }
-    </script>
+    }
+</script>
 }
