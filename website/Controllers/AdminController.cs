@@ -1182,11 +1182,26 @@ namespace website.Controllers
 
         public IActionResult ShiftPlanNew()
         {
+            List<ShiftPlan> plans = new List<ShiftPlan>();
+            foreach (ShiftPlan sp in _context.ShiftPlans.ToList())
+            {
+                int nowD = DateTime.Now.Day;
+                int nowM = DateTime.Now.Month;
+
+                if (nowM == sp.DateStart.Month)
+                {
+                    if (sp.DateStart.Day <= nowD && sp.DateEnd.Day >= nowD)
+                    {
+                        plans.Add(sp);
+                    }
+                }
+            }
+
             AdminShiftPlanNewViewModel vm = new AdminShiftPlanNewViewModel()
             {
                 ShiftPlan = new ShiftPlan(),
                 Shifts = _context.Shifts.OrderByDescending(s => s.Session).ThenBy(s => s.TimeStart).ToList(),
-                ShiftPlans = _context.ShiftPlans.Where(sp => sp.DateStart.ToString("dd/MM/yyyy") == DateTime.Now.ToString("dd/MM/yyyy")).ToList(),
+                ShiftPlans = plans,
                 Rooms = _context.Rooms.OrderBy(r => r.ShortCode).ToList(),
                 Doctors = _context.Doctors.OrderBy(d => d.NameLast).ThenBy(d => d.NameMiddle).ThenBy(d => d.NameFirst).ToList()
             };
@@ -1196,16 +1211,32 @@ namespace website.Controllers
         [HttpPost]
         public IActionResult ShiftPlanNew(AdminShiftPlanNewViewModel vm)
         {
+            List<ShiftPlan> plans = new List<ShiftPlan>();
+            foreach (ShiftPlan sp in _context.ShiftPlans.ToList())
+            {
+                int nowD = DateTime.Now.Day;
+                int nowM = DateTime.Now.Month;
+
+                if (nowM == sp.DateStart.Month)
+                {
+                    if (sp.DateStart.Day <= nowD && sp.DateEnd.Day >= nowD)
+                    {
+                        plans.Add(sp);
+                    }
+                }
+            }
+
             if (ModelState.IsValid)
             {
                 _context.ShiftPlans.Add(vm.ShiftPlan);
                 _context.SaveChanges();
+                
                 return View(
                     new AdminShiftPlanNewViewModel()
                     {
                         ShiftPlan = new ShiftPlan(),
                         Shifts = _context.Shifts.OrderByDescending(s => s.Session).ThenBy(s => s.TimeStart).ToList(),
-                        ShiftPlans = _context.ShiftPlans.Where(sp => sp.DateStart.ToString("dd/MM/yyyy") == DateTime.Now.ToString("dd/MM/yyyy")).ToList(),
+                        ShiftPlans = plans,
                         Rooms = _context.Rooms.OrderBy(r => r.ShortCode).ToList(),
                         Doctors = _context.Doctors.OrderBy(d => d.NameLast).ThenBy(d => d.NameMiddle).ThenBy(d => d.NameFirst).ToList()
                     }
@@ -1218,7 +1249,7 @@ namespace website.Controllers
                     {
                         ShiftPlan = vm.ShiftPlan,
                         Shifts = _context.Shifts.OrderByDescending(s => s.Session).ThenBy(s => s.TimeStart).ToList(),
-                        ShiftPlans = _context.ShiftPlans.Where(sp => sp.DateStart.ToString("dd/MM/yyyy") == DateTime.Now.ToString("dd/MM/yyyy")).ToList(),
+                        ShiftPlans = plans,
                         Rooms = _context.Rooms.OrderBy(r => r.ShortCode).ToList(),
                         Doctors = _context.Doctors.OrderBy(d => d.NameLast).ThenBy(d => d.NameMiddle).ThenBy(d => d.NameFirst).ToList()
                     }
@@ -1230,6 +1261,20 @@ namespace website.Controllers
         public IActionResult ShiftPlanEdit(int id)
         {
             ShiftPlan edit = _context.ShiftPlans.Where(sp => sp.Id == id).FirstOrDefault();
+            List<ShiftPlan> plans = new List<ShiftPlan>();
+            foreach (ShiftPlan sp in _context.ShiftPlans.ToList())
+            {
+                int nowD = DateTime.Now.Day;
+                int nowM = DateTime.Now.Month;
+
+                if (nowM == sp.DateStart.Month)
+                {
+                    if (sp.DateStart.Day <= nowD && sp.DateEnd.Day >= nowD)
+                    {
+                        plans.Add(sp);
+                    }
+                }
+            }
             if (edit != null)
             {
                 return View(
@@ -1237,7 +1282,7 @@ namespace website.Controllers
                     {
                         ShiftPlan = edit,
                         Shifts = _context.Shifts.OrderByDescending(s => s.Session).ThenBy(s => s.TimeStart).ToList(),
-                        ShiftPlans = _context.ShiftPlans.Where(sp => sp.DateStart.ToString("dd/MM/yyyy") == DateTime.Now.ToString("dd/MM/yyyy")).ToList(),
+                        ShiftPlans = plans,
                         Rooms = _context.Rooms.OrderBy(r => r.ShortCode).ToList(),
                         Doctors = _context.Doctors.OrderBy(d => d.NameLast).ThenBy(d => d.NameMiddle).ThenBy(d => d.NameFirst).ToList()
                     }

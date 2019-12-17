@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace website.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class DoctorController : Controller
     {
         private readonly WebsiteDbContext _context;

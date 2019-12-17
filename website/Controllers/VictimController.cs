@@ -68,77 +68,95 @@ namespace website.Controllers
         [HttpGet]
         public IActionResult Doctors(int insuranceId,int facultyId)
         {
+            List<Doctor> ready = new List<Doctor>();
+            foreach(Doctor doc in _context.Doctors.Where(d => d.Faculty_Id == facultyId).ToList())
+            {
+                if (IsInShift(doc.Id) == true)
+                {
+                    ready.Add(doc);
+                }
+            }
+
             VictimDoctorsViewModel vm = new VictimDoctorsViewModel()
             {
                 InsuranceId = insuranceId,
                 FacultyName = _context.Faculties.Where(f => f.Id == facultyId).FirstOrDefault().Name,
-                Doctors     = _context.Doctors.Where(d => d.Faculty_Id == facultyId).OrderBy(d => d.NameLast).ThenBy(d => d.NameMiddle).ThenBy(d => d.NameFirst).ToList()
+                Doctors     = ready
             };
             return View(vm);
         }
 
-        // Hàm kiểm tra xem bác sĩ có trong ca trực hay không
+        // Hàm kiểm tra xem bác sĩ có trong ca trực hiện tại hay không
         public bool IsInShift(int doctorId)
         {
-            int now_hour   = DateTime.Now.Hour;
-            int now_minute = DateTime.Now.Minute;
+            bool flag = false;
+            int now_to_int = (DateTime.Now.Hour * 60) + DateTime.Now.Minute;
 
-            // Lấy lịch trực hôm nay
-            var queryable = _context.ShiftPlans.Where(s => s.DateStart.ToString("dd/MM/yyyy") == DateTime.Now.ToString("dd/MM/yyyy")).OrderBy(s => s.Id);
-            
-            // Lấy các ca trực có bác sĩ cần tìm
-            queryable = queryable.Where(s => s.Doctor_Id == doctorId).OrderBy(s => s.Id);
-
-            if (queryable == null){ return false;}
-            else
+            // Lấy lịch trực của bác sĩ trong ngày
+            List<ShiftPlan> plans = new List<ShiftPlan>();
+            foreach (ShiftPlan sp in _context.ShiftPlans.ToList())
             {
-                List<ShiftPlan> plans = queryable.ToList();
-                foreach(var plan in plans)
-                {
-                    Shift shift = _context.Shifts.Where(s => s.Id == plan.Shift_Id).FirstOrDefault();
-                    int startH = shift.TimeStart.Hour;
-                    int endH   = shift.TimeEnd.Hour;
-                    int endM   = shift.TimeEnd.Minute;
+                int nowD = DateTime.Now.Day;
+                int nowM = DateTime.Now.Month;
 
-                    if (now_hour >= startH && now_hour < endH){ return true;}
-                    else if (now_hour == endH && now_minute < endM){ return true;}
+                if (nowM == sp.DateStart.Month)
+                {
+                    if (sp.DateStart.Day <= nowD && sp.DateEnd.Day >= nowD && sp.Doctor_Id == doctorId)
+                    {
+                        plans.Add(sp);
+                    }
                 }
             }
-            return false;
+
+            if (plans.Count == 0){ return false;}
+            else
+            {
+                foreach (ShiftPlan plan in plans)
+                {
+                    Shift shift = _context.Shifts.Where(sp => sp.Id == plan.Shift_Id).FirstOrDefault();
+                    int start_to_int = (shift.TimeStart.Hour*60 + shift.TimeStart.Minute);
+                    int end_to_int = (shift.TimeEnd.Hour*60 + shift.TimeEnd.Minute);
+                    if (start_to_int <= now_to_int && end_to_int > now_to_int)
+                    { flag = true;}
+                }
+            }
+            return flag;
         }
 
+        // Return a shiftplans
         public ShiftPlan GetShiftPlanFromDoctorId(int doctorId)
         {
             if (IsInShift(doctorId) == true)
             {
-                int now_hour   = DateTime.Now.Hour;
-                int now_minute = DateTime.Now.Minute;
                 ShiftPlan result = new ShiftPlan();
-
-                // Lấy lịch trực hôm nay
-                var queryable = _context.ShiftPlans.Where(s => s.DateStart.ToString("dd/MM/yyyy") == DateTime.Now.ToString("dd/MM/yyyy")).OrderBy(s => s.Id);
-    
-                // Lấy các ca trực có bác sĩ cần tìm
-                queryable = queryable.Where(s => s.Doctor_Id == doctorId).OrderBy(s => s.Id);
-                List<ShiftPlan> plans = queryable.ToList();
-
-                foreach(var plan in plans)
+                int now_to_int = (DateTime.Now.Hour * 60) + DateTime.Now.Minute;
+                // Lấy lịch trực của bác sĩ trong ngày
+                List<ShiftPlan> plans = new List<ShiftPlan>();
+                foreach (ShiftPlan sp in _context.ShiftPlans.ToList())
                 {
-                    Shift shift = _context.Shifts.Where(s => s.Id == plan.Shift_Id).FirstOrDefault();
-                    int startH = shift.TimeStart.Hour;
-                    int endH   = shift.TimeEnd.Hour;
-                    int endM   = shift.TimeEnd.Minute;
+                    int nowD = DateTime.Now.Day;
+                    int nowM = DateTime.Now.Month;
 
-                    if (now_hour >= startH && now_hour < endH){ result = plan;}
-                    else if (now_hour == endH && now_minute < endM){ result = plan;}
+                    if (nowM == sp.DateStart.Month)
+                    {
+                        if (sp.DateStart.Day <= nowD && sp.DateEnd.Day >= nowD && sp.Doctor_Id == doctorId)
+                        {
+                            plans.Add(sp);
+                        }
+                    }
                 }
 
+                foreach (ShiftPlan plan in plans)
+                {
+                    Shift shift = _context.Shifts.Where(sp => sp.Id == plan.Shift_Id).FirstOrDefault();
+                    int start_to_int = (shift.TimeStart.Hour * 60 + shift.TimeStart.Minute);
+                    int end_to_int = (shift.TimeEnd.Hour * 60 + shift.TimeEnd.Minute);
+                    if (start_to_int <= now_to_int && end_to_int > now_to_int) { result = plan; }
+                }
                 return result;
             }
-            else
-            {
-                return null;
-            }
+
+            return null;
         }
 
         // Màn hình thông báo hoàn tất đăng ký
