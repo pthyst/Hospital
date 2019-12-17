@@ -1,0 +1,105 @@
+@model website.ViewModels.VictimNewInsuranceViewModel
+@{
+    Layout = "~/Views/Victim/_VictimLayout.cshtml";
+    ViewBag.Title = "Đăng ký thẻ bảo hiểm mới";
+}
+
+<div class="container-fluid relative new_insurance">
+    <div class="row">
+        <div class="col-6 offset-3">
+            <form asp-controller="Victim" asp-action="NewInsurance" method="post">
+                <h2>Đăng ký thẻ bảo hiển mới</h2>
+
+                <input asp-for="@Model.Insurance.DateLastUsed" type="date" value="@DateTime.Now">
+
+                <div class="form-row">
+                    <div class="col form-group">
+                        <label for="@Model.Insurance.NameLast">Họ</label>
+                        <input asp-for="@Model.Insurance.NameLast" type="text" class="form-control">
+                    </div>
+                    <div class="col form-group">
+                        <label for="@Model.Insurance.NameMiddle">Họ đệm</label>
+                        <input asp-for="@Model.Insurance.NameMiddle" type="text" class="form-control">
+                    </div>
+                    <div class="col form-group">
+                        <label for="@Model.Insurance.NameFirst">Tên</label>
+                        <input asp-for="@Model.Insurance.NameFirst" type="text" class="form-control">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="col form-group">
+                        <label for="@Model.Insurance.DateBirth">Ngày sinh</label>
+                        <input asp-for="@Model.Insurance.DateBirth" type="date" class="form-control">
+                    </div>
+                    <div class="col form-group">
+                        <label for="@Model.Insurance.Gender">Giới tính</label>
+                        <select asp-for="@Model.Insurance.Gender" class="form-control">
+                            <option value="male">Nam</option>
+                            <option value="female">Nữ</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="col form-group">
+                        <label for="@Model.Insurance.PhoneNumberPersonal">Số điện thoại liên lạc</label>
+                        <input asp-for="@Model.Insurance.PhoneNumberPersonal" type="text" class="form-control">
+                    </div>
+                    <div class="col form-group">
+                        <label for="@Model.Insurance.PhoneNumberHome">Số điện thoại người thân</label>
+                        <input asp-for="@Model.Insurance.PhoneNumberHome" type="text" class="form-control">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="col form-group">
+                        <label for="@Model.Insurance.AddressApartment">Số nhà</label>
+                        <input asp-for="@Model.Insurance.AddressApartment" type="text" class="form-control">
+                    </div>
+                    <div class="col form-group">
+                        <label for="@Model.Insurance.AddressStreet">Đường</label>
+                        <input asp-for="@Model.Insurance.AddressStreet" type="text" class="form-control">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="col form-group">
+                        <label for="@Model.Insurance.AddressDistrict">Quận / Huyện</label>
+                        <input asp-for="@Model.Insurance.AddressDistrict" type="text" class="form-control">
+                    </div>
+                    <div class="col form-group">
+                        <label for="@Model.Insurance.AddressCity">Thành phố / Tỉnh</label>
+                        <input asp-for="@Model.Insurance.AddressCity" type="text" class="form-control">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="col form-group">
+                        <label for="@Model.Insurance.InsuranceType_Id">Loại bảo hiểm</label>
+                        <select asp-for="@Model.Insurance.InsuranceType_Id" class="form-control">
+                            @foreach (var type in Model.InsuranceTypes)
+                            {
+                                <option value="@type.Id">
+                                    @type.Type
+                                </option>
+                            }
+                        </select>
+                    </div>
+                    @{
+                        string now = DateTime.Now.ToString("yyyy-MM-dd");
+
+                    }
+                    <div class="col form-group">
+                        <label for="@Model.Insurance.DateRegistration">Ngày đăng ký</label>
+                        <input asp-for="@Model.Insurance.DateRegistration" type="date" value="@now" class="form-control">
+                    </div>
+                    <div class="col form-group">
+                        <label for="@Model.Insurance.DateExpire">Ngày hết hạn</label>
+                        <input asp-for="@Model.Insurance.DateExpire" type="date" value="@now" class="form-control">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

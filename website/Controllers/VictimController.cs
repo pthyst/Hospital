@@ -52,6 +52,34 @@ namespace website.Controllers
             }
         }
 
+        // Màn hình đăng ký thẻ bảo hiểm mới
+        public IActionResult NewInsurance()
+        {
+            VictimNewInsuranceViewModel vm = new VictimNewInsuranceViewModel()
+            {
+                InsuranceTypes = _context.InsuranceTypes.ToList(),
+                Insurance = new Insurance()
+            };
+            return View(vm);
+        }
+
+        [HttpPost]
+        public IActionResult NewInsurance(VictimNewInsuranceViewModel vm)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Insurances.Add(vm.Insurance);
+                _context.SaveChanges();
+                return RedirectToAction("ReciveInsurance");
+            }
+            else
+            {
+                return View(vm);
+            }
+        }
+
+        public IActionResult ReciveInsurance(){ return View();}
+
         // Màn hình đăng ký khám bệnh theo khoa
         [HttpGet]
         public IActionResult Registration(int insuranceId)
